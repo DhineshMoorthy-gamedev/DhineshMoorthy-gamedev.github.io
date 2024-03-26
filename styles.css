@@ -1,0 +1,54 @@
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox for layout */
+  }
+
+  /* Circle Styles */
+  .circle {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    border: 2px solid black;
+    animation: glow 1.5s ease-in-out infinite alternate;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute; /* Position the circle */
+    top: 100px; /* Distance from the top */
+    right: 100px; /* Distance from the right */
+  }
+
+  /* Keyframes for Glowing Effect */
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    to {
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+  }
+  .custom-button {
+    padding: 12px 24px; /* Padding around the text */
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* Text color */
+    border: 2px solid #4CAF50; /* Green border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 18px; /* Font size */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth color transition */
+  }
+
+  /* Hover effect */
+  .custom-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+    color: white; /* Text color on hover */
+  }
+
+/* Left rectangle styles */
+.left-rectangle {
+    height: 100vh; /* Full viewport height */
+    background-color: #007bff; /* Blue color for the rectangle */
+  }
+  .content {
+    flex: 1; /* Take up remaining space */
+    padding: 250px; /* Add padding for content */
+  }
