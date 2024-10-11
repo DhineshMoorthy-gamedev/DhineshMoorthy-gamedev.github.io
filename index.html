@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHINESH PORTFOLIO</title>
+    <title>Dhinesh Moorthy's Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -14,34 +14,25 @@
 </head>
 
 <body>
-    <!-- navigation bar -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-        </ul>
-      </div>
-    </nav> -->
-<!-- Updated navigation bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<!-- navigation bar section -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Dhinesh Moorthy</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li>
+        <!-- <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a> -->
+      </li>
+      <li>
+        <!-- <a class="nav-link" href="#"></a> -->
+      </li>
+      <li>
+        <!-- <a class="nav-link disabled" href="#"></a> -->
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto d-flex justify-content-center"> <!-- Added ms-auto, d-flex, and justify-content-center -->
       <li class="nav-item">
         <a class="nav-link" href="#about">About Me</a> <!-- Link to the About section -->
       </li>
@@ -49,77 +40,155 @@
         <a class="nav-link" href="#projects">Projects</a> <!-- Link to the Projects section -->
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Contact</a> <!-- Link to the Contact section -->
+        <a class="nav-link" href="#resume">Resume</a> <!-- Link to the Resume section -->
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#resume">Resume</a> <!-- Link to the Resume download -->
+        <a class="nav-link" href="#contact">Contact</a> <!-- Link to the Contact section -->
       </li>
     </ul>
 
   </div>
 </nav>
-<!-- Dark/Light Mode Toggle -->
-<div class="theme-switch-container">
+
+<!-- typing effect and dark/light toggle -->
+<div class="typing">
+  <h1>I am a <span id="typed-text"></span></h1>
+  <!-- Dark/Light Mode Toggle (optional, depending on your placement preference) -->
+  <div class="theme-switch-container ms-6">
   <label class="switch">
     <input type="checkbox" id="theme-switch">
     <span class="slider round"></span>
   </label>
-  </div>
-
-
-  <!-- typing effect -->
-   <div>
-
-     <h1>I am a <span id="typed-text"></span></h1>
-     <script>
-     var typed = new Typed('#typed-text', {
-       strings: ["Web Developer", "Designer", "Freelancer"],  // You can add as many strings as you want
-       typeSpeed: 50,   // Typing speed in milliseconds
-       backSpeed: 25,   // Backspace speed in milliseconds
-       loop: true       // Loops the animation
-     });
-       
-     </script>
-     
-   </div>
-
-  <div class="timeline">
-    <div class="container left">
-      <div class="content">
-        <h2>2021</h2>
-        <p>Started my career as a Junior Developer at XYZ Company.</p>
-      </div>
-    </div>
-  </div>
-
-  <form action="submit.php" method="POST">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" required>
-    </div>
-    <div class="form-group">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  
-  <div id="testimonialCarousel" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <p>"Amazing work!"</p>
-        <h5>- John Doe</h5>
-      </div>
-      <div class="carousel-item">
-        <p>"Highly recommend!"</p>
-        <h5>- Jane Smith</h5>
-      </div>
-    </div>
-  </div>
-  
-
+</div>
   <script>
-    // Get the toggle input
+  var typed = new Typed('#typed-text', {
+    strings: ["Web Developer", "Designer", "Freelancer"],  // You can add as many strings as you want
+    typeSpeed: 50,   // Typing speed in milliseconds
+    backSpeed: 25,   // Backspace speed in milliseconds
+    loop: true       // Loops the animation
+  });
+    
+  </script>
+</div> 
+
+<!-- download option -->
+<a href="MyResume.pdf" id="resume" class="btn btn-outline-primary" download>Download My Resume</a>
+
+<!-- Container for the Cards -->
+ <div id="projects">
+  <div class="container">
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="442431.jpg" class="card-img-top" alt="Project 1">
+          <div class="card-body">
+            <h5 class="card-title">Project Title 1</h5>
+            <p class="card-text">Brief description of Project 1.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 2 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="442431.jpg" class="card-img-top" alt="Project 2">
+          <div class="card-body">
+            <h5 class="card-title">Project Title 2</h5>
+            <p class="card-text">Brief description of Project 2.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="442431.jpg" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">Project Title 3</h5>
+            <p class="card-text">Brief description of Project 3.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add more cards as needed -->
+      <!-- Card 4 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="442431.jpg" class="card-img-top" alt="Project 4">
+          <div class="card-body">
+            <h5 class="card-title">Project Title 4</h5>
+            <p class="card-text">Brief description of Project 4.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">View Project</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Continue adding cards as needed -->
+      
+    </div>
+  </div>
+</div>
+
+<!-- About Section  -->
+<div id="about" class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Welcome to My Responsive Page</h1>
+      <p>This page adapts to different screen sizes using Bootstrap.</p>
+    </div>
+    <div class="col-md-6">
+      <img src="442431.jpg" class="img-fluid" alt="Responsive Image">
+    </div>
+  </div>
+</div>
+  
+<!-- Contact Section -->
+<div id="contact">
+  <div class="container buttons-section">
+    <h2>Connect with Me</h2>
+    <!-- Button to GitHub -->
+    <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="btn btn-dark btn-lg btn-custom">
+      <i class="fab fa-github"></i> GitHub
+    </a>
+    <!-- Button to LinkedIn -->
+    <a href="https://www.linkedin.com/in/dhinesh-m-7627b6203?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bg1h6zleMSBK0d95bVM2jRg%3D%3D" target="_blank" class="btn btn-primary btn-lg btn-custom">
+      <i class="fab fa-linkedin"></i> LinkedIn
+    </a>
+    <!-- Button for Contact -->
+    <a href="tel:+9188348439527" class="btn btn-success btn-lg btn-custom">
+      <i class="fas fa-phone"></i> Contact Me
+    </a>
+    <!-- Button for Mail -->
+    <a href="mailto:dhinesh_moorthy@icloud.com" class="btn btn-danger btn-lg btn-custom">
+      <i class="fas fa-envelope"></i> Email Me
+    </a>
+    <!-- Button for WhatsApp -->
+    <a href="https://wa.me/+919677013993" target="_blank" class="btn btn-success btn-lg btn-custom">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+
+      <!-- Button for Instagram -->
+      <a href="https://www.instagram.com/dhinesh__moorthy/" target="_blank" class="btn btn-success btn-lg btn-custom">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+  </div>
+</div>
+
+<!-- dark/light mode toggle -->
+<script>
+// Get the toggle input
 const toggleSwitch = document.getElementById('theme-switch');
 
 // Check for saved user preference, if any, on page load
@@ -142,152 +211,28 @@ toggleSwitch.addEventListener('change', () => {
   }
 });
 
-  </script>
+</script>
 
-  <!-- download option -->
-  <a href="MyResume.pdf" class="btn btn-outline-primary" download>Download My Resume</a>
+<!-- Smooth Scrolling Effect -->
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
 
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
 
-
-  <!-- cards for the projects  -->
-  <!-- <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
-    <div class="card" style="width: 18rem;">
-      <img src="442431.jpg" class="card-img-top" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-       </div>
-     </div>
- </div> -->
-
-  <!-- Container for the Cards -->
-   <div id="projects">
-     <div class="container">
-       <div class="row">
-         <!-- Card 1 -->
-         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-           <div class="card h-100">
-             <img src="442431.jpg" class="card-img-top" alt="Project 1">
-             <div class="card-body">
-               <h5 class="card-title">Project Title 1</h5>
-               <p class="card-text">Brief description of Project 1.</p>
-             </div>
-             <div class="card-footer">
-               <a href="#" class="btn btn-primary">View Project</a>
-             </div>
-           </div>
-         </div>
-         
-         <!-- Card 2 -->
-         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-           <div class="card h-100">
-             <img src="442431.jpg" class="card-img-top" alt="Project 2">
-             <div class="card-body">
-               <h5 class="card-title">Project Title 2</h5>
-               <p class="card-text">Brief description of Project 2.</p>
-             </div>
-             <div class="card-footer">
-               <a href="#" class="btn btn-primary">View Project</a>
-             </div>
-           </div>
-         </div>
-         
-         <!-- Card 3 -->
-         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-           <div class="card h-100">
-             <img src="442431.jpg" class="card-img-top" alt="Project 3">
-             <div class="card-body">
-               <h5 class="card-title">Project Title 3</h5>
-               <p class="card-text">Brief description of Project 3.</p>
-             </div>
-             <div class="card-footer">
-               <a href="#" class="btn btn-primary">View Project</a>
-             </div>
-           </div>
-         </div>
-         
-         <!-- Add more cards as needed -->
-         <!-- Card 4 -->
-         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-           <div class="card h-100">
-             <img src="442431.jpg" class="card-img-top" alt="Project 4">
-             <div class="card-body">
-               <h5 class="card-title">Project Title 4</h5>
-               <p class="card-text">Brief description of Project 4.</p>
-             </div>
-             <div class="card-footer">
-               <a href="#" class="btn btn-primary">View Project</a>
-             </div>
-           </div>
-         </div>
-         
-         <!-- Continue adding cards as needed -->
-         
-       </div>
-     </div>
-   </div>
-  <!-- main content  -->
-  <div id="about" class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h1>Welcome to My Responsive Page</h1>
-        <p>This page adapts to different screen sizes using Bootstrap.</p>
-      </div>
-      <div class="col-md-6">
-        <img src="442431.jpg" class="img-fluid" alt="Responsive Image">
-      </div>
-    </div>
-  </div>
-  
-    <!-- Section for Buttons -->
-    <div id="contact">
-      <div class="container buttons-section">
-        <h2>Connect with Me</h2>
-        <!-- Button to GitHub -->
-        <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="btn btn-dark btn-lg btn-custom">
-          <i class="fab fa-github"></i> GitHub
-        </a>
-            <!-- Button to LinkedIn -->
-      <a href="https://www.linkedin.com/in/dhinesh-m-7627b6203?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bg1h6zleMSBK0d95bVM2jRg%3D%3D" target="_blank" class="btn btn-primary btn-lg btn-custom">
-        <i class="fab fa-linkedin"></i> LinkedIn
-      </a>
-          <!-- Button for Contact -->
-          <a href="#contact" class="btn btn-success btn-lg btn-custom">
-            <i class="fas fa-envelope"></i> Contact Me
-          </a>
-  
-              <!-- Button for Mail -->
-      <a href="mailto:dhinesh_moorthy@icloud.com" class="btn btn-danger btn-lg btn-custom">
-        <i class="fas fa-envelope"></i> Email Me
-      </a>
-  
-          <!-- Button for WhatsApp -->
-          <a href="https://wa.me/+919677013993" target="_blank" class="btn btn-success btn-lg btn-custom">
-            <i class="fab fa-whatsapp"></i> WhatsApp
-          </a>
-      </div>
-    </div>
-    <script>
-      // Smooth scrolling
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-    
-          const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-    
-          // Scroll smoothly to the target element
-          targetElement.scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
+      // Scroll smoothly to the target element
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
       });
-    </script>
+    });
+  });
+</script>
     
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <!-- Bootstrap JS and dependencies -->
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,7 +1,7 @@
 /* body {
-    margin: 0; 
-    padding: 0; 
-    display: flex; 
+    margin: 0;
+    padding: 0;
+    display: flex;
   } */
 
   /* .circle {
@@ -86,7 +86,7 @@ width: 60px;
 height: 34px;
 }
 
-.switch input { 
+.switch input {
 opacity: 0;
 width: 0;
 height: 0;
@@ -138,11 +138,15 @@ body.dark-mode .card {
 background-color: #1e1e1e;
 color: #ffffff;
 }
-      
+
 /* Theme switch container */
 .theme-switch-container {
-  position: absolute; /* Use absolute positioning */
-  top: 50px; /* Adjust this value as needed */
-  right: 20px; /* Adjust this value as needed */
-  z-index: 1000; /* Ensure it appears above other elements */
+  margin-left: auto; /* Aligns to the right side */
+  scale: 0.6;
+}
+.typing {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center vertically */
+  justify-content: space-between; /* Space between title and toggle */
+  margin-top: 20px; /* Add some top margin */
 }
