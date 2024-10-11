@@ -14,9 +14,10 @@
 </head>
 
 <body>
+
 <!-- navigation bar section -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Dhinesh Moorthy</a>
+  <p class="navbar-brand">Dhinesh Moorthy</p>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -37,7 +38,7 @@
         <a class="nav-link" href="#about">About Me</a> <!-- Link to the About section -->
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#projects">Projects</a> <!-- Link to the Projects section -->
+        <a class="nav-link" href="#Portfolio">Portfolio</a> <!-- Link to the Projects section -->
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#resume">Resume</a> <!-- Link to the Resume section -->
@@ -71,11 +72,8 @@
   </script>
 </div> 
 
-<!-- download option -->
-<a href="MyResume.pdf" id="resume" class="btn btn-outline-primary" download>Download My Resume</a>
-
 <!-- Container for the Cards -->
- <div id="projects">
+ <div id="Portfolio">
   <div class="container">
     <div class="row">
       <!-- Card 1 -->
@@ -140,6 +138,12 @@
     </div>
   </div>
 </div>
+
+<div class="iframe-container">
+  <iframe src="resume.html" frameborder="0" allowfullscreen></iframe>
+</div>
+<!-- download option -->
+<a href="MyResume.pdf" id="resume" class="btn btn-outline-primary" download>Download My Resume</a>
 
 <!-- About Section  -->
 <div id="about" class="container">
@@ -233,7 +237,6 @@ toggleSwitch.addEventListener('change', () => {
 <!-- FOOTER -->
 <footer class="container">
   <p class="float-right"><a href="#">Back to top</a></p>
-  <p>&copy; 2017-2018 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
 </footer>
 
 <!-- Bootstrap JS and dependencies -->
