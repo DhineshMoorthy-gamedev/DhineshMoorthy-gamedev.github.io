@@ -11,10 +11,10 @@
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-
 <!-- navigation bar section -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <p class="navbar-brand">Dhinesh Moorthy</p>
@@ -35,23 +35,36 @@
     </ul>
     <ul class="navbar-nav ms-auto d-flex justify-content-center"> <!-- Added ms-auto, d-flex, and justify-content-center -->
       <li class="nav-item">
-        <a class="nav-link" href="#about">About Me</a> <!-- Link to the About section -->
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="#Portfolio">Portfolio</a> <!-- Link to the Projects section -->
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#resume">Resume</a> <!-- Link to the Resume section -->
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#contact">Contact</a> <!-- Link to the Contact section -->
+        <a class="nav-link" href="#about">About Me</a> <!-- Link to the About section -->
       </li>
     </ul>
 
   </div>
 </nav>
 
-<!-- typing effect and dark/light toggle -->
+<!-- Full-screen Background Section -->
+<div class="full-bg">
+  <div class="overlay">
+      <div class="content text-center">
+          <h1>Dhinesh M</h1>
+          <h3>Unity Developer<br>Backend Enthusiast</h3>
+          <br><br><br>
+          <h1>Welcome to My Portfolio</h1>
+              <!-- download option -->
+          <a href="MyResume.pdf" class="btn btn-outline-primary" download>Download Resume</a>
+      </div>
+  </div>
+</div>
+
+<!-- Container for the Cards -->
+ <div id="Portfolio">
+  <!-- typing effect and dark/light toggle -->
 <div class="typing">
   <h1>I am a <span id="typed-text"></span></h1>
   <!-- Dark/Light Mode Toggle (optional, depending on your placement preference) -->
@@ -63,7 +76,7 @@
 </div>
   <script>
   var typed = new Typed('#typed-text', {
-    strings: ["Web Developer", "Designer", "Freelancer"],  // You can add as many strings as you want
+    strings: ["Game Developer", "Designer", "Freelancer"],  // You can add as many strings as you want
     typeSpeed: 50,   // Typing speed in milliseconds
     backSpeed: 25,   // Backspace speed in milliseconds
     loop: true       // Loops the animation
@@ -71,21 +84,19 @@
     
   </script>
 </div> 
-
-<!-- Container for the Cards -->
- <div id="Portfolio">
   <div class="container">
     <div class="row">
       <!-- Card 1 -->
       <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
         <div class="card h-100">
-          <img src="442431.jpg" class="card-img-top" alt="Project 1">
+          <img src="1.png" class="card-img-top" alt="Project 1">
           <div class="card-body">
-            <h5 class="card-title">Project Title 1</h5>
-            <p class="card-text">Brief description of Project 1.</p>
+            <h5 class="card-title">Local Offline Database Integration with SQLite</h5>
+            <p class="card-text">Developed a robust local offline database system using SQLite, enabling seamless data storage and retrieval for applications without requiring an internet connection.</p>
           </div>
           <div class="card-footer">
-            <a href="#" class="btn btn-primary">View Project</a>
+          <!-- View Project Button -->
+          <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Project</a>
           </div>
         </div>
       </div>
@@ -99,7 +110,7 @@
             <p class="card-text">Brief description of Project 2.</p>
           </div>
           <div class="card-footer">
-            <a href="#" class="btn btn-primary">View Project</a>
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Project</a>
           </div>
         </div>
       </div>
@@ -113,139 +124,134 @@
             <p class="card-text">Brief description of Project 3.</p>
           </div>
           <div class="card-footer">
-            <a href="#" class="btn btn-primary">View Project</a>
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Project</a>
           </div>
         </div>
       </div>
-      
-      <!-- Add more cards as needed -->
-      <!-- Card 4 -->
-      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-        <div class="card h-100">
-          <img src="442431.jpg" class="card-img-top" alt="Project 4">
-          <div class="card-body">
-            <h5 class="card-title">Project Title 4</h5>
-            <p class="card-text">Brief description of Project 4.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">View Project</a>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Continue adding cards as needed -->
-      
+
     </div>
   </div>
 </div>
 
-<!-- <div class="iframe-container">
-  <iframe src="resume.html" frameborder="0" allowfullscreen></iframe>
-</div> -->
+<!-- Modal Structure with Independent Content -->
+<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectModalLabel">Independent Project Title</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body">
+        <p>This is an independent detailed description of the project. It can contain any content, including text, images, or videos, that is not tied to the card details.</p>
+        <img src="442431.jpg" class="img-fluid" alt="Project Image">
+        <p>Additional information about the project can go here, including features, technologies used, or other relevant details.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- resume section -->
-<div id="resume">
+<div id="resume" class="resume-section">
 
   <div class="About">
-    <h2>ABOUT</h2>
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et aliquid consequuntur, doloribus nostrum totam, quaerat perspiciatis adipisci quis id voluptas iusto nemo modi incidunt exercitationem numquam sequi in nesciunt quidem?
+      <h2>ABOUT MYSELF</h2>
+      <p>As a Junior Unity Developer, I bring a robust skill set in Unity and game development, with proficiency in C#, .NET, and backend systems. My expertise spans across creating immersive VR applications, interactive experiences, and engaging 2D/3D games, integrating game mechanics with backend technologies. I have honed my skills in animation, networking, and advanced Unity development, allowing me to craft unique and captivating user experiences. I am committed to continuous learning and dedicated to pushing the boundaries of interactive development to deliver outstanding projects.</p>
   </div>
 
   <div class="skills">
-    <h2>SKILLS</h2>
-    <!-- aws -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" height="100px"width=100px/>
-    <!-- c# -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" height="100px" width="100px"/>
-    <!-- dotnetcore -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" height="100px" width="100px"/>
-    <!-- dynamodb -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dynamodb/dynamodb-original.svg" height="100px" width="100px"/>
-    <!-- github -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" height="100px" width="100px" />
-    <!-- html5 -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" height="100px" width="100px"/>
-    <!-- css3 -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" height="100px" width="100px"/>
-    <!-- microsfotsqlserver -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" height="100px" width="100px"/>
-    <!-- mysql -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg" height="100px" width="100px"/>
-    <!-- powershell -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg" height="100px" width="100px" />
-    <!-- postman -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" height="100px" width="100px" />
-    <!-- sqlite -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original-wordmark.svg" height="100px" width="100px"/>
-    <!-- unity -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-plain-wordmark.svg" height="100px" width="100px"/>
-    <!-- visualstudio -->
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-plain.svg" height="100px" width="100px" />
+      <h2>SKILLS</h2>
+      <div class="skill-icons">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" alt="C#" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" alt=".NET" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" alt="SQL Server" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg" alt="MySQL" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg" alt="PowerShell" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" alt="Postman" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original-wordmark.svg" alt="SQLite" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" alt="Unity" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-plain.svg" alt="Visual Studio" />
+      </div>
   </div>
 
   <div class="Interests">
-    <h2>INTERESTS</h2>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa nihil doloremque voluptatum sint perferendis illo. Ea cum suscipit non velit eaque labore quas quod aspernatur, aliquid, quibusdam minus ex consectetur?
+      <h2>INTERESTS</h2>
+      <p>I’m deeply fascinated by the world of interactive technology and its potential to transform how we experience reality. I find immense joy in game design, where I can bring ideas to life and create compelling stories through gameplay. Virtual and augmented reality captivate me not just as emerging technologies but as tools that can reshape industries and redefine user experiences. I’m particularly interested in integrating haptic feedback to add a layer of realism to VR projects. While backend development appeals to my analytical side, allowing me to solve complex problems, I also enjoy the artistic aspects of animation and visual effects, using them to craft immersive digital worlds. I’m always on the lookout for new trends and advancements in AI, cloud computing, and other cutting-edge fields that push the boundaries of what’s possible.</p>
   </div>
 
-  <div class = "Education">
-    <h2>EDUCATION</h2>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque dicta tenetur, ipsa omnis explicabo praesentium quo itaque nisi tempora minima distinctio ut architecto dignissimos magni iste odit voluptates quaerat dolorem?
+  <div class="Education">
+      <h2>EDUCATION</h2>
+      <p><b>B.E. Mechanical Engineering, R.M.K. Engineering College (August 2018 - May 2022)</b></p>
+      <p>Although my background is in Mechanical Engineering, I transitioned into software development due to a strong passion for technology and interactive media. My engineering education has equipped me with problem-solving skills, analytical thinking, and a solid technical foundation, which I have applied to software development. It has also helped me approach Unity projects with a systematic mindset, enabling me to tackle complex challenges effectively.</p>
   </div>
 
   <div class="Experience">
-    <h2>EXPERIENCE</h2>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid ex excepturi, quae nihil dolorum iste ducimus sint eaque dolore harum. Molestiae, iusto ullam. Nihil nobis dicta blanditiis illo odio minus.
+      <h2>EXPERIENCE</h2>
+      <p><b>Junior Unity Developer at Merkel Haptic Systems Pvt. Ltd., Chennai (May 2023 - Present)</b></p>
+      <p>At Merkel Haptic Systems, I collaborate closely with cross-functional teams to design and develop cutting-edge VR applications, focusing on user engagement and haptic feedback integration. My work includes refining game mechanics, optimizing code for VR performance, and implementing immersive experiences using the latest Unity tools and techniques. I also contribute to testing and debugging, ensuring high-quality deliverables that meet project requirements. My role involves continually researching new technologies and techniques to incorporate into our projects, driving innovation in the VR space.</p>
+      <p><b>Project Associate at IIT Madras - Touch Lab, Chennai (October 2022 - April 2023)</b></p>
+      <p>During my time at IIT Madras, I was instrumental in the development of pioneering projects leveraging Unity for VR applications. I worked on backend integration, developing features that enabled seamless data flow and interaction between hardware and software. My responsibilities included programming in C#, optimizing Unity applications for various hardware configurations, and collaborating with researchers to create user-centered solutions. This role helped me deepen my understanding of VR development and its practical applications in research and industrial environments.</p>
   </div>
 
-    <!-- download option -->
-    <a href="MyResume.pdf" class="btn btn-outline-primary" download>Download My Resume</a>
+  <!-- Download option -->
+  <div class="download-resume">
+      <a href="MyResume.pdf" class="btn btn-outline-primary" download>Download Resume</a>
+  </div>
 </div>
 
 <!-- About Section  -->
-<div id="about" class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h1>Welcome to My Responsive Page</h1>
-      <p>This page adapts to different screen sizes using Bootstrap.</p>
-    </div>
-    <div class="col-md-6">
-      <img src="442431.jpg" class="img-fluid" alt="Responsive Image">
-    </div>
-  </div>
-</div>
-  
-<!-- Contact Section -->
-<div id="contact">
-  <div class="container buttons-section">
-    <h2>Connect with Me</h2>
-    <!-- Button to GitHub -->
-    <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="btn btn-dark btn-lg btn-custom">
-      <i class="fab fa-github"></i> GitHub
-    </a>
-    <!-- Button to LinkedIn -->
-    <a href="https://www.linkedin.com/in/dhinesh-m-7627b6203?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bg1h6zleMSBK0d95bVM2jRg%3D%3D" target="_blank" class="btn btn-primary btn-lg btn-custom">
-      <i class="fab fa-linkedin"></i> LinkedIn
-    </a>
-    <!-- Button for Contact -->
-    <a href="tel:+9188348439527" class="btn btn-success btn-lg btn-custom">
-      <i class="fas fa-phone"></i> Contact Me
-    </a>
-    <!-- Button for Mail -->
-    <a href="mailto:dhinesh_moorthy@icloud.com" class="btn btn-danger btn-lg btn-custom">
-      <i class="fas fa-envelope"></i> Email Me
-    </a>
-    <!-- Button for WhatsApp -->
-    <a href="https://wa.me/+919677013993" target="_blank" class="btn btn-success btn-lg btn-custom">
-      <i class="fab fa-whatsapp"></i> WhatsApp
-    </a>
-
+<div id="about" class="aboutMe">
+  <div class="row align-items-center">
+    <div class="col-md-6 text-center">
+      <img src="img.png" class="img-responsive rounded-circle about-img" alt="Responsive Image">
+      <p class="mt-3">This is a short description or some text about the image. You can add more details here to give more context.</p>
+      <!-- Button for GitHub -->
+      <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="btn btn-dark btn-lg btn-custom">
+        <i class="fab fa-github"></i>
+      </a>
+      <!-- Button for LinkedIn -->
+      <a href="https://www.linkedin.com/in/dhinesh-m-7627b6203?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bg1h6zleMSBK0d95bVM2jRg%3D%3D" target="_blank" class="btn btn-primary btn-lg btn-custom">
+        <i class="fab fa-linkedin"></i>
+      </a>
       <!-- Button for Instagram -->
       <a href="https://www.instagram.com/dhinesh__moorthy/" target="_blank" class="btn btn-success btn-lg btn-custom">
-        <i class="fab fa-instagram"></i> Instagram
+        <i class="fab fa-instagram"></i>
       </a>
+    </div>
+    <div class="col-md-6">
+      <h1>Welcome to My Responsive Page</h1>
+      <p>This page adapts to different screen sizes using Bootstrap. You can add more text here about yourself, your interests, or any other information you would like to share.</p>
+      <ul style="list-style-type: none; padding: 0; margin: 0;">
+        <li>
+          <!-- Button for Contact -->
+          <a href="tel:+9188348439527" class="btn btn-success btn-lg btn-custom">
+            <i class="fas fa-phone"></i>
+          </a>
+        </li>
+        <li>
+          <!-- Button for Mail -->
+          <a href="mailto:dhinesh_moorthy@icloud.com" class="btn btn-danger btn-lg btn-custom">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </li>
+        <li>
+          <!-- Button for WhatsApp -->
+          <a href="https://wa.me/+919677013993" target="_blank" class="btn btn-success btn-lg btn-custom">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
+
 
 <!-- dark/light mode toggle -->
 <script>
@@ -290,18 +296,57 @@ toggleSwitch.addEventListener('change', () => {
     });
   });
 </script>
-    
+
 <!-- FOOTER -->
 <footer class="container">
+  <p>thanks for visiting</p>
   <p class="float-right"><a href="#">Back to top</a></p>
 </footer>
 
+
+<script>
+  // Set independent content for each project
+  document.querySelectorAll('.btn-primary').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const modalTitle = document.getElementById('projectModalLabel');
+      const modalBody = document.querySelector('.modal-body');
+
+      // Define independent content for each project
+      const projectDetails = [
+        {
+          title: 'Local Offline Database Integration with SQLite',
+          description: '<p>In this project, I implemented a local offline database solution using SQLite, which provides lightweight and efficient data management for applications. The primary goal was to ensure that users could access and manipulate data without relying on an internet connection, making the application more versatile and user-friendly.<p>I began by designing the database schema tailored to the specific needs of the application, ensuring optimal organization and accessibility of data. Utilizing SQLite’s capabilities, I integrated data insertion, retrieval, updating, and deletion functionalities. The project involved creating an intuitive user interface that allowed users to interact with the database seamlessly, enabling them to add, view, edit, and delete records easily.<p>To enhance performance and user experience, I implemented data caching mechanisms that minimized database queries while ensuring real-time data access. Rigorous testing was conducted to ensure data integrity and reliability, addressing potential issues such as data conflicts and corruption. The project was not only a practical application of database management principles but also an exploration of best practices in user interface design and data handling.<p>This project significantly improved my skills in database management, C# programming, and Unity development, laying a strong foundation for future endeavors involving data-driven applications.</p>',
+          imageUrl: '1.png'
+        },
+        {
+          title: 'Project Title 2',
+          description: '<p>In this project, I implemented a local offline database solution using SQLite, which provides lightweight and efficient data management for applications. The primary goal was to ensure that users could access and manipulate data without relying on an internet connection, making the application more versatile and user-friendly.</p>',
+          imageUrl: 'img.png'
+        },
+        {
+          title: 'Project Title 3',
+          description: '<p>Independent details about Project 3 can be shown here.</p>',
+          imageUrl: 'path/to/project3-image.jpg'
+        }
+      ];
+
+      // Set the content based on the index of the button clicked
+      const projectDetail = projectDetails[index];
+      modalTitle.innerText = projectDetail.title;
+      modalBody.innerHTML = `
+        <img src="${projectDetail.imageUrl}" class="img-fluid mb-3" alt="${projectDetail.title}">
+        ${projectDetail.description}
+      `;
+    });
+  });
+</script>
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

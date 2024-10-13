@@ -98,20 +98,157 @@ color: #ffffff;
   justify-content: space-between; /* Space between title and toggle */
   margin-top: 20px; /* Add some top margin */
 }
-        /* Iframe styles */
-        .iframe-container {
-          position: relative;
-          width: 100%; /* Full width */
-          height: 500px; /* Set a height for the iframe */
-          overflow: hidden; /* Hide any overflow */
-          margin-top: 20px; /* Add margin for spacing */
-      }
+/* Iframe styles */
+.iframe-container {
+  position: relative;
+  width: 100%; /* Full width */
+  height: 500px; /* Set a height for the iframe */
+  overflow: hidden; /* Hide any overflow */
+  margin-top: 20px; /* Add margin for spacing */
+}
 
-      .iframe-container iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
-          border: none; /* Remove border */
-      }
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  border: none; /* Remove border */
+}
+.about-img {
+  width: 250px; /* Adjust the size as needed */
+  height: 250px; /* Make sure width and height are the same */
+  border-radius: 50%; /* Make the image round */
+  object-fit: cover; /* Ensures the image maintains its aspect ratio */
+}
+.btn-custom {
+  padding: 12px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
+/* Default Light Theme Styles */
+/* :root {
+  --modal-bg: white;
+  --modal-text: black;
+  --modal-header-bg: #f8f9fa;
+  --modal-footer-bg: #f1f1f1;
+  --modal-border: #dee2e6;
+} */
+
+/* Dark Theme Styles */
+body.dark-mode {
+  --modal-bg: #343a40; 
+  --modal-text: rgb(0, 0, 0); 
+  --modal-header-bg: #495057;
+  --modal-footer-bg: #6c757d;
+  --modal-border: #454d55; 
+}
+
+/* Modal Styles */
+.modal-content {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+  border: 1px solid var(--modal-border);
+}
+
+.modal-header {
+  background-color: var(--modal-header-bg);
+}
+
+.modal-footer {
+  background-color: var(--modal-footer-bg);
+}
+
+
+/* Full Background Image */
+.full-bg {
+  position: relative;
+  height: 100vh; /* Full height */
+  background: url('442431.jpg') no-repeat center center fixed; /* Replace with your image */
+  background-size: cover; /* Cover the entire section */
+}
+
+/* Overlay for better text visibility */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Black with 50% opacity */
+}
+
+/* Text styling */
+.content {
+  position: absolute;
+  bottom: 150px; /* Position text at the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  color: white; /* Text color */
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 3rem; /* Heading size */
+}
+
+.content p {
+  font-size: 1.25rem; /* Paragraph size */
+}
+      .resume-section {
+    padding: 50px; /* Add padding around the section */
+    /* background-color: #f4f4f4;  */
+    border-radius: 10px; /* Rounded corners */
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);  */
+}
+
+h2 {
+    color: #343a40; /* Darker text for headings */
+    border-bottom: 2px solid #007bff; /* Underline effect */
+    padding-bottom: 10px;
+    margin-bottom: 20px; /* Space below headings */
+}
+
+.About,
+.Interests,
+.Education,
+.Experience {
+    margin-bottom: 40px; /* Space between sections */
+}
+
+/* .skills {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+} */
+
+.skill-icons img {
+    height: 80px; /* Set a uniform height for icons */
+    width: 80px; /* Set a uniform width for icons */
+    margin: 10px; /* Space between icons */
+    transition: transform 0.3s; /* Animation on hover */
+}
+
+.skill-icons img:hover {
+    transform: scale(1.1); /* Enlarge on hover */
+}
+
+.download-resume {
+    text-align: center; /* Center the download button */
+    margin-top: 30px; /* Space above the button */
+}
+
+.btn-outline-primary {
+    border: 2px solid #007bff; /* Primary button border */
+    color: #007bff; /* Text color */
+    transition: background-color 0.3s, color 0.3s; /* Animation for hover */
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Change background on hover */
+    color: white; /* Change text color on hover */
+}
