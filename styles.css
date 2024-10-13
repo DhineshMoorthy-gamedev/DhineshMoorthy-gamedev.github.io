@@ -115,12 +115,35 @@ color: #ffffff;
   height: 100%; /* Full height */
   border: none; /* Remove border */
 }
-.about-img {
-  width: 250px; /* Adjust the size as needed */
-  height: 250px; /* Make sure width and height are the same */
-  border-radius: 50%; /* Make the image round */
-  object-fit: cover; /* Ensures the image maintains its aspect ratio */
+/* Center the content */
+.aboutMe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
 }
+
+/* Adjust the image styling */
+.about-img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+/* Styling for button containers */
+ul.list-inline {
+  padding-left: 0;
+  list-style-type: none;
+  margin: 15px 0;
+}
+
+ul.list-inline li {
+  display: inline;
+}
+
 .btn-custom {
   padding: 12px;
   border-radius: 50%;
@@ -168,7 +191,7 @@ body.dark-mode {
 .full-bg {
   position: relative;
   height: 100vh; /* Full height */
-  background: url('442431.jpg') no-repeat center center fixed; /* Replace with your image */
+  background: url('src\\442431.jpg') no-repeat center center fixed; /* Replace with your image */
   background-size: cover; /* Cover the entire section */
 }
 
