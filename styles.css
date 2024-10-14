@@ -191,7 +191,7 @@ body.dark-mode {
 .full-bg {
   position: relative;
   height: 100vh; /* Full height */
-  background: url('src\\442431.jpg') no-repeat center center fixed; /* Replace with your image */
+  background: url('src\\bg.jpg') no-repeat center center fixed; /* Replace with your image */
   background-size: cover; /* Cover the entire section */
 }
 
@@ -202,7 +202,7 @@ body.dark-mode {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* Black with 50% opacity */
+  background-color: rgba(0, 0, 0, 0.825); /* Black with 50% opacity */
 }
 
 /* Text styling */
