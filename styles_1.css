@@ -1,0 +1,32 @@
+/* Full Background Image (Hero Section) */
+.full-bg {
+    position: relative;
+    height: 70vh; /* Adjust height (70% of viewport) */
+    background: url('src/bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Grey background section (for content after hero) */
+  .grey-bg {
+    background-color: #393939; /* Light grey (Bootstrap’s default) */
+    padding: 60px 0; /* Space above & below */
+  }
+  /* Center the content */
+.aboutMe {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+  }
+  
+  /* Adjust the image styling */
+  .about-img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
