@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<!-- sourcetree test -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhinesh Moorthy's Portfolio</title>
+    <link rel="stylesheet" href="styles_old.css">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+<!-- navigation bar section -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <p class="navbar-brand">Dhinesh Moorthy</p>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li>
+        <!-- <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a> -->
+      </li>
+      <li>
+        <!-- <a class="nav-link" href="#"></a> -->
+      </li>
+      <li>
+        <!-- <a class="nav-link disabled" href="#"></a> -->
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto d-flex justify-content-center"> <!-- Added ms-auto, d-flex, and justify-content-center -->
+      <li class="nav-item">
+        <a class="nav-link" href="#Portfolio">Portfolio</a> <!-- Link to the Projects section -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#resume">Resume</a> <!-- Link to the Resume section -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#Contact">Contact</a> <!-- Link to the About section -->
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<!-- Full-screen Background Section -->
+<div class="full-bg">
+  <div class="overlay">
+      <div class="content text-center">
+          <h1>Dhinesh M</h1>
+          <h3>Unity Developer</h3>
+          <br><br><br>
+          <h1>Welcome to My Portfolio</h1>
+              <!-- download option -->
+          <a href="src\MyResume.pdf" class="btn btn-outline-primary" download>Download Resume</a>
+      </div>
+  </div>
+</div>
+
+<!-- Container for the Cards -->
+ <div id="Portfolio">
+  <!-- typing effect and dark/light toggle -->
+<div class="typing" style="padding-left: 10px;">
+  <h1>I am a <span id="typed-text"></span></h1>
+  <!-- Dark/Light Mode Toggle (optional, depending on your placement preference) -->
+  <!-- <div class="theme-switch-container ms-6">
+  <label class="switch">
+    <input type="checkbox" id="theme-switch">
+    <span class="slider round"></span>
+  </label> -->
+</div>
+  <script>
+  var typed = new Typed('#typed-text', {
+    strings: ["Game Developer", "Backend Enthusiast","Designer", "Freelancer"],  // You can add as many strings as you want
+    typeSpeed: 50,   // Typing speed in milliseconds
+    backSpeed: 25,   // Backspace speed in milliseconds
+    loop: true       // Loops the animation
+  });
+    
+  </script>
+</div> 
+  <br>
+  <div class="container">
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\1.png" class="card-img-top" alt="Project 1">
+          <div class="card-body">
+            <h5 class="card-title">Local Offline Database Integration with SQLite</h5>
+            <p class="card-text">Developed a robust local offline database system using SQLite, enabling seamless data storage and retrieval for applications without requiring an internet connection.</p>
+          </div>
+          <div class="card-footer">
+          <!-- View Project Button -->
+          <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 2 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\2.png" class="card-img-top" alt="Project 2">
+          <div class="card-body">
+            <h5 class="card-title">Cloud Database Integration with Microsoft PlayFab</h5>
+            <p class="card-text">Implemented a cloud database integration using Microsoft PlayFab, enabling scalable and efficient data management for VR based applications.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\cpr.jpg" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">VR CPR ( Cardiopulmonary resuscitation )</h5>
+            <p class="card-text">Led the development and enhancement of the CPR project, focusing on porting the application from Oculus Quest 1 to Quest 2 while adding new features and refining VR metrics.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 4 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\swd.jpg" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">Static Website Development</h5>
+            <p class="card-text">Designed and developed a static website using Bootstrap, successfully hosting it on GitHub Pages.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\fireshadergraph.png" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">Fire Spread Shader</h5>
+            <p class="card-text">Developed a dynamic fire spread shader in Unity, enhancing the realism of fire effects in virtual environments.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6-->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\awsDynamoDb.png" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">AWS DynamoDB Database Integration</h5>
+            <p class="card-text">Currently developing a project that integrates AWS DynamoDB for scalable and efficient data storage in cloud applications.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 7-->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\websockets.png" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">WebSocket Development ( Prototype )</h5>
+            <p class="card-text">Currently developing a prototype WebSocket application for real-time communication between Android devices and Unity</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card 8-->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\http.jpg" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">Built-in HTTP Server Integration</h5>
+            <p class="card-text">Developed an integrated HTTP server for handling requests between Oculus devices and Unity, facilitating seamless communication and data exchange.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 9-->
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="card h-100">
+          <img src="src\optometry.jpg" class="card-img-top" alt="Project 3">
+          <div class="card-body">
+            <h5 class="card-title">Optometrist Android APK</h5>
+            <p class="card-text">Developed my first Android application for optometrists, focusing on enhancing user experience and learning the fundamentals of mobile app development.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">View Description</a>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Structure with Independent Content -->
+<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectModalLabel">Independent Project Title</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body">
+        <p>This is an independent detailed description of the project. It can contain any content, including text, images, or videos, that is not tied to the card details.</p>
+        <img src="442431.jpg" class="img-fluid" alt="Project Image">
+        <p>Additional information about the project can go here, including features, technologies used, or other relevant details.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- resume section -->
+<div id="resume" class="resume-section">
+
+  <div class="About">
+      <h2>ABOUT MYSELF</h2>
+      <p>As a Junior Unity Developer, I bring a robust skill set in Unity and game development, with proficiency in C#, .NET, and backend systems. My expertise spans across creating immersive VR applications, interactive experiences, and engaging 2D/3D games, integrating game mechanics with backend technologies. I have honed my skills in animation, networking, and advanced Unity development, allowing me to craft unique and captivating user experiences. I am committed to continuous learning and dedicated to pushing the boundaries of interactive development to deliver outstanding projects.</p>
+  </div>
+
+  <div class="skills">
+      <h2>SKILLS</h2>
+      <div class="skill-icons">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="AWS" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" alt="C#" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dotnetcore/dotnetcore-original.svg" alt=".NET" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" alt="SQL Server" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original-wordmark.svg" alt="MySQL" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/powershell/powershell-original.svg" alt="PowerShell" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" alt="Postman" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original-wordmark.svg" alt="SQLite" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" alt="Unity" />
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-plain.svg" alt="Visual Studio" />
+      </div>
+  </div>
+
+  <div class="Interests">
+      <h2>INTERESTS</h2>
+      <p>I’m deeply fascinated by the world of interactive technology and its potential to transform how we experience reality. I find immense joy in game design, where I can bring ideas to life and create compelling stories through gameplay. Virtual and augmented reality captivate me not just as emerging technologies but as tools that can reshape industries and redefine user experiences. I’m particularly interested in integrating haptic feedback to add a layer of realism to VR projects. While backend development appeals to my analytical side, allowing me to solve complex problems, I also enjoy the artistic aspects of animation and visual effects, using them to craft immersive digital worlds. I’m always on the lookout for new trends and advancements in AI, cloud computing, and other cutting-edge fields that push the boundaries of what’s possible.</p>
+  </div>
+
+  <div class="Education">
+      <h2>EDUCATION</h2>
+      <p><b>B.E. Mechanical Engineering, R.M.K. Engineering College (August 2018 - May 2022)</b></p>
+      <p>Although my background is in Mechanical Engineering, I transitioned into software development due to a strong passion for technology and interactive media. My engineering education has equipped me with problem-solving skills, analytical thinking, and a solid technical foundation, which I have applied to software development. It has also helped me approach Unity projects with a systematic mindset, enabling me to tackle complex challenges effectively.</p>
+  </div>
+
+  <div class="Experience">
+      <h2>EXPERIENCE</h2>
+      <p><b>Junior Unity Developer at Merkel Haptic Systems Pvt. Ltd., Chennai (May 2023 - Present)</b></p>
+      <p>At Merkel Haptic Systems, I collaborate closely with cross-functional teams to design and develop cutting-edge VR applications, focusing on user engagement and haptic feedback integration. My work includes refining game mechanics, optimizing code for VR performance, and implementing immersive experiences using the latest Unity tools and techniques. I also contribute to testing and debugging, ensuring high-quality deliverables that meet project requirements. My role involves continually researching new technologies and techniques to incorporate into our projects, driving innovation in the VR space.</p>
+      <p><b>Project Associate at IIT Madras - Touch Lab, Chennai (October 2022 - April 2023)</b></p>
+      <p>During my time at IIT Madras, I was instrumental in the development of pioneering projects leveraging Unity for VR applications. I worked on backend integration, developing features that enabled seamless data flow and interaction between hardware and software. My responsibilities included programming in C#, optimizing Unity applications for various hardware configurations, and collaborating with researchers to create user-centered solutions. This role helped me deepen my understanding of VR development and its practical applications in research and industrial environments.</p>
+  </div>
+
+  <!-- Download option -->
+  <div class="download-resume">
+      <a href="MyResume.pdf" class="btn btn-outline-primary" download>Download Resume</a>
+  </div>
+</div>
+
+<!-- About Section -->
+<div id="Contact" class="aboutMe">
+  <div class="row justify-content-center align-items-center text-center">
+    <div class="col-md-6">
+      <img src="src\profile.jpg" class="img-responsive rounded-circle about-img" alt="Responsive Image">
+      <p class="mt-3"><B>Dhinesh M</B><br>I am a Unity developer with a passion for creating immersive experiences in virtual reality. Skilled in game development, backend systems, and VR applications, I enjoy blending technology and creativity to bring interactive projects to life.</p>
+      <ul class="list-inline">
+        <!-- Button for GitHub -->
+        <li class="list-inline-item">
+          <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="btn btn-dark btn-lg btn-custom">
+            <i class="fab fa-github"></i>
+          </a>
+        </li>
+        <!-- Button for LinkedIn -->
+        <li class="list-inline-item">
+          <a href="https://www.linkedin.com/in/dhinesh-m-7627b6203?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bg1h6zleMSBK0d95bVM2jRg%3D%3D" target="_blank" class="btn btn-primary btn-lg btn-custom">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </li>
+        <!-- Button for Instagram -->
+        <li class="list-inline-item">
+          <a href="https://www.instagram.com/dhinesh__moorthy/" target="_blank" class="btn btn-success btn-lg btn-custom">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="list-inline">
+        <!-- Button for Contact -->
+        <li class="list-inline-item">
+          <a href="tel:+9188348439527" class="btn btn-success btn-lg btn-custom">
+            <i class="fas fa-phone"></i>
+          </a>
+        </li>
+        <!-- Button for Mail -->
+        <li class="list-inline-item">
+          <a href="mailto:dhinesh_moorthy@icloud.com" class="btn btn-danger btn-lg btn-custom">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </li>
+        <!-- Button for WhatsApp -->
+        <li class="list-inline-item">
+          <a href="https://wa.me/+919677013993" target="_blank" class="btn btn-success btn-lg btn-custom">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- dark/light mode toggle -->
+<script>
+// Get the toggle input
+const toggleSwitch = document.getElementById('theme-switch');
+
+// Check for saved user preference, if any, on page load
+const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+if (currentTheme) {
+  document.body.classList.add(currentTheme);
+  if (currentTheme === 'dark-mode') {
+    toggleSwitch.checked = true;
+  }
+}
+
+// Listen for a change in the toggle switch
+toggleSwitch.addEventListener('change', () => {
+  document.body.classList.toggle('dark-mode');
+  // Save the user's preference in localStorage
+  if (document.body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark-mode');
+  } else {
+    localStorage.removeItem('theme');
+  }
+});
+
+</script>
+
+<!-- Smooth Scrolling Effect -->
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+
+      // Scroll smoothly to the target element
+      targetElement.scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+</script>
+
+<!-- FOOTER -->
+<footer class="container">
+  <p>Thanks for your time!</p>
+  <p class="float-right"><a href="#">Back to top</a></p>
+</footer>
+
+
+<script>
+  // Set independent content for each project
+  document.querySelectorAll('.btn-primary').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const modalTitle = document.getElementById('projectModalLabel');
+      const modalBody = document.querySelector('.modal-body');
+
+      // Define independent content for each project
+      const projectDetails = [
+        {
+          title: 'Local Offline Database Integration with SQLite',
+          description: '<p>In this project, I implemented a local offline database solution using SQLite, which provides lightweight and efficient data management for applications. The primary goal was to ensure that users could access and manipulate data without relying on an internet connection, making the application more versatile and user-friendly.<p>I began by designing the database schema tailored to the specific needs of the application, ensuring optimal organization and accessibility of data. Utilizing SQLite’s capabilities, I integrated data insertion, retrieval, updating, and deletion functionalities. The project involved creating an intuitive user interface that allowed users to interact with the database seamlessly, enabling them to add, view, edit, and delete records easily.<p> Rigorous testing was conducted to ensure data integrity and reliability, addressing potential issues such as data conflicts and corruption. The project was not only a practical application of database management principles but also an exploration of best practices in user interface design and data handling.<p>This project significantly improved my skills in database management, C# programming, and Unity development, laying a strong foundation for future endeavors involving data-driven applications.</p>',
+          imageUrl: 'src\\1.png'
+        },
+        {
+          title: 'Cloud Database Integration with Microsoft PlayFab',
+          description: '<p>In this project, I focused on integrating Microsoft PlayFab as a backend service for managing game data, user profiles. PlayFab’s powerful cloud features allowed for seamless handling of data storage and retrieval, making it an ideal choice for developing scalable game applications.<p>I started by setting up a PlayFab account and configuring the necessary game title settings. This included defining user authentication methods, creating data structures for player profiles, and configuring cloud scripts for game logic. I utilized PlayFab’s APIs to implement user registration, login functionalities, and secure data storage, ensuring that player information was kept safe and accessible.<p>Throughout the project, I emphasized optimizing network calls and data handling to minimize latency and improve overall performance. By leveraging PlayFab’s built-in features, I was able to focus on the game design aspects while ensuring a robust backend infrastructure. This experience significantly enriched my understanding of cloud-based game development, backend integration, and the use of analytics in enhancing player engagement.</p>',
+          imageUrl: 'src\\2.png'
+        },
+        {
+          title: 'CPR ( Cardiopulmonary resuscitation )',
+          description: '<p>In the CPR project, I played a pivotal role in managing the development process from production to the successful shipping of the product. My primary responsibility involved porting the application from Oculus Quest 1 to Quest 2, ensuring a smooth transition while enhancing performance and user experience.<p>During this project, I actively contributed to the design and implementation of new features, which included developing VR-based metrics aimed at understanding the interplay between hand tracking and cognitive performance research. I conducted extensive testing to identify why hand tracking and CPR functionalities faced compatibility issues, analyzing data to derive insights that informed further enhancements.<p> Through iterative testing and refinement, I was able to enhance the application’s usability and functionality, providing a robust platform for cognitive performance analysis in VR environments.<p>This project significantly deepened my expertise in VR development, optimization for different hardware, and understanding user interactions, making it a cornerstone experience in my career.</p>',
+          imageUrl: 'src\\cpr.jpg'
+        },
+        {
+          title:'Static Website Development',
+          description: '<p>In the Static Website Development project, I undertook the complete process of designing and building a responsive static website (this portfolio). This experience allowed me to deepen my understanding of web development concepts and best practices, particularly in creating user-friendly and visually appealing interfaces.<p>To start, I learned and implemented Bootstrap, a powerful front-end framework that enabled me to create a responsive layout efficiently. I utilized Bootstrap’s grid system and pre-designed components to ensure the website was accessible and functional across various devices and screen sizes. This experience not only improved my design skills but also reinforced the importance of responsive design in modern web development.<p>After designing the website, I focused on hosting it on GitHub Pages, which provided an opportunity to learn about version control and collaborative development practices. I set up the repository, configured the necessary settings, and deployed the website, gaining practical experience.<p>Throughout the development process, I emphasized clean coding practices and well-structured documentation to ensure the project could be easily understood and maintained. This project enhanced my technical skills in HTML, CSS, and JavaScript, as well as my understanding of hosting and deployment processes, solidifying my foundation in web development.</p>',
+          imageUrl: 'src\\swd.jpg'
+        },
+        {
+          title:'Fire Spread Shader',
+          description:'<p>In the Fire Spread Shader addon, I focused on creating a visually compelling and realistic fire effect that could dynamically interact with the environment in Unity. This project involved developing a custom shader to simulate the behavior of fire as it spreads across surfaces, contributing to a more immersive experience in virtual reality applications.<p>Using Unity’s Shader Graph, I designed a shader that combined texture mapping, particle systems, and color gradients to produce realistic flames. The shader was crafted to respond to environmental factors, such as wind direction and intensity, allowing the fire to behave naturally within the scene.<p>To enhance the interactivity, I implemented a system that allowed the fire to spread to nearby flammable objects, using colliders and triggers to determine the area of effect. This feature added an engaging layer of realism, making the virtual environment more dynamic and responsive to player actions.<p>Throughout the development process, I focused on optimizing performance to ensure smooth operation, especially in VR settings where frame rates are crucial. Rigorous testing was conducted to balance visual fidelity with computational efficiency, making adjustments based on performance metrics.<p>This project not only deepened my understanding of shader programming and graphics rendering but also improved my skills in creating interactive visual effects that enhance user engagement in virtual environments.</p>',
+          imageUrl: 'src\\fireshadergraph.png'
+        },
+        {
+          title:'AWS DynamoDB Database Integration',
+          description:'<p>In the AWS DynamoDB Database Integration project, I am in the process of implementing a scalable backend solution using Amazon DynamoDB, a fully managed NoSQL database service. This project aims to enhance data storage capabilities for cloud-based applications, providing fast and predictable performance with seamless scalability.<p>As part of the development process, I have been focusing on designing the database schema that optimally aligns with application requirements. This involves defining tables, setting up primary keys, and establishing relationships to ensure efficient data retrieval and management. I am leveraging AWS SDKs to interact with DynamoDB, implementing CRUD operations and optimizing queries to enhance application performance.<p>One of the key aspects of this project is ensuring data security and integrity, which involves configuring appropriate access permissions using AWS IAM roles and policies. I am also exploring the use of DynamoDB Streams to enable real-time data processing and integration with other AWS services, enhancing the overall functionality of the application.<p>Throughout the development process, I am emphasizing best practices for cloud architecture, including cost management and performance optimization. The experience gained from this project is significantly broadening my understanding of cloud services, NoSQL databases, and their practical applications in modern software development.</p>',
+          imageUrl: 'src\\awsDynamoDb.png'
+        },
+        {
+          title:'WebSocket Development',
+          description:'<p>In the WebSocket Development project, I am in the prototype stage of creating a real-time communication system that connects Android devices with a Unity application. This project aims to facilitate seamless data exchange and interactions, enhancing the user experience through instant connectivity.<p>At this stage, I am focusing on establishing a reliable WebSocket connection, which involves implementing the WebSocket protocol in both the Android and Unity environments. I have been experimenting with various libraries and frameworks to ensure smooth communication, considering factors such as latency, message formats, and connection stability.<p>The initial phase includes defining the architecture of the communication system, ensuring that data can be transmitted efficiently in both directions. I am working on developing features that allow the Android application to send real-time updates to the Unity application, enabling dynamic interactions based on user input or sensor data.<p>As part of this development, I am conducting tests to evaluate the performance and responsiveness of the WebSocket connections. This involves monitoring connection handling, message delivery times, and error handling to refine the overall user experience.<p>This project is enhancing my skills in network programming, real-time data handling, and cross-platform communication, laying the groundwork for future applications that require instant connectivity.</p>',
+          imageUrl: 'src\\websockets.png'
+        },
+        {
+          title:'Built-in HTTP Server Integration',
+          description:'<p>In the Built-in HTTP Server Integration project, I focused on creating a robust HTTP server solution within Unity to manage requests from Oculus devices. This integration aims to streamline communication between the VR headset and the Unity application, enabling real-time data exchange and improving overall user experience.<p>The project began with researching different approaches for setting up an HTTP server in Unity, ultimately deciding to implement a built-in solution for its simplicity and effectiveness. I configured the server to handle incoming HTTP requests, allowing Oculus devices to communicate with the Unity application for various functionalities, such as data retrieval and command execution.<p>Key features of the integration include creating endpoints for specific requests, such as fetching user data, sending commands to initiate actions in the Unity environment, and handling status updates. I also focused on implementing secure communication protocols to protect data integrity and user privacy.<p>This project has significantly enhanced my understanding of network protocols, server-client architecture, and the specific requirements for real-time communication in VR environments. It lays the foundation for future projects that require reliable data exchange between devices and applications.</p>',
+          imageUrl: 'src\\http.jpg'
+        },
+        {
+          title:'Optometrist Android APK',
+          description:'<p>The Optometrist Android APK project marks my initial foray into mobile app development, where I aimed to create a user-friendly application tailored for optometrists. This project provided a valuable opportunity to learn the core principles of Android development while addressing real-world needs in the optometry field.<p>I began by researching the specific requirements of optometrists and the features that would enhance their practice. Based on this research, I designed a simple yet effective interface that allowed users to access essential tools and information quickly. The app includes functionalities such as patient management and basic eye examination tools.<p>This project not only solidified my understanding of mobile app development but also sparked my passion for creating practical solutions in healthcare. The skills I acquired during this project laid the foundation for my future endeavors in app development and technology integration.</p>',
+          imageUrl: 'src\\optometry.jpg'
+        }
+      ];
+
+      // Set the content based on the index of the button clicked
+      const projectDetail = projectDetails[index];
+      modalTitle.innerText = projectDetail.title;
+      modalBody.innerHTML = `
+        <img src="${projectDetail.imageUrl}" class="img-fluid mb-3" alt="${projectDetail.title}">
+        ${projectDetail.description}
+      `;
+    });
+  });
+</script>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.750375296756!2d77.35617571185205!3d28.607264575576966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce56c64a69a4d%3A0xe3c8f0487091855e!2sJaipuria%20Hostel!5e0!3m2!1sen!2sin!4v1747154928583!5m2!1sen!2sin" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/snsgnHhqzbA?si=X47Ox6audzoXQfju" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe src='https://flo.uri.sh/visualisation/20221119/embed' title='Interactive or visual content' class='flourish-embed-iframe' frameborder='0' scrolling='no' style='width:100%;height:600px;' sandbox='allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation'></iframe><div style='width:100%!;margin-top:4px!important;text-align:right!important;'><a class='flourish-credit' href='https://public.flourish.studio/visualisation/20221119/?utm_source=embed&utm_campaign=visualisation/20221119' target='_top' style='text-decoration:none!important'><img alt='Made with Flourish' src='https://public.flourish.studio/resources/made_with_flourish.svg' style='width:105px!important;height:16px!important;border:none!important;margin:0!important;'> </a></div>
+
+<iframe 
+  src="https://voxelracing.netlify.app/" 
+  width="960" 
+  height="600" 
+  frameborder="0" 
+  scrolling="no" 
+  allowfullscreen>
+</iframe>
+
+<iframe src="https://dhineshmdev.pythonanywhere.com/" width="100%" height="600" allowfullscreen></iframe> -->
+
+
+</body>
+
+</html>
