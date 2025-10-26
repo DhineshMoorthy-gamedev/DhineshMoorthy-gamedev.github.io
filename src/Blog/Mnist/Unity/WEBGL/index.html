@@ -24,6 +24,36 @@
       </div>
     </div>
     <script>
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          document.body.innerHTML = `
+            <div style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              height: 100vh;
+              font-family: sans-serif;
+              text-align: center;
+              background: #f5f5f5;
+              color: #333;
+            ">
+              <h2>⚠️ Mobile Browser Not Supported</h2>
+              <p>This Unity WebGL demo runs only on desktop browsers.<br><br>
+              You can download the Android version below:</p>
+              <a href="https://raw.githubusercontent.com/DhineshMoorthy-gamedev/DhineshMoorthy-gamedev.github.io/main/src/Blog/Mnist/Unity/ANDROID/onnxTest.apk
+    "
+                 style="margin-top:20px; background:#007bff; color:white;
+                        padding:12px 20px; border-radius:8px; text-decoration:none;
+                        font-weight:600; box-shadow:0 2px 4px rgba(0,0,0,0.2);">
+                📦 Download Android APK
+              </a>
+            </div>
+          `;
+          throw new Error("Stopped WebGL load on mobile device");
+      }
+    </script>
+    
+    <script>
       var canvas = document.querySelector("#unity-canvas");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
