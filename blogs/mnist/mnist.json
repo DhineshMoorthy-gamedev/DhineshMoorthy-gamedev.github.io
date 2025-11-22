@@ -1,0 +1,57 @@
+{
+  "title": "Deploying an MNIST Model in Unity with ONNX",
+  "date": "Oct 2025",
+  "author": "Dhinesh Moorthy",
+  "coverImage": "",
+  "categories": ["Machine Learning", "Unity", "ONNX","Python"],
+  "demoLink": "content/WEBGL/index.html",
+  "download":"content/ANDROID/onnxTest.apk",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "In this project, we train an MNIST digit recognition model in Python and export it to ONNX format for Unity integration. One thing I love about small ML projects like MNIST is that they allow for quick iteration. Within a few hours, you can go from training a model to seeing predictions inside a Unity app. It's a great playground for experimenting with AI and game dev together.",
+      "image": "content/pipeline.png"
+    },
+    {
+      "heading": "Model Training",
+      "content": "We use PyTorch to train the MNIST model. The final model is then converted to ONNX using the torch.onnx.export function. Training on MNIST is really forgiving, but it’s still important to preprocess the images correctly. Resizing to 32x32 instead of the original 28x28 simplifies integration with Unity textures and avoids shape mismatches later.",
+      "code": {
+        "language": "python",
+        "snippet": "import torch/nimport torch.nn as nn\nimport torch.nn.functional as F\nimport torch.optim as optim\nfrom torchvision import datasets, transforms\n\n# 1. Simple CNN Model\nclass Net(nn.Module):\n    def __init__(self):\n        super(Net, self).__init__()\n        self.conv1 = nn.Conv2d(1, 8, 3, 1)\n        self.conv2 = nn.Conv2d(8, 16, 3, 1)\n        self.fc1 = nn.Linear(16*14*14, 50)  # updated for 32x32\n        self.fc2 = nn.Linear(50, 10)\n\n    def forward(self, x):\n        x = F.relu(self.conv1(x))\n        x = F.relu(self.conv2(x))\n        x = F.max_pool2d(x, 2)\n        x = torch.flatten(x, 1)\n        x = F.relu(self.fc1(x))\n        x = self.fc2(x)\n        return F.log_softmax(x, dim=1)\n\n# 2. Load Data\ntransform = transforms.Compose([\n    transforms.Resize(32),\n    transforms.ToTensor(),\n    transforms.Normalize((0.1307,), (0.3081,))\n])\ntrain_dataset = datasets.MNIST('./data', train=True, download=True, transform=transform)\ntrain_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)\n\n# 3. Train\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\")\nmodel = Net().to(device)\noptimizer = optim.Adam(model.parameters(), lr=0.001)\n\nmodel.train()\nfor epoch in range(1, 10):  # 2 epochs (quick)\n    for batch_idx, (data, target) in enumerate(train_loader):\n        data, target = data.to(device), target.to(device)\n        optimizer.zero_grad()\n        output = model(data)\n        loss = F.nll_loss(output, target)\n        loss.backward()\n        optimizer.step()\n    print(f\"Epoch {epoch} complete\")\n\n# Save PyTorch model\ntorch.save(model.state_dict(), \"mnist_cnn.pth\")"
+      }
+    },
+    {
+      "heading": "",
+      "content": "Export as ONNX format. Exporting to ONNX can be tricky if you change PyTorch ops. Setting opset_version=13 usually works for most Barracuda-supported operations.",
+      "code": {
+        "language": "python",
+        "snippet": "import torch\nfrom train_mnist import Net\n\n# Load trained model\nmodel = Net()\nmodel.load_state_dict(torch.load(\"mnist_cnn.pth\", map_location=\"cpu\"))\nmodel.eval()\n\n# Dummy input (1 image, 1 channel, 32x32 pixels)\ndummy_input = torch.randn(1, 1, 32, 32)\n\n# Export the model to ONNX format\ntorch.onnx.export(\n    model,\n    dummy_input,\n    \"mnist_cnn.onnx\",\n    export_params=True,\n    opset_version=13,\n    do_constant_folding=True,\n    input_names=['input'],\n    output_names=['output'],\n    dynamic_axes={'input': {0: 'batch'}, 'output': {0: 'batch'}}\n)\nprint(\"Exported to mnist_cnn.onnx\")"
+      }
+    },
+    {
+      "heading": "Unity Integration",
+      "content": "In Unity, we import the ONNX model using the Barracuda package and create a texture-based input to draw digits and predict them in real time. The key challenge here is preprocessing the texture correctly. Unity textures are usually top-left origin, while MNIST expects bottom-left. Flipping vertically is a small but critical step. Also, normalizing grayscale values to [0,1] ensures the model sees familiar inputs.",
+      "code":{
+        "language":"C#",
+        "snippet":"using SABI;\nusing TMPro;\nusing Unity.Barracuda;\nusing UnityEngine;\n\npublic class MNISTDemo : MonoBehaviour\n{\n    public NNModel modelAsset;\n    private Model runtimeModel;\n    private IWorker worker;\n    //public OpenCamera OpenCamera;\n    //[SerializeField]Texture2D tex; // your digit image\n    [SerializeField] TextMeshProUGUI text;\n    public bool invert;\n\n    public DrawCanvas drawCanvas; // Assign via Inspector\n\n\n    void Start()\n    {\n        runtimeModel = ModelLoader.Load(modelAsset);\n        worker = WorkerFactory.CreateWorker(WorkerFactory.Type.Auto, runtimeModel);\n    }\n\n    int ArgMax(float[] values)\n    {\n        int maxIndex = 0;\n        float maxVal = values[0];\n        for (int i = 1; i < values.Length; i++)\n        {\n            if (values[i] > maxVal)\n            {\n                maxVal = values[i];\n                maxIndex = i;\n            }\n        }\n        return maxIndex;\n    }\n\n    float[] PreprocessTexture(Texture2D tex)\n    {\n        float[] inputArray = new float[32 * 32];\n        for (int y = 0; y < 32; y++)\n        {\n            for (int x = 0; x < 32; x++)\n            {\n                // Flip vertically\n                Color pixel = tex.GetPixel(x, 31 - y);\n                float gray = pixel.grayscale;\n                float value = invert ? 1-gray: gray;  // or 1f - gray if your MNIST is black-on-white\n                inputArray[y * 32 + x] = value;\n            }\n        }\n        return inputArray;\n    }\n\n    Texture2D GetReadableTexture(Texture source, int targetWidth, int targetHeight)\n    {\n        RenderTexture rt = RenderTexture.GetTemporary(targetWidth, targetHeight, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);\n        Graphics.Blit(source, rt);\n        RenderTexture previous = RenderTexture.active;\n        RenderTexture.active = rt;\n        Texture2D readableTex = new Texture2D(targetWidth, targetHeight, TextureFormat.RGB24, false);\n        readableTex.ReadPixels(new Rect(0, 0, targetWidth, targetHeight), 0, 0);\n        readableTex.Apply();\n        RenderTexture.active = previous;\n        RenderTexture.ReleaseTemporary(rt);\n        return readableTex;\n    }\n\n    void OnDestroy()\n    {\n        worker.Dispose();\n    }\n\n    [Button]\n    public void drawPredict()\n    {\n        Texture2D drawnTex = drawCanvas.GetTexture();\n        Texture2D readableTex = GetReadableTexture(drawnTex, 32, 32);\n        float[] inputArray = PreprocessTexture(readableTex);\n        Tensor inputTensor = new Tensor(1, 32, 32, 1, inputArray);\n        worker.Execute(inputTensor);\n        Tensor output = worker.PeekOutput(\"output\");\n        int predictedDigit = ArgMax(output.ToReadOnlyArray());\n        text.text = $\"Predicted Digit: {predictedDigit}\";\n        Debug.Log($\"Predicted: {predictedDigit}\");\n        for (int i = 0; i < 32; i++)\n        {\n            string row = \"\";\n            for (int j = 0; j < 32; j++)\n            {\n                float v = inputArray[i * 32 + j];\n                row += (v > 0.5f ? \"#\" : \".\");\n            }\n            Debug.Log(row);\n        }\n        inputTensor.Dispose();\n        output.Dispose();\n        Destroy(readableTex);\n    }\n}"
+      }
+    },
+    {
+      "heading": "",
+      "content": "This C# script creates a simple drawable canvas in Unity using a RawImage component. Users can draw on the canvas with the mouse or touch input. The script supports a brush size and color, allows clearing the canvas, and exposes the texture for further processing, such as feeding it into an MNIST ONNX model for digit recognition.",
+      "code":{
+        "language":"C#",
+        "snippet":"using SABI;\nusing UnityEngine;\nusing UnityEngine.UI;\n\npublic class DrawCanvas : MonoBehaviour\n{\n    public RawImage rawImage;\n    private Texture2D drawTexture;\n    public Color drawColor = Color.black;\n    public int brushSize = 8;\n\n    void Start()\n    {\n        drawTexture = new Texture2D(32, 32, TextureFormat.RGBA32, false);\n        ClearCanvas();\n        rawImage.texture = drawTexture;\n    }\n\n    void Update()\n    {\n        if (Input.GetMouseButton(0)) // left click or touch\n        {\n            Vector2 localPos;\n            RectTransformUtility.ScreenPointToLocalPointInRectangle(\n                rawImage.rectTransform, Input.mousePosition, null, out localPos);\n\n            // Convert to texture coordinates\n            Rect rect = rawImage.rectTransform.rect;\n            float x = (localPos.x - rect.x) / rect.width * drawTexture.width;\n            float y = (localPos.y - rect.y) / rect.height * drawTexture.height;\n\n            DrawCircle((int)x, (int)y);\n            drawTexture.Apply();\n        }\n    }\n\n    void DrawCircle(int x, int y)\n    {\n        for (int i = -brushSize; i <= brushSize; i++)\n        {\n            for (int j = -brushSize; j <= brushSize; j++)\n            {\n                if (i * i + j * j <= brushSize * brushSize)\n                {\n                    int px = x + i;\n                    int py = y + j;\n                    if (px >= 0 && px < drawTexture.width && py >= 0 && py < drawTexture.height)\n                        drawTexture.SetPixel(px, py, drawColor);\n                }\n            }\n        }\n    }\n\n    [Button]\n    public void ClearCanvas()\n    {\n        Color[] colors = new Color[drawTexture.width * drawTexture.height];\n        for (int i = 0; i < colors.Length; i++) colors[i] = Color.white;\n        drawTexture.SetPixels(colors);\n        drawTexture.Apply();\n    }\n\n    public Texture2D GetTexture()\n    {\n        return drawTexture;\n    }\n}"
+      }
+    },
+    {
+      "heading":"Preview",
+      "content":"",
+      "image":"content/mnist.gif"
+    },
+    {
+      "heading": "Conclusion",
+      "content": "This project demonstrates how Unity and Python can work together to bring real-time AI inference into interactive projects. One of the biggest takeaways is the joy of seeing machine learning in action in a game-like environment. It also opens doors to creative projects: drawing games, educational tools, and even interactive installations where AI responds to human input instantly"
+    }
+  ]
+}
