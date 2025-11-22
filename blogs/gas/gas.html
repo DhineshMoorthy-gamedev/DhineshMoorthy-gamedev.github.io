@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Complete Backend System for Unity Games with Google Sheets</title>
+    <link rel="stylesheet" href="gas.css">
+</head>
+<body>
+    <div class="container">
+      <div class="container">
+        <header>
+            <h1>Building a Complete Backend System for Unity Games with Google Sheets</h1>
+            <div class="meta">
+                <span class="date">November 23, 2025</span>
+                <span class="reading-time">15 min read</span>
+            </div>
+    
+            <!-- Download Buttons -->
+            <div class="download-buttons" style="margin-top: 20px;">
+                <a href="content\Android\GAS.apk" 
+                   class="btn" 
+                   style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 6px; margin-right: 10px;">
+                   Download APK
+                </a>
+    
+                <a href="content\Windows\GAS.zip" 
+                   class="btn" 
+                   style="padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 6px;">
+                   Download EXE (.zip)
+                </a>
+            </div>
+        </header>
+
+        <article>
+            <section class="intro">
+                <p class="lead">Learn how to build a complete serverless backend for your Unity game using Google Sheets. This comprehensive tutorial covers both remote configuration and player authentication systems, allowing you to manage game settings and user accounts without any traditional server infrastructure.</p>
+            </section>
+
+            <section>
+              <h2>What You'll Build</h2>
+              <p>By the end of this tutorial, you'll have three powerful systems:</p>
+              <ul>
+                  <li><strong>Remote Config System</strong> - Update game parameters in real-time without redeploying</li>
+                  <li><strong>Player Management System</strong> - Complete authentication with registration, login, and admin controls</li>
+                  <li><strong>Leaderboard System</strong> - Submit, retrieve, and display global high scores using Google Sheets</li>
+              </ul>
+              <p>All systems run entirely on Google's infrastructure at zero cost, perfect for indie developers and prototypes.</p>
+            </section>
+
+            <section>
+              <h2>Architecture Overview</h2>
+              <div class="architecture-diagram">
+          
+                  <!-- Google Sheets -->
+                  <div class="arch-row">
+                      <div class="arch-box">Google Sheets<br><small>Data Storage</small></div>
+                  </div>
+          
+                  <div class="arch-arrow">↓</div>
+          
+                  <!-- Apps Script layer -->
+                  <div class="arch-row">
+                      <div class="arch-box">Apps Script API<br><small>Backend Logic</small></div>
+                  </div>
+          
+                  <div class="arch-arrow">↓</div>
+          
+                  <!-- Three modules: Remote Config, Player Manager, Leaderboard -->
+                  <div class="arch-row">
+                      <div class="arch-box config">Remote Config<br><small>GET config</small></div>
+                      <div class="arch-box player">Player Manager<br><small>POST / GET Player data</small></div>
+                      <div class="arch-box leaderboard">Leaderboard<br><small>POST / GET scores</small></div>
+                  </div>
+          
+                  <div class="arch-arrow">↓</div>
+          
+                  <!-- Unity Client -->
+                  <div class="arch-row">
+                      <div class="arch-box">Unity Game Client</div>
+                  </div>
+              </div>
+          
+              <p>Our architecture uses:</p>
+              <ol>
+                  <li><strong>Google Sheets</strong>  
+                      - Three sheets: "RemoteConfig", "Players", and "Leaderboard" for storing scores
+                  </li>
+          
+                  <li><strong>Google Apps Script</strong>  
+                      - Three endpoints:  
+                      &nbsp;&nbsp;• GET – Remote config fetching  
+                      &nbsp;&nbsp;• POST – Player authentication & management  
+                      &nbsp;&nbsp;• GET/POST – Leaderboard score submission and retrieval
+                  </li>
+          
+                  <li><strong>Unity C# Scripts</strong>  
+                      - Three managers:  
+                      &nbsp;&nbsp;• RemoteConfigManager  
+                      &nbsp;&nbsp;• PlayerManager  
+                      &nbsp;&nbsp;• LeaderboardManager (handles submit + fetch high scores)
+                  </li>
+              </ol>
+            </section>
+
+            <section>
+                <h2>Part 1: Remote Configuration System</h2>
+                <p>Let's start with the simpler system - remote configuration for dynamic game parameters.</p>
+
+                <h3>Setting Up Google Sheets</h3>
+                <p>Create a new Google Spreadsheet with a sheet named "RemoteConfig":</p>
+                
+                <div class="code-block">
+                    <div class="code-header">RemoteConfig Sheet Structure</div>
+                    <table class="sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>enemy_speed</td>
+                                <td>5.0</td>
+                            </tr>
+                            <tr>
+                                <td>spawn_rate</td>
+                                <td>2.0</td>
+                            </tr>
+                            <tr>
+                                <td>event_enabled</td>
+                                <td>true</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Apps Script for Remote Config</h3>
+                <p>Go to <strong>Extensions > Apps Script</strong> and add this function:</p>
+                
+                <div class="code-block collapsible">
+                  <div class="code-header">
+                      <span>Config API - Code.gs</span>
+                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                      <button class="copy-btn" onclick="copyCode('config-script')">Copy</button>
+                  </div>
+              
+                  <div class="code-content">
+                      <pre id="config-script">
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("RemoteConfig");
+  const rows = sheet.getDataRange().getValues();
+
+  let result = {};
+
+  for (let i = 1; i < rows.length; i++) {
+    const key = rows[i][0];
+    const value = rows[i][1];
+    if (key) result[key] = value;
+  }
+
+  return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+}
+                      </pre>
+                  </div>
+              </div>
+              
+    
+                <h3>Unity Remote Config Manager</h3>
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>RemoteConfigManager.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('remote-config-unity')">Copy</button>
+                    </div>
+
+                    <div class="code-content">
+                    <pre id="remote-config-unity">
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Networking;
+
+public class RemoteConfigManager : MonoBehaviour
+{
+  public static string remoteConfigURL = "YOUR_CONFIG_URL_HERE";
+  
+  public string enemySpeed = "";
+  public string spawnRate = "";
+  public string eventEnabled = "";
+  public string status = "Press Load Config";
+  public bool loading = false;
+  public bool requestLoad = false;
+
+  private void Update()
+  {
+      if (requestLoad)
+      {
+          requestLoad = false;
+          _ = LoadConfigAsync();
+      }
+  }
+
+  private async Task LoadConfigAsync()
+  {
+      loading = true;
+      status = "Loading...";
+
+      using UnityWebRequest req = UnityWebRequest.Get(remoteConfigURL);
+      var op = req.SendWebRequest();
+      
+      while (!op.isDone)
+          await Task.Yield();
+
+      if (req.result == UnityWebRequest.Result.Success)
+      {
+          try
+          {
+              var cfg = JsonUtility.FromJson<ConfigData>(req.downloadHandler.text);
+              enemySpeed = cfg.enemy_speed;
+              spawnRate = cfg.spawn_rate;
+              eventEnabled = cfg.event_enabled;
+              status = "Config Loaded";
+          }
+          catch
+          {
+              status = "JSON Parse Error";
+          }
+      }
+      else
+      {
+          status = "Error: " + req.error;
+      }
+
+      loading = false;
+  }
+}
+
+[Serializable]
+public class ConfigData
+{
+  public string enemy_speed;
+  public string spawn_rate;
+  public string event_enabled;
+}</pre>
+</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Part 2: Player Authentication System</h2>
+                <p>Now let's build a complete player management system with registration, login, and admin controls.</p>
+
+                <h3>Setting Up the Players Sheet</h3>
+                <p>In a new spreadsheet, create a new sheet named "Players" with these columns:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">Players Sheet Structure</div>
+                    <table class="sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Banned</th>
+                                <th>Last Login</th>
+                                <th>Country</th>
+                                <th>Device Model</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>player1</td>
+                                <td>pass123</td>
+                                <td>NO</td>
+                                <td>2025-11-23 10:30</td>
+                                <td>IN</td>
+                                <td>iPhone 14</td>
+                                <td>2025-11-20 14:20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Security Warning:</strong> This tutorial stores passwords in plain text for simplicity. For production games, always hash passwords using bcrypt or similar algorithms, and consider using proper authentication services like Firebase Auth.
+                </div>
+
+                <h3>Apps Script for Player Management</h3>
+                <p>Add this complete backend logic to your Apps Script:</p>
+                
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>Player API - Code.gs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('player-script')">Copy</button>
+                    </div>
+                    <div class="code-content"><pre id="player-script">
+const SHEET_NAME = "Players";
+
+function doPost(e) {
+  Logger.log("RAW REQUEST: " + e.postData.contents);
+
+  const data = JSON.parse(e.postData.contents);
+
+  switch (data.action) {
+    case "register": return register(data);
+    case "login": return login(data);
+    case "admin_ban": return adminBan(data);
+    case "admin_unban": return adminUnban(data);
+    case "admin_getAll": return getAllPlayers();
+    default:
+      return output({ success: false, message: "Invalid action" });
+  }
+}
+
+function register(data) {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const values = sheet.getDataRange().getValues();
+
+  const username = data.username;
+  const password = data.password;
+  const country = data.country || "Unknown";
+  const deviceModel = data.deviceModel || "Unknown";
+
+  // Check if user exists
+  for (let i = 1; i < values.length; i++) {
+    if (values[i][0] === username) {
+      return output({ success: false, message: "User already exists" });
+    }
+  }
+
+  // Add new row
+  sheet.appendRow([
+    username,
+    password,
+    "NO",                // banned?
+    "",                  // last login
+    country,
+    deviceModel,
+    new Date()           // created at
+  ]);
+
+  return output({ success: true, message: "Registered successfully" });
+}
+
+function login(data) {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const values = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < values.length; i++) {
+    let row = values[i];
+
+    if (row[0] === data.username) {
+      // Check ban
+      if (row[2] === "YES") {
+        return output({ success: false, message: "Player banned" });
+      }
+
+      if (row[1].toString() === data.password) {
+        // Update last login
+        sheet.getRange(i + 1, 4).setValue(new Date());
+
+        // Update country & device
+        if (data.country)
+          sheet.getRange(i + 1, 5).setValue(data.country);
+        if (data.deviceModel)
+          sheet.getRange(i + 1, 6).setValue(data.deviceModel);
+
+        return output({
+          success: true,
+          message: "Login success",
+          info: {
+            username: row[0],
+            country: row[4],
+            deviceModel: row[5],
+            banned: row[2]
+          }
+        });
+      }
+
+      return output({ success: false, message: "Wrong password" });
+    }
+  }
+
+  return output({ success: false, message: "User not found" });
+}
+
+function adminBan(data) {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const values = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < values.length; i++) {
+    if (values[i][0] === data.username) {
+      sheet.getRange(i + 1, 3).setValue("YES");
+      return output({ success: true, message: "Banned" });
+    }
+  }
+  return output({ success: false, message: "User not found" });
+}
+
+function adminUnban(data) {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const values = sheet.getDataRange().getValues();
+
+  for (let i = 1; i < values.length; i++) {
+    if (values[i][0] === data.username) {
+      sheet.getRange(i + 1, 3).setValue("NO");
+      return output({ success: true, message: "Unbanned" });
+    }
+  }
+  return output({ success: false, message: "User not found" });
+}
+
+function getAllPlayers() {
+  const sheet = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME);
+  const data = sheet.getRange(2, 1, sheet.getLastRow() - 1, 7).getValues();
+
+  let players = data.map(r => ({
+    username: r[0],
+    banned: r[2],
+    lastLogin: r[3],
+    country: r[4],
+    deviceModel: r[5],
+    createdAt: r[6]
+  }));
+
+  return output({ success: true, players });
+}
+
+function output(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+                    </pre></div>
+
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Important:</strong> You need to deploy this as a separate web app endpoint. Both doGet() and doPost() can coexist in the same script file.
+                </div>
+
+
+            </section>
+
+            <section>
+                <h2>Unity Player Manager Implementation</h2>
+                <p>Now create the Unity script that handles all player operations:</p>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>PlayerManager.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('player-manager-unity')">Copy</button>
+                    </div>
+                    <div class="code-content"><pre id="player-manager-unity">
+using System;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Networking;
+
+public class PlayerManager : MonoBehaviour
+{
+    public static string playerDataURL = "YOUR_PLAYER_URL_HERE";
+
+    // Input fields
+    public string regUser = "";
+    public string regPass = "";
+    public string regCountry = "IN";
+    public string regStatus = "Ready";
+    
+    public string logUser = "";
+    public string logPass = "";
+    public string logStatus = "Ready";
+    
+    public string adminUser = "";
+    public string adminStatus = "Ready";
+    
+    public AdminPlayerList cachedList;
+
+    private static async Task&lt;string&gt; Post(object payload)
+    {
+        string json = JsonUtility.ToJson(payload);
+
+        using (UnityWebRequest req = new UnityWebRequest(playerDataURL, "POST"))
+        {
+            byte[] body = Encoding.UTF8.GetBytes(json);
+            req.uploadHandler = new UploadHandlerRaw(body);
+            req.downloadHandler = new DownloadHandlerBuffer();
+
+            req.SetRequestHeader("Content-Type", "application/json");
+            req.SetRequestHeader("Accept", "application/json");
+            req.SetRequestHeader("Access-Control-Allow-Origin", "*");
+
+            var op = req.SendWebRequest();
+            while (!op.isDone)
+                await Task.Yield();
+
+            return req.downloadHandler.text;
+        }
+    }
+
+    // Response structures
+    [Serializable]
+    public class LoginInfo
+    {
+        public string username;
+        public string country;
+        public string deviceModel;
+        public string banned;
+    }
+
+    [Serializable]
+    public class LoginResponse
+    {
+        public bool success;
+        public string message;
+        public LoginInfo info;
+    }
+
+    [Serializable]
+    public class RegisterResponse
+    {
+        public bool success;
+        public string message;
+    }
+
+    [Serializable]
+    public class RegisterData
+    {
+        public string action;
+        public string username;
+        public string password;
+        public string country;
+        public string deviceModel;
+    }
+
+    [Serializable]
+    public class LoginRequest
+    {
+        public string action;
+        public string username;
+        public string password;
+        public string country;
+        public string deviceModel;
+    }
+
+    [Serializable]
+    public class AdminPlayer
+    {
+        public string username;
+        public string banned;
+        public string lastLogin;
+        public string country;
+        public string deviceModel;
+        public string createdAt;
+    }
+
+    [Serializable]
+    public class AdminPlayerList
+    {
+        public bool success;
+        public AdminPlayer[] players;
+    }
+
+    // API Methods
+    public static async Task&lt;RegisterResponse&gt; Register(string username, string password, string country = "Unknown")
+    {
+        RegisterData d = new RegisterData
+        {
+            action = "register",
+            username = username,
+            password = password,
+            country = country,
+            deviceModel = SystemInfo.deviceModel
+        };
+
+        string result = await Post(d);
+        return JsonUtility.FromJson&lt;RegisterResponse&gt;(result);
+    }
+
+    public static async Task&lt;LoginResponse&gt; Login(string username, string password, string country = "Unknown")
+    {
+        LoginRequest req = new LoginRequest
+        {
+            action = "login",
+            username = username.Trim(),
+            password = password.Trim(),
+            country = country,
+            deviceModel = SystemInfo.deviceModel
+        };
+
+        string result = await Post(req);
+        return JsonUtility.FromJson&lt;LoginResponse&gt;(result);
+    }
+
+    public static async Task&lt;bool&gt; AdminBan(string username)
+    {
+        var req = new { action = "admin_ban", username = username };
+        string result = await Post(req);
+        var r = JsonUtility.FromJson&lt;RegisterResponse&gt;(result);
+        return r.success;
+    }
+
+    public static async Task&lt;bool&gt; AdminUnban(string username)
+    {
+        var req = new { action = "admin_unban", username = username };
+        string result = await Post(req);
+        var r = JsonUtility.FromJson&lt;RegisterResponse&gt;(result);
+        return r.success;
+    }
+
+    public static async Task&lt;AdminPlayerList&gt; AdminGetAllPlayers()
+    {
+        var req = new { action = "admin_getAll" };
+        string result = await Post(req);
+        return JsonUtility.FromJson&lt;AdminPlayerList&gt;(result);
+    }
+
+    // UI Methods
+    public async void CallRegister()
+    {
+        if (string.IsNullOrEmpty(regUser) || string.IsNullOrEmpty(regPass))
+        {
+            regStatus = "Error: Username and Password required";
+            return;
+        }
+
+        regStatus = "Registering...";
+
+        try
+        {
+            var res = await Register(regUser, regPass, regCountry);
+            regStatus = res.success ? "✓ " + res.message : "✗ " + res.message;
+            if (res.success)
+            {
+                regUser = "";
+                regPass = "";
+            }
+        }
+        catch (Exception e)
+        {
+            regStatus = "✗ Error: " + e.Message;
+        }
+    }
+
+    public async void CallLogin()
+    {
+        if (string.IsNullOrEmpty(logUser) || string.IsNullOrEmpty(logPass))
+        {
+            logStatus = "Error: Username and Password required";
+            return;
+        }
+
+        logStatus = "Logging in...";
+
+        try
+        {
+            var res = await Login(logUser, logPass, regCountry);
+            
+            if (res.success)
+            {
+                logStatus = "✓ " + res.message;
+                if (res.info != null)
+                {
+                    logStatus += $"\nCountry: {res.info.country} | Device: {res.info.deviceModel}";
+                    if (res.info.banned == "true")
+                        logStatus += "\n⚠ Account is BANNED";
+                }
+                logPass = "";
+            }
+            else
+            {
+                logStatus = "✗ " + res.message;
+            }
+        }
+        catch (Exception e)
+        {
+            logStatus = "✗ Error: " + e.Message;
+        }
+    }
+
+    public async void CallAdminBan()
+    {
+        if (string.IsNullOrEmpty(adminUser))
+        {
+            adminStatus = "Error: Username required";
+            return;
+        }
+
+        adminStatus = $"Banning {adminUser}...";
+
+        try
+        {
+            var res = await AdminBan(adminUser);
+            adminStatus = res ? $"✓ Banned {adminUser}" : $"✗ Failed to ban {adminUser}";
+            if (res) await RefreshPlayerList();
+        }
+        catch (Exception e)
+        {
+            adminStatus = "✗ Error: " + e.Message;
+        }
+    }
+
+    public async void CallAdminUnban()
+    {
+        if (string.IsNullOrEmpty(adminUser))
+        {
+            adminStatus = "Error: Username required";
+            return;
+        }
+
+        adminStatus = $"Unbanning {adminUser}...";
+
+        try
+        {
+            var res = await AdminUnban(adminUser);
+            adminStatus = res ? $"✓ Unbanned {adminUser}" : $"✗ Failed to unban {adminUser}";
+            if (res) await RefreshPlayerList();
+        }
+        catch (Exception e)
+        {
+            adminStatus = "✗ Error: " + e.Message;
+        }
+    }
+
+    public async void CallAdminGetAll()
+    {
+        adminStatus = "Loading all players...";
+
+        try
+        {
+            await RefreshPlayerList();
+        }
+        catch (Exception e)
+        {
+            adminStatus = "✗ Error: " + e.Message;
+        }
+    }
+
+    private async Task RefreshPlayerList()
+    {
+        var res = await AdminGetAllPlayers();
+
+        if (res.success)
+        {
+            cachedList = res;
+            int bannedCount = 0;
+
+            foreach (var p in res.players)
+            {
+                if (p.banned == "true")
+                    bannedCount++;
+            }
+
+            adminStatus = $"✓ Loaded {res.players.Length} players ({bannedCount} banned)";
+        }
+        else
+        {
+            adminStatus = "✗ Failed to load players";
+        }
+    }
+}</pre></div>
+
+
+                </div>
+
+
+            </section>
+
+            <section>
+              <h2>Part 3: Leaderboard System</h2>
+              <p>Let's add a competitive element to your game with a global leaderboard that tracks high scores.</p>
+
+              <h3>Setting Up the Leaderboard Sheet</h3>
+              <p>Create a new sheet named "Sheet1" (or rename it) with these columns:</p>
+              
+              <div class="code-block">
+                  <div class="code-header">Leaderboard Sheet Structure</div>
+                  <table class="sheet-table">
+                      <thead>
+                          <tr>
+                              <th>Name</th>
+                              <th>Score</th>
+                              <th>Timestamp</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Player_1234</td>
+                              <td>450</td>
+                              <td>2025-11-23 15:30:22</td>
+                          </tr>
+                          <tr>
+                              <td>Player_5678</td>
+                              <td>380</td>
+                              <td>2025-11-23 14:15:10</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+
+              <h3>Apps Script for Leaderboard</h3>
+              <p>This script handles both submitting scores and retrieving the leaderboard:</p>
+              
+              <div class="code-block collapsible">
+                  <div class="code-header">
+                      <span>Leaderboard API - Code.gs</span>
+                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                      <button class="copy-btn" onclick="copyCode('leaderboard-script')">Copy</button>
+                  </div>
+                  <div class="code-content"><pre id="leaderboard-script">
+function doGet(e) {
+const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+
+const lastRow = sheet.getLastRow();
+let leaderboard = [];
+
+if (lastRow > 1) {
+  const data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+  leaderboard = data.map(row => ({
+    name: row[0],
+    score: row[1],
+    timestamp: row[2]
+  }));
+}
+
+// Sort by score descending
+leaderboard.sort((a, b) => b.score - a.score);
+
+return ContentService
+  .createTextOutput(JSON.stringify(leaderboard))
+  .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+
+const body = JSON.parse(e.postData.contents);
+const name = body.name;
+const score = Number(body.score);
+
+const lastRow = sheet.getLastRow();
+let updated = false;
+
+// If there are existing players
+if (lastRow > 1) {
+  const data = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0] === name) {
+      // ALWAYS overwrite existing player's score
+      sheet.getRange(i + 2, 2).setValue(score);
+      sheet.getRange(i + 2, 3).setValue(new Date());
+      updated = true;
+      break;
+    }
+  }
+}
+
+// If no match, add new player
+if (!updated) {
+  sheet.appendRow([name, score, new Date()]);
+}
+
+return ContentService
+  .createTextOutput(JSON.stringify({ status: "success" }))
+  .setMimeType(ContentService.MimeType.JSON);
+}</pre></div>
+                  
+              </div>
+
+              <div class="tip">
+                  <strong>💡 Smart Design:</strong> This leaderboard automatically updates a player's score if they submit again, rather than creating duplicate entries. Perfect for "personal best" tracking!
+              </div>
+
+              <h3>Unity Leaderboard API</h3>
+              <p>Create a reusable API class for leaderboard operations:</p>
+
+              <div class="code-block collapsible">
+                  <div class="code-header">
+                      <span>LeaderboardAPI.cs</span>
+                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                      <button class="copy-btn" onclick="copyCode('leaderboard-api-unity')">Copy</button>
+                  </div>
+                  <div class="code-content"><pre id="leaderboard-api-unity">
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Networking;
+
+public static class LeaderboardAPI
+{
+  // Submit Score
+  public static async Task&lt;bool&gt; SubmitScoreAsync(string baseUrl, string playerName, int score)
+  {
+      ScoreRequest data = new ScoreRequest(playerName, score);
+      string json = JsonUtility.ToJson(data);
+      
+      UnityWebRequest req = new UnityWebRequest(baseUrl, "POST");
+      req.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(json));
+      req.downloadHandler = new DownloadHandlerBuffer();
+      req.SetRequestHeader("Content-Type", "application/json");
+      req.SetRequestHeader("Accept", "application/json");
+      req.SetRequestHeader("Access-Control-Allow-Origin", "*");
+
+      var asyncOp = req.SendWebRequest();
+      while (!asyncOp.isDone)
+          await Task.Yield();
+
+      if (req.result == UnityWebRequest.Result.Success)
+      {
+          Debug.Log("Score submitted: " + req.downloadHandler.text);
+          req.Dispose();
+          return true;
+      }
+      else
+      {
+          Debug.LogError("Error submitting score: " + req.error);
+          req.Dispose();
+          return false;
+      }
+  }
+
+  // Get Leaderboard
+  public static async Task&lt;List&lt;LeaderboardEntry&gt;&gt; GetLeaderboardAsync(string baseUrl)
+  {
+      UnityWebRequest req = UnityWebRequest.Get(baseUrl);
+      var asyncOp = req.SendWebRequest();
+      
+      while (!asyncOp.isDone)
+          await Task.Yield();
+
+      if (req.result != UnityWebRequest.Result.Success)
+      {
+          Debug.LogError("Error fetching leaderboard: " + req.error);
+          req.Dispose();
+          return null;
+      }
+
+      string json = req.downloadHandler.text;
+      req.Dispose();
+      return ConvertJson(json);
+  }
+
+  // JSON Parsing
+  private static List&lt;LeaderboardEntry&gt; ConvertJson(string json)
+  {
+      Wrapper wrapper = JsonUtility.FromJson&lt;Wrapper&gt;("{\"items\":" + json + "}");
+      return wrapper.items;
+  }
+
+  // Data Structures
+  [Serializable]
+  private class Wrapper { public List&lt;LeaderboardEntry&gt; items; }
+
+  [Serializable]
+  public class LeaderboardEntry
+  {
+      public string name;
+      public int score;
+      public string timestamp;
+  }
+
+  [Serializable]
+  private class ScoreRequest
+  {
+      public string name;
+      public int score;
+      
+      public ScoreRequest(string n, int s)
+      {
+          name = n;
+          score = s;
+      }
+  }
+}</pre></div>
+
+              </div>
+
+              <h3>Unity Leaderboard Manager</h3>
+              <p>Create a manager to handle leaderboard UI and interactions:</p>
+
+              <div class="code-block collapsible">
+                  <div class="code-header">
+                      <span>LeaderboardManager.cs</span>
+                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                      <button class="copy-btn" onclick="copyCode('leaderboard-manager-unity')">Copy</button>
+                  </div>
+                  <div class="code-content"><pre id="leaderboard-manager-unity"
+>using System.Collections.Generic;
+using UnityEngine;
+
+public class LeaderboardManager : MonoBehaviour
+{
+  public static string leaderboardURL = "YOUR_LEADERBOARD_URL_HERE";
+  
+  public Vector2 scrollPos;
+  public bool isLoading = false;
+  public string status = "";
+  public List&lt;LeaderboardAPI.LeaderboardEntry&gt; leaderboard = new List&lt;LeaderboardAPI.LeaderboardEntry&gt;();
+
+  public async void SubmitScore()
+  {
+      if (isLoading) return;
+      
+      isLoading = true;
+      status = "Submitting...";
+
+      string playerName = "Player_" + Random.Range(1000, 9999);
+      int randomScore = Random.Range(0, 500);
+
+      bool success = await LeaderboardAPI.SubmitScoreAsync(leaderboardURL, playerName, randomScore);
+
+      status = success 
+          ? $"Score submitted! ({playerName}: {randomScore})" 
+          : "Failed to submit score.";
+      
+      isLoading = false;
+
+      // Auto-refresh after submit
+      if (success)
+      {
+          await System.Threading.Tasks.Task.Delay(500);
+          FetchLeaderboard();
+      }
+  }
+
+  public async void FetchLeaderboard()
+  {
+      if (isLoading) return;
+      
+      isLoading = true;
+      status = "Loading leaderboard...";
+
+      var result = await LeaderboardAPI.GetLeaderboardAsync(leaderboardURL);
+
+      if (result != null)
+      {
+          leaderboard = result;
+          status = $"Loaded! ({leaderboard.Count} entries)";
+      }
+      else
+      {
+          status = "Failed to load.";
+      }
+
+      isLoading = false;
+  }
+}</pre></div>
+
+              </div>
+
+              <h3>Deploying All Endpoints</h3>
+              <ol>
+                  <li>Click <strong>Deploy > New deployment</strong></li>
+                  <li>Select type: <strong>Web app</strong></li>
+                  <li>Set "Execute as": <strong>Me</strong></li>
+                  <li>Set "Who has access": <strong>Anyone</strong></li>
+                  <li>Click <strong>Deploy</strong></li>
+                  <li>Copy the web app URL - it handles both GET and POST requests</li>
+              </ol>
+
+              <h3>Key Features Explained</h3>
+              <ul>
+                  <li><strong>POST Requests:</strong> Uses UnityWebRequest with custom headers for WebGL compatibility</li>
+                  <li><strong>Action-based Routing:</strong> Single endpoint handles multiple operations via action parameter</li>
+                  <li><strong>Device Tracking:</strong> Automatically captures device info using SystemInfo.deviceModel</li>
+                  <li><strong>Admin Controls:</strong> Ban/unban users and view all registered players</li>
+                  <li><strong>Real-time Updates:</strong> Last login timestamp updates automatically</li>
+              </ul>
+            </section>
+
+            <section>
+                <h2>Best Practices</h2>
+                <div class="best-practices">
+                    <div class="practice">
+                        <h4>🔐 Security First</h4>
+                        <p>Never store passwords in plain text. Use hashing algorithms and consider OAuth providers for production games.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>💾 Cache User Sessions</h4>
+                        <p>Store login tokens locally to avoid repeated authentication. Implement session expiry for security.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🚦 Rate Limiting</h4>
+                        <p>Add cooldowns on login attempts to prevent brute-force attacks. Apps Script has built-in quotas.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>📊 Data Validation</h4>
+                        <p>Always validate inputs on both client and server. Check username length, password strength, etc.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+              <h2>Testing Your System</h2>
+          
+              <p>Regardless of whether you're testing Remote Config, Player Authentication, or the Leaderboard, the testing workflow remains mostly the same. Use the following universal checklist:</p>
+          
+              <ol>
+                  <li>Deploy your Google Apps Script backend and copy the deployment URL.</li>
+                  <li>Paste the URL into your Unity script (RemoteConfigManager, PlayerManager, LeaderboardManager, etc.).</li>
+                  <li>Create a simple Unity test scene with UI buttons or input fields.</li>
+                  <li>Trigger your manager method (fetch, submit, update, login, etc.) using the button.</li>
+                  <li>Run the scene and check values in the Unity Console or Inspector.</li>
+                  <li>Modify values in Google Sheets and repeat the request to confirm updates.</li>
+                  <li>Verify all requests and responses in Chrome DevTools → Network tab.</li>
+                  <li>Ensure error cases work correctly (empty fields, wrong input, missing data).</li>
+              </ol>
+          
+              <div class="tip">
+                  <strong>💡 Pro Tip:</strong> Always test with both valid and invalid inputs to ensure your Apps Script handles errors safely and returns clean JSON.
+              </div>
+            </section>
+
+            <section>
+                <h2>Troubleshooting</h2>
+                <div class="troubleshooting">
+                    <div class="issue">
+                        <h4>❌ "JSON Parse Error"</h4>
+                        <p><strong>Solution:</strong> Check that column names in Google Sheets match your C# class fields exactly (case-sensitive). Enable Debug.Log to see raw response.</p>
+                    </div>
+                    <div class="issue">
+                        <h4>❌ POST Request Fails</h4>
+                        <p><strong>Solution:</strong> Ensure you deployed as "Anyone" access. Check that you're using doPost() not doGet() for player operations. Verify Content-Type headers.</p>
+                    </div>
+                    <div class="issue">
+                        <h4>❌ "User already exists" on First Registration</h4>
+                        <p><strong>Solution:</strong> Make sure your Players sheet has a header row. The script skips row 0 (headers) when checking usernames.</p>
+                    </div>
+                    <div class="issue">
+                        <h4>❌ WebGL Build Errors</h4>
+                        <p><strong>Solution:</strong> Add the "Accept: application/json" header. WebGL has CORS restrictions that require explicit headers.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Performance Optimization</h2>
+                
+                <h3>Google Sheets Limitations</h3>
+                <ul>
+                    <li>⏱️ <strong>Execution Time:</strong> Apps Script has a 6-minute timeout per request</li>
+                    <li>📊 <strong>Data Size:</strong> Sheets become slow with 10,000+ rows. Consider pagination.</li>
+                    <li>🔄 <strong>Concurrent Requests:</strong> Multiple simultaneous writes may cause race conditions</li>
+                    <li>📈 <strong>Quota:</strong> Free tier has daily limits on script executions</li>
+                </ul>
+
+            </section>
+
+            <section>
+                <h2>Migration to Production Services</h2>
+                <p>When your game grows beyond 1,000 daily active users, consider migrating to:</p>
+
+                <h3>Firebase (Recommended)</h3>
+                <ul>
+                    <li><strong>Firebase Authentication</strong> - Secure user auth with email, Google, Apple Sign-In</li>
+                    <li><strong>Firebase Realtime Database</strong> - Real-time data sync with offline support</li>
+                    <li><strong>Firebase Remote Config</strong> - Professional remote config with A/B testing</li>
+                    <li><strong>Generous free tier</strong> - Supports thousands of concurrent users</li>
+                </ul>
+
+                <h3>PlayFab</h3>
+                <ul>
+                    <li>Game-specific features like leaderboards, matchmaking</li>
+                    <li>Built-in analytics and LiveOps tools</li>
+                    <li>Cross-platform player accounts</li>
+                    <li>Free up to 100,000 monthly active users</li>
+                </ul>
+
+                <h3>Custom Backend</h3>
+                <ul>
+                    <li>Node.js + MongoDB on AWS/Google Cloud/Azure</li>
+                    <li>Full control over features and scaling</li>
+                    <li>Use JWT for secure authentication</li>
+                    <li>Implement Redis for caching</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Migration Tip:</strong> Design your PlayerManager interface so you can swap backends without changing game code. Use dependency injection or a service layer pattern.
+                </div>
+            </section>
+
+            <section>
+                <h2>Security Best Practices</h2>
+                <div class="best-practices">
+                    <div class="practice">
+                        <h4>🔒 Never Trust Client Data</h4>
+                        <p>Always validate inputs on the server side. Client-side validation is for UX, not security.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🛡️ Use HTTPS Only</h4>
+                        <p>Apps Script URLs use HTTPS by default. Never downgrade to HTTP for any production system.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>⚔️ Prevent SQL Injection</h4>
+                        <p>While Sheets don't use SQL, always sanitize inputs. Avoid eval() or dynamic code execution.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🎭 Hide Sensitive Data</h4>
+                        <p>Never send passwords back to client. Admin functions should require authentication tokens.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section>
+                <h2>Complete Project Checklist</h2>
+                <div class="checklist">
+                    <h3>✅ Google Sheets Setup</h3>
+                    <ul>
+                        <li>Create "RemoteConfig" sheet with Key/Value columns</li>
+                        <li>Create "Players" sheet with all required columns</li>
+                        <li>Add header rows to both sheets</li>
+                        <li>Set appropriate column widths and formatting</li>
+                    </ul>
+
+                    <h3>✅ Apps Script Deployment</h3>
+                    <ul>
+                        <li>Copy both doGet() and doPost() functions</li>
+                        <li>Test each function independently in Apps Script editor</li>
+                        <li>Deploy as web app with "Anyone" access</li>
+                        <li>Save deployment URL</li>
+                        <li>Test with Postman or curl before Unity integration</li>
+                    </ul>
+
+                    <h3>✅ Unity Implementation</h3>
+                    <ul>
+                        <li>Create RemoteConfigManager.cs script</li>
+                        <li>Create PlayerManager.cs script</li>
+                        <li>Add both scripts to a GameObject in scene</li>
+                        <li>Paste deployment URLs into the scripts</li>
+                        <li>Create UI for testing (buttons, input fields, status text)</li>
+                    </ul>
+
+                    <h3>✅ Testing</h3>
+                    <ul>
+                        <li>Test config loading in Play mode</li>
+                        <li>Test player registration with various inputs</li>
+                        <li>Test login with correct/incorrect credentials</li>
+                        <li>Test admin ban/unban functionality</li>
+                        <li>Test with multiple concurrent users</li>
+                        <li>Test on actual mobile device if targeting mobile</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="video-section">
+              <h2 class="video-title">Demo Preview</h2>
+          
+              <div class="video-container">
+                  <video 
+                      src="content\GAS.mp4"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                  ></video>
+              </div>
+          </section>
+
+          
+            <section>
+                <h2>Conclusion</h2>
+                <p>You now have a fully functional serverless backend for your Unity game. This system provides:</p>
+                <ul>
+                    <li>✅ Real-time game configuration without app updates</li>
+                    <li>✅ Complete player authentication system</li>
+                    <li>✅ Admin controls for user management</li>
+                    <li>✅ Cross-platform support (PC, Mobile, WebGL)</li>
+                    <li>✅ Zero hosting costs during development</li>
+                </ul>
+                
+                <p>This Google Sheets approach is perfect for:</p>
+                <ul>
+                    <li>🎮 Indie game prototypes and MVPs</li>
+                    <li>🎓 Educational projects and game jams</li>
+                    <li>🧪 Testing game mechanics before investing in infrastructure</li>
+                    <li>📱 Small-scale games with &lt;1000 concurrent users</li>
+                </ul>
+
+                <p>As your game grows, you can migrate to production-grade services like Firebase or PlayFab using the same interface pattern, minimizing code changes.</p>
+            </section>
+
+            <div class="cta">
+                <h3>Take It Further</h3>
+                <p>Ready to build more features? Try these challenges:</p>
+                <ul>
+                    <li>👥 Implement friend lists and social features</li>
+                    <li>💰 Create an in-game economy with virtual currency</li>
+                    <li>🎁 Build a daily reward system with streak tracking</li>
+                    <li>📧 Add email notifications for important events</li>
+                    <li>🔐 Implement two-factor authentication</li>
+                    <li>📊 Create detailed player progression tracking</li>
+                </ul>
+            </div>
+
+            <div class="resources">
+                <h3>Additional Resources</h3>
+                <ul>
+                    <li>📖 <a href="https://developers.google.com/apps-script" target="_blank">Google Apps Script Documentation</a></li>
+                    <li>📖 <a href="https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest.html" target="_blank">Unity Networking Documentation</a></li>
+                    <li>🔥 <a href="https://firebase.google.com/docs/unity/setup" target="_blank">Firebase for Unity</a></li>
+                    <li>🎮 <a href="https://docs.microsoft.com/gaming/playfab/" target="_blank">PlayFab Documentation</a></li>
+                </ul>
+            </div>
+        </article>
+
+        <footer>
+            <!-- <p>Questions, improvements, or want to share your implementation? Drop a comment below!</p> -->
+            <p class="copyright">© 2025 Dhinesh Moorthy</p>
+        </footer>
+    </div>
+
+    <script src="gas.js"></script>
+</body>
+</html>
