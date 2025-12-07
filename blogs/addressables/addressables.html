@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Unity Addressables: Complete Cross-Platform Guide with Remote Hosting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="addressables.css">
+</head>
+<body>
+    <div class="container">
+        <header class="post-header">
+            <h1 class="post-title">Mastering Unity Addressables: Complete Cross-Platform Guide with Remote Hosting</h1>
+        
+            <div class="post-meta">
+                <span>📅 December 2025</span>
+                <span>•</span>
+                <span>⏱️ 25 min read</span>
+            </div>
+        
+            <!-- Download Buttons -->
+            <div class="download-container">
+        
+                <a href="Content\ANDROID\addressables_GithubPages.apk" class="download-btn android">
+                    <span class="icon">📱</span>
+                    <span>Android APK</span>
+                </a>
+        
+                <a href="Content\WINDOWS\Addressables_GithubPages.zip" class="download-btn windows">
+                    <span class="icon">🖥️</span>
+                    <span>Windows EXE</span>
+                </a>
+        
+                <a href="Content\WEBGL\Addressables_GithubPages\index.html" class="download-btn webgl">
+                    <span class="icon">🌐</span>
+                    <span>WebGL Build</span>
+                </a>
+        
+            </div>
+        </header>
+        
+
+        <article>
+            <section class="intro">
+                <p class="lead">Learn how to implement Unity's Addressables system for dynamic asset loading across WebGL, Android, and Desktop platforms. This comprehensive guide covers everything from basic setup to advanced remote hosting using AWS S3(paid) and GitHub Pages(free with limitations), complete with platform-specific optimizations and caching strategies.</p>
+            </section>
+
+            <section>
+                <h2>Why Addressables?</h2>
+                <p>Unity's Addressables system revolutionizes how we manage and load game assets. Instead of bundling everything into your build, you can:</p>
+                <ul>
+                    <li>🚀 <strong>Reduce initial app size</strong> - Download assets on-demand</li>
+                    <li>🔄 <strong>Update content remotely</strong> - No app store resubmission needed</li>
+                    <li>💾 <strong>Optimize memory</strong> - Load and unload assets dynamically</li>
+                    <li>🌐 <strong>Multi-platform support</strong> - One system, all platforms</li>
+                    <li>📦 <strong>Efficient bundling</strong> - Smart dependency management</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Real-World Impact:</strong> A mobile game reduced its APK size from 500MB to 50MB and achieved 10x faster downloads by moving textures and audio to Addressables hosted on S3.
+                </div>
+            </section>
+
+            <section>
+                <h2>Traditional Asset Loading vs Addressables</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Resources.Load</th>
+                            <th>AssetBundles</th>
+                            <th>Addressables</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Build Size</strong></td>
+                            <td>❌ Always Included</td>
+                            <td>✅ External</td>
+                            <td>✅ External</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hot Updates</strong></td>
+                            <td>❌ No</td>
+                            <td>✅ Yes</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dependency Management</strong></td>
+                            <td>⚠️ Manual</td>
+                            <td>⚠️ Manual</td>
+                            <td>✅ Automatic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Memory Management</strong></td>
+                            <td>⚠️ Manual</td>
+                            <td>⚠️ Complex</td>
+                            <td>✅ Built-in</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Remote Hosting</strong></td>
+                            <td>❌ No</td>
+                            <td>✅ Manual Setup</td>
+                            <td>✅ Easy Setup</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Architecture Overview</h2>
+            
+                <!-- Unity Editor -->
+                <div class="arch-section">
+                    <div class="arch-label">Unity Editor</div>
+                    <div class="arch-row">
+                        <div class="arch-box">Asset Marking & Build</div>
+                    </div>
+                </div>
+            
+                <div class="arch-arrow">↓</div>
+            
+                <!-- Build Process -->
+                <div class="arch-section">
+                    <div class="arch-label">Build Process</div>
+                    <div class="arch-row">
+                        <div class="arch-box">Addressables Build</div>
+                    </div>
+                </div>
+            
+                <div class="arch-arrow">↓</div>
+            
+                <!-- Storage Options -->
+                <div class="arch-section">
+                    <div class="arch-label">Storage Options</div>
+                    <div class="arch-row">
+                        <div class="arch-box">AWS S3</div>
+                        <div class="arch-box">GitHub Pages</div>
+                        <div class="arch-box">Firebase Hosting</div>
+                        <div class="arch-box">Google Cloud Storage</div>
+                        <div class="arch-box">Azure Blob Storage</div>
+                        <div class="arch-box">Self Hosted</div>
+                    </div>
+                </div>
+            
+                <div class="arch-arrow">↓</div>
+            
+                <!-- Platforms -->
+                <div class="arch-section">
+                    <div class="arch-label">Platforms</div>
+                    <div class="arch-row">
+                        <div class="arch-box">🌐 WebGL</div>
+                        <div class="arch-box">📱 Android</div>
+                        <div class="arch-box">💻 Desktop</div>
+                    </div>
+                </div>
+
+                <p>Your Addressables content can be hosted on any cloud or static file server:</p>
+                <ul>
+                    <li>🟢 <strong>AWS S3</strong> — Production-ready with CloudFront CDN</li>
+                    <li>🟡 <strong>GitHub Pages</strong> — Lightweight hosting for dev/testing</li>
+                    <li>🔵 <strong>Firebase Hosting</strong> — Easy setup, great for static content</li>
+                    <li>🟣 <strong>Google Cloud Storage</strong> — Scalable object storage</li>
+                    <li>⚫ <strong>Azure Blob Storage</strong> — Enterprise workflows</li>
+                    <li>⚙️ <strong>Custom Server / Nginx</strong> — Full control & self-hosted builds</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Part 1: Setting Up Addressables</h2>
+                
+                <h3>Installation</h3>
+                <ol>
+                    <li>Open <code>Window → Package Manager</code>.</li>
+                    <li>Switch the package source to <code>Unity Registry</code>.</li>
+                    <li>Find <code>Addressables</code> and <code>Addressables for Android</code>and click <strong>Install</strong>.</li>
+                </ol>
+
+                <h3>Initial Configuration</h3>
+                <ol>
+                    <li>Go to <code>Window > Asset Management > Addressables > Groups</code></li>
+                    <li>Click <strong>Create Addressables Settings</strong></li>
+                    <li>This creates the <code>AddressableAssetsData</code> folder in your project</li>
+                </ol>
+
+                <h3>Marking Assets as Addressable</h3>
+                <p>You can mark assets as Addressable in :</p>
+
+                <ul>
+                    <li><strong>Inspector:</strong> Select an asset → enable <em>Addressable</em> in the Inspector.</li>
+                    <li><strong>Or: Drag & Drop</strong> into any group from the Addressables Groups window.</li>
+                </ul>
+                
+                
+            </section>
+
+            <section>
+                <h2>Part 2: Creating Asset Groups</h2>
+                <p>You can start working with Addressables even with a single group. Unity automatically puts all marked assets into the <strong>Default Local Group</strong>.</p>
+
+                <h3>When to Create More Groups?</h3>
+                <p>You only need additional groups when you want to:</p>
+                <ul>
+                    <li>Host assets remotely (AWS, GitHub Pages, Firebase, etc.)</li>
+                    <li>Separate frequently vs. rarely loaded content</li>
+                    <li>Reduce bundle size by splitting categories</li>
+                </ul>
+            
+                <h3>Creating a New Group (Optional)</h3>
+                <ol>
+                    <li>Open Addressables Groups window</li>
+                    <li>Click <strong>Create > Group > Packed Assets</strong></li>
+                    <li>Name it (e.g., “RemoteEnvironment” or “PlayerAssets”)</li>
+                    <li>Set Build & Load Paths if you're planning remote hosting</li>
+                </ol>
+            
+                <div class="warning">
+                    <strong>⚠️ Pro Tip:</strong> For now, keeping everything in the <em>Default Local Group</em> is perfectly fine—especially for small projects and early development.
+                </div>
+            </section>
+
+            <section>
+                <h2>Part 3: Asset Loading Code</h2>
+                
+                <h3>Asset Loading</h3>
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>AddressableOnGUILoader.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('simple-loader')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="simple-loader">
+using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+
+public class AddressableOnGUILoader : MonoBehaviour
+{
+    public AssetReference environmentAssetReference;
+    public AssetReference playerAssetReference;
+
+    private AsyncOperationHandle&lt;GameObject&gt; loadHandle;
+    private bool isDownloading = false;
+
+    private bool envDownloaded = false;
+    private bool playerDownloaded = false;
+
+    public CinemachineCamera CinemachineCamera;
+    public GameObject ui;
+    public VirtualInput VirtualInput;
+    public MobileDisableAutoSwitchControls MobileDisableAutoSwitchControls;
+
+    void OnGUI()
+    {
+        GUIStyle labelStyle = new GUIStyle(GUI.skin.label)
+        {
+            fontSize = 18,
+            normal = { textColor = Color.white }
+        };
+
+        GUIStyle buttonStyle = new GUIStyle(GUI.skin.button)
+        {
+            fontSize = 20
+        };
+
+        GUILayout.BeginArea(new Rect(20, 20, 400, 300));
+        GUILayout.Label("Addressables Loader", labelStyle);
+        GUILayout.Space(10);
+
+        // Hide buttons during download
+        if (!isDownloading)
+        {
+            if (!envDownloaded)
+            {
+                if (GUILayout.Button("Download Environment", buttonStyle, GUILayout.Height(50)))
+                {
+                    StartDownload(environmentAssetReference, "Environment");
+                }
+            }
+
+            if (!playerDownloaded)
+            {
+                if (GUILayout.Button("Download Player", buttonStyle, GUILayout.Height(50)))
+                {
+                    StartDownload(playerAssetReference, "Player");
+                }
+            }
+        }
+
+        // After downloads
+        if (envDownloaded || playerDownloaded)
+        {
+            string downloaded = "";
+            if (envDownloaded && playerDownloaded) downloaded += "Downloaded: Environment, Player";
+
+            GUILayout.Label(downloaded, labelStyle);
+        }
+
+        GUILayout.EndArea();
+    }
+
+    private void StartDownload(AssetReference reference, string name)
+    {
+        isDownloading = true;
+
+        loadHandle = reference.LoadAssetAsync&lt;GameObject&gt;();
+        loadHandle.Completed += (op) => OnLoaded(op, name);
+    }
+
+    private void OnLoaded(AsyncOperationHandle&lt;GameObject&gt; handle, string name)
+    {
+        isDownloading = false;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            GameObject obj = Instantiate(handle.Result);
+
+            if (name == "Environment")
+                envDownloaded = true;
+
+            if (name == "Player")
+            {
+                playerDownloaded = true;
+                CinemachineCamera.Follow = obj.transform.Find("PlayerCameraRoot");
+
+#if UNITY_ANDROID
+                ui.gameObject.SetActive(true);
+                VirtualInput.StarterAssetsInputs = obj.GetComponent&lt;StarterAssetsInputs&gt;();
+                MobileDisableAutoSwitchControls.playerInput = obj.GetComponent&lt;UnityEngine.InputSystem.PlayerInput&gt;();
+#endif
+            }
+
+        }
+        else
+        {
+            Debug.LogError($"Failed to load: {name}");
+        }
+    }
+}
+                            </pre>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Best Practice:</strong> Always use <code>AssetReference</code> in the Inspector instead of string addresses. This provides compile-time safety and prevents typos.
+                </div>
+            </section>
+
+            <section>
+                <h2>Part 4: Setting Up Remote Hosting</h2>
+                
+                <h3>Option 1: AWS S3 Setup</h3>
+                
+                <h4>Step 1: Create S3 Bucket</h4>
+                <ol>
+                    <li>Go to AWS Console → S3</li>
+                    <li>Click <strong>Create bucket</strong></li>
+                    <li>Name: <code>your-game-addressables</code></li>
+                    <li>Region: Choose closest to your players</li>
+                    <li>Uncheck "Block all public access" (we'll set specific permissions)</li>
+                    <li>Create bucket</li>
+                </ol>
+
+                <h4>Step 2: Configure Bucket Policy</h4>
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>S3 Bucket Policy JSON</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('s3-policy')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="s3-policy">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::your-game-addressables/*"
+        }
+    ]
+}</pre>
+                    </div>
+                </div>
+
+                <h4>Step 3: Enable CORS</h4>
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>S3 CORS Configuration</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('s3-cors')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="s3-cors">
+[
+{
+    "AllowedHeaders": [
+        "*"
+    ],
+    "AllowedMethods": [
+        "GET",
+        "HEAD"
+    ],
+    "AllowedOrigins": [
+        "*"
+    ],
+    "ExposeHeaders": []
+}
+]</pre>
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <h4>💡 Tip: Don’t Forget CORS for WebGL!</h4>
+                    <p>
+                        If you're hosting Addressables on AWS S3 (or any remote server), your WebGL build 
+                        will fail to load assets unless CORS is enabled.
+                    </p>
+                    <ul>
+                        <li>Allow <strong>GET</strong> and <strong>HEAD</strong> methods</li>
+                        <li>Set <code>Access-Control-Allow-Origin: *</code></li>
+                    </ul>
+                    <p>
+                        Without this, browsers will block downloads and show  
+                        <em>"No 'Access-Control-Allow-Origin' header present"</em>.
+                    </p>
+                    <p><strong>Only WebGL requires this — not Android or PC.</strong></p>
+                </div>
+                
+
+                <!-- <h4>Step 4: Optional - CloudFront CDN</h4>
+                <p>For faster global delivery:</p>
+                <ol>
+                    <li>Go to CloudFront → Create Distribution</li>
+                    <li>Origin: Your S3 bucket</li>
+                    <li>Viewer Protocol Policy: Redirect HTTP to HTTPS</li>
+                    <li>Copy CloudFront domain name for Unity</li>
+                </ol> -->
+
+                <!-- <div class="info">
+                    <strong>💰 Cost Estimate:</strong> S3 + CloudFront costs approximately $0.05-0.10 per GB transferred. A game with 100MB of assets serving 10,000 players costs around $50-100/month.
+                </div> -->
+
+                <h3>Option 2: GitHub Pages Setup</h3>
+                
+                <h4>Step 1: Create Repository</h4>
+                <ol>
+                    <li>Create new GitHub repository: <code>game-addressables</code></li>
+                    <li>Make it public (required for GitHub Pages)</li>
+                    <li>Clone to local machine</li>
+                </ol>
+
+                <h4>Step 2: Enable GitHub Pages</h4>
+                <ol>
+                    <li>Go to repository Settings → Pages</li>
+                    <li>Source: Deploy from a branch</li>
+                    <li>Branch: <code>main</code> / <code>root</code></li>
+                    <li>Save</li>
+                    <li>Your URL: <code>https://username.github.io/game-addressables/</code></li>
+                </ol>
+
+                <h4>Step 3: Upload Assets</h4>
+                <ol>
+                    <li>Build your Addressables (covered in next section)</li>
+                    <li>Copy contents of <code>ServerData</code> folder to repository root</li>
+                    <li>Commit and push:
+                        <pre style="background: #1e1e1e; padding: 10px; border-radius: 4px; color: #d4d4d4;">
+git add .
+git commit -m "Upload addressables build"
+git push origin main</pre>
+                    </li>
+                    <li>Wait 2-3 minutes for GitHub Pages to deploy</li>
+                </ol>
+
+                <div class="warning">
+                    <strong>⚠️ GitHub Limitations:</strong> Free tier has 1GB storage limit and 100GB bandwidth/month. Perfect for testing, but migrate to S3 for production.
+                </div>
+            </section>
+
+            <section>
+                <h2>Part 5: Configuring Remote Build Paths</h2>
+                
+                <h3>Setting Up Profiles</h3>
+                <p>Profiles let you switch between local testing, GitHub staging, and S3 production.</p>
+
+                <ol>
+                    <li>Open <code>Window > Asset Management > Addressables > Profiles</code></li>
+                    <li>You'll see "Default" profile. Create New Profiles :
+                        <ul>
+                            <li>GitHub Pages</li>
+                            <li>AWS S3</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Profile Configuration</h3>
+
+                <!-- <div class="platform-card">
+                    <h4>🟢 Development Profile</h4>
+                    <p><strong>RemoteBuildPath:</strong> <code>[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]</code><br>
+                    <strong>RemoteLoadPath:</strong> <code>{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]</code><br>
+                    <strong>Use Case:</strong> Testing in Unity Editor without uploading</p>
+                </div> -->
+
+                <div class="platform-card">
+                    <h4>GitHub Pages</h4>
+                    <p><strong>RemoteBuildPath:</strong> <code>ServerData/[BuildTarget]</code><br>
+                    <strong>RemoteLoadPath:</strong> <code>https://yourusername.github.io/game-addressables/[BuildTarget]</code><br>
+                </div>
+
+                <div class="platform-card">
+                    <h4>AWS S3</h4>
+                    <p><strong>RemoteBuildPath:</strong> <code>ServerData/[BuildTarget]</code><br>
+                    <strong>RemoteLoadPath:</strong> <code>https://your-bucket.s3.amazonaws.com/[BuildTarget]</code><br>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Use the <code>[BuildTarget]</code> variable to automatically separate Android, WebGL, and StandaloneWindows64 builds into different folders.
+                </div>
+
+                <h3>Configuring Groups for Remote</h3>
+                <ol>
+                    <li>Select a group in Addressables window</li>
+                    <li>In Inspector, find "Build & Load Paths"</li>
+                    <li>Select "Remote"</li>
+                    <li>Enable "Build Remote Catalog" in Addressables Settings</li>
+                </ol>
+
+                <!-- <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>AddressablesSettings Configuration</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                    </div>
+                    <div class="code-content">
+                        <pre>
+1. Open: Window > Asset Management > Addressables > Settings
+2. Enable these settings:
+
+✅ Build Remote Catalog
+   - Allows runtime catalog updates
+
+✅ Compress Local Catalog  
+   - Reduces build size
+
+✅ Catalog Download Timeout: 30 seconds
+   - Prevents hanging on slow connections
+
+✅ Enable Content Update Restrictions
+   - Critical for hot updates (explained later)</pre>
+                    </div>
+                </div> -->
+            </section>
+
+            <section>
+                <h2>Part 6: Building Addressables</h2>
+
+                <h3>Manual Build Process</h3>
+                <ol>
+                    <li>Select your target profile (Development/AWS S3/Github Pages)</li>
+                    <li>Go to <code>Window > Asset Management > Addressables > Groups</code></li>
+                    <li>Click <strong>Build > New Build > Default Build Script</strong></li>
+                    <li>Wait for build to complete</li>
+                    <li>Check <code>ServerData/[BuildTarget]</code> folder for output</li>
+                </ol>
+
+                <h3>Build Output Structure</h3>
+                <div class="code-block">
+                    <div class="code-header">ServerData Folder Structure</div>
+                    <pre>
+ServerData/
+├── StandaloneWindows64/
+│   ├── catalog_2024.json
+│   ├── catalog_2024.hash
+│   ├── visualassets_assets_all.bundle
+│   ├── audiogroup_assets_all.bundle
+│   └── ...
+├── Android/
+│   ├── catalog_2024.json
+│   ├── catalog_2024.hash
+│   ├── visualassets_assets_all.bundle
+│   └── ...
+└── WebGL/
+    ├── catalog_2024.json
+    ├── catalog_2024.hash
+    ├── visualassets_assets_all.bundle
+    └── ...</pre>
+                </div>
+
+                <!-- <h3>Automated Build Script</h3>
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>Editor/AddressablesBuildScript.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('build-script')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="build-script">
+using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEngine;
+
+public class AddressablesBuildScript
+{
+    [MenuItem("Addressables/Build All Platforms")]
+    public static void BuildAllPlatforms()
+    {
+        BuildForPlatform(BuildTarget.StandaloneWindows64);
+        BuildForPlatform(BuildTarget.Android);
+        BuildForPlatform(BuildTarget.WebGL);
+        
+        Debug.Log("✅ All platforms built successfully!");
+    }
+
+    [MenuItem("Addressables/Build Windows")]
+    public static void BuildWindows()
+    {
+        BuildForPlatform(BuildTarget.StandaloneWindows64);
+    }
+
+    [MenuItem("Addressables/Build Android")]
+    public static void BuildAndroid()
+    {
+        BuildForPlatform(BuildTarget.Android);
+    }
+
+    [MenuItem("Addressables/Build WebGL")]
+    public static void BuildWebGL()
+    {
+        BuildForPlatform(BuildTarget.WebGL);
+    }
+
+    private static void BuildForPlatform(BuildTarget target)
+    {
+        Debug.Log($"🔨 Building Addressables for {target}...");
+
+        // Switch to target platform
+        EditorUserBuildSettings.SwitchActiveBuildTarget(
+            BuildPipeline.GetBuildTargetGroup(target), 
+            target
+        );
+
+        // Build addressables
+        AddressableAssetSettings.BuildPlayerContent();
+
+        Debug.Log($"✅ {target} build complete!");
+    }
+
+    [MenuItem("Addressables/Clean Build Cache")]
+    public static void CleanCache()
+    {
+        AddressableAssetSettings.CleanPlayerContent();
+        Debug.Log("🧹 Build cache cleaned!");
+    }
+}</pre>
+                    </div>
+                </div> -->
+            </section>
+
+            <section>
+                <h2>Part 7: Uploading Your Addressables</h2>
+                
+                <p>Once Unity finishes building Addressables, you'll have a <strong>ServerData</strong> folder containing platform-specific bundles. Now it's time to upload these files to your chosen hosting platform.</p>
+
+                <!-- <div class="architecture-diagram" style="padding: 20px;">
+                    <div class="arch-row">
+                        <div class="arch-box">📁 ServerData<br><small>Built by Unity</small></div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">🚀 Upload</div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">☁️ AWS S3 / GitHub Pages</div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">🎮 Players Download Assets</div>
+                    </div>
+                </div> -->
+
+                <h3>📤 Option 1: AWS S3 Upload</h3>
+                <p>Your S3 bucket is already configured from Part 4. Now just upload the files:</p>
+
+                <div class="platform-card">
+                    <h4>🖱️ Manual Upload (Beginners)</h4>
+                    <ol>
+                        <li>Open your S3 bucket in AWS Console</li>
+                        <li>Click <strong>Upload</strong></li>
+                        <li>Drag your <code>ServerData/StandaloneWindows64</code> folder</li>
+                        <li>Repeat for <code>Android</code> and <code>WebGL</code> folders</li>
+                        <li>Keep folder structure intact</li>
+                        <li>Click <strong>Upload</strong> and wait for completion</li>
+                    </ol>
+                    <p><strong>URL Format:</strong> <code>https://your-bucket.s3.amazonaws.com/[BuildTarget]</code></p>
+                </div>
+
+                <!-- <div class="platform-card">
+                    <h4>⚡ Automated Upload (Recommended)</h4>
+                    <p>Use AWS CLI for faster, repeatable uploads. Install with: <code>pip install awscli</code></p>
+                </div>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>upload_to_s3.bat (Windows)</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('s3-upload-bat')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="s3-upload-bat">
+@echo off
+echo ========================================
+echo    📦 Uploading Addressables to S3
+echo ========================================
+
+set BUCKET_NAME=your-game-addressables
+set BUILD_PATH=ServerData
+
+echo.
+echo [1/4] Uploading Windows build...
+aws s3 sync %BUILD_PATH%/StandaloneWindows64 s3://%BUCKET_NAME%/StandaloneWindows64 --delete
+
+echo.
+echo [2/4] Uploading Android build...
+aws s3 sync %BUILD_PATH%/Android s3://%BUCKET_NAME%/Android --delete
+
+echo.
+echo [3/4] Uploading WebGL build...
+aws s3 sync %BUILD_PATH%/WebGL s3://%BUCKET_NAME%/WebGL --delete
+
+echo.
+echo [4/4] Setting correct content types...
+aws s3 cp s3://%BUCKET_NAME%/ s3://%BUCKET_NAME%/ --recursive --exclude "*" --include "*.bundle" --content-type "application/octet-stream" --metadata-directive REPLACE
+aws s3 cp s3://%BUCKET_NAME%/ s3://%BUCKET_NAME%/ --recursive --exclude "*" --include "*.json" --content-type "application/json" --metadata-directive REPLACE
+
+echo.
+echo ========================================
+echo    ✅ Upload Complete!
+echo ========================================
+echo.
+echo Your assets are now live at:
+echo https://%BUCKET_NAME%.s3.amazonaws.com/
+echo.
+pause</pre>
+                    </div>
+                </div>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>upload_to_s3.sh (Mac/Linux)</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('s3-upload-sh')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="s3-upload-sh">
+#!/bin/bash
+
+echo "========================================"
+echo "   📦 Uploading Addressables to S3"
+echo "========================================"
+
+BUCKET_NAME="your-game-addressables"
+BUILD_PATH="ServerData"
+
+echo ""
+echo "[1/4] Uploading Windows build..."
+aws s3 sync "$BUILD_PATH/StandaloneWindows64" "s3://$BUCKET_NAME/StandaloneWindows64" --delete
+
+echo ""
+echo "[2/4] Uploading Android build..."
+aws s3 sync "$BUILD_PATH/Android" "s3://$BUCKET_NAME/Android" --delete
+
+echo ""
+echo "[3/4] Uploading WebGL build..."
+aws s3 sync "$BUILD_PATH/WebGL" "s3://$BUCKET_NAME/WebGL" --delete
+
+echo ""
+echo "[4/4] Setting correct content types..."
+aws s3 cp "s3://$BUCKET_NAME/" "s3://$BUCKET_NAME/" --recursive --exclude "*" --include "*.bundle" --content-type "application/octet-stream" --metadata-directive REPLACE
+aws s3 cp "s3://$BUCKET_NAME/" "s3://$BUCKET_NAME/" --recursive --exclude "*" --include "*.json" --content-type "application/json" --metadata-directive REPLACE
+
+echo ""
+echo "========================================"
+echo "   ✅ Upload Complete!"
+echo "========================================"
+echo ""
+echo "Your assets are now live at:"
+echo "https://$BUCKET_NAME.s3.amazonaws.com/"
+echo ""</pre>
+                    </div>
+                </div> -->
+
+                <h3>📤 Option 2: GitHub Pages Upload</h3>
+                <p>Perfect for development and testing. Your repository is already configured from Part 4.</p>
+
+                <div class="platform-card">
+                    <h4>🖱️ Manual Upload (GitHub Web Interface)</h4>
+                    <ol>
+                        <li>Navigate to your <code>game-addressables</code> repository</li>
+                        <li>Click <strong>Add file → Upload files</strong></li>
+                        <li>Drag contents of <code>ServerData</code> folder (maintain folder structure)</li>
+                        <li>Commit with message: "Update addressables - [date]"</li>
+                        <li>Wait 2-3 minutes for GitHub Pages to redeploy</li>
+                        <li>Access at: <code>https://username.github.io/game-addressables/</code></li>
+                    </ol>
+                </div>
+
+                <!-- <div class="platform-card">
+                    <h4>⚡ Git Command Line (Faster)</h4>
+                </div>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>upload_to_github.bat (Windows)</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('github-upload-bat')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="github-upload-bat">
+@echo off
+echo ========================================
+echo    📦 Uploading to GitHub Pages
+echo ========================================
+
+REM Configure these paths
+set REPO_PATH=C:\path\to\game-addressables
+set UNITY_PROJECT=C:\path\to\YourUnityProject
+
+echo.
+echo [1/3] Navigating to repository...
+cd /d "%REPO_PATH%"
+
+echo.
+echo [2/3] Copying ServerData contents...
+xcopy /E /Y "%UNITY_PROJECT%\ServerData\*" "."
+
+echo.
+echo [3/3] Committing and pushing...
+git add .
+git commit -m "Update addressables - %date% %time%"
+git push origin main
+
+echo.
+echo ========================================
+echo    ✅ Upload Complete!
+echo ========================================
+echo.
+echo GitHub Pages will deploy in 2-3 minutes.
+echo Check status at: https://github.com/username/game-addressables/actions
+echo.
+pause</pre>
+                    </div>
+                </div>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>upload_to_github.sh (Mac/Linux)</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('github-upload-sh')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="github-upload-sh">
+#!/bin/bash
+
+echo "========================================"
+echo "   📦 Uploading to GitHub Pages"
+echo "========================================"
+
+# Configure these paths
+REPO_PATH="/path/to/game-addressables"
+UNITY_PROJECT="/path/to/YourUnityProject"
+
+echo ""
+echo "[1/3] Navigating to repository..."
+cd "$REPO_PATH"
+
+echo ""
+echo "[2/3] Copying ServerData contents..."
+cp -R "$UNITY_PROJECT/ServerData/"* .
+
+echo ""
+echo "[3/3] Committing and pushing..."
+git add .
+git commit -m "Update addressables - $(date)"
+git push origin main
+
+echo ""
+echo "========================================"
+echo "   ✅ Upload Complete!"
+echo "========================================"
+echo ""
+echo "GitHub Pages will deploy in 2-3 minutes."
+echo "Check status at: https://github.com/username/game-addressables/actions"
+echo ""</pre>
+                    </div>
+                </div> -->
+
+                <div class="warning">
+                    <strong>⚠️ GitHub Limitations:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Repository size: 1GB maximum</li>
+                        <li>Bandwidth: 100GB/month (soft limit)</li>
+                        <li>File size: 100MB per file recommended</li>
+                        <li>Best for: Testing and small-scale projects</li>
+                    </ul>
+                </div>
+
+                <h3>🌐 Other Hosting Options</h3>
+                <p>The same <code>ServerData</code> folder can be uploaded to any static file host:</p>
+
+                <div class="best-practices" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    <div class="practice">
+                        <h4>☁️ Google Cloud Storage</h4>
+                        <p>Similar to S3. Good global CDN. Competitive pricing.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🔷 Azure Blob Storage</h4>
+                        <p>Microsoft's solution. Integrates well with Azure services.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>⚡ Netlify</h4>
+                        <p>Drag-and-drop deployment. Auto-deploys from Git.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>▲ Vercel</h4>
+                        <p>Free tier available. Fast global CDN. Git integration.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🔥 Firebase Hosting</h4>
+                        <p>Google's platform. Easy CLI deployment. Good for mobile.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>📦 Cloudflare R2</h4>
+                        <p>No egress fees! Very cost-effective for high traffic.</p>
+                    </div>
+                </div>
+
+                <!-- <div class="tip">
+                    <strong>💡 Automation Pro Tips:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>GitHub Actions:</strong> Auto-deploy on every commit</li>
+                        <li><strong>Unity Cloud Build:</strong> Build and upload automatically</li>
+                        <li><strong>Jenkins/CircleCI:</strong> Enterprise CI/CD pipelines</li>
+                        <li><strong>Scheduled Builds:</strong> Nightly builds with automated upload</li>
+                    </ul>
+                </div> -->
+
+                <h3>✅ Verification Checklist</h3>
+                <div class="checklist">
+                    <ul>
+                        <li>All platform folders (Windows/Android/WebGL) uploaded</li>
+                        <li>Folder structure matches Unity's build output</li>
+                        <li><code>.json</code> files have correct content type (application/json)</li>
+                        <li><code>.bundle</code> files have correct content type (application/octet-stream)</li>
+                        <li>Files are publicly accessible (test URL in browser)</li>
+                        <li>CORS headers configured correctly (for WebGL)</li>
+                        <li>Unity's Remote Load Path matches upload URL exactly</li>
+                    </ul>
+                </div>
+
+                <div class="info">
+                    <strong>✅ Quick Test:</strong> Copy your Remote Load Path URL + <code>/catalog_[hash].bin</code> and paste in browser. If the JSON downloads, your setup is correct!
+                </div>
+            </section>
+
+            <section>
+                <h2>Part 8: Content Update Workflow (Hot Updates)</h2>
+                <p>The most powerful feature of Addressables is updating content without republishing your app. Ship fixes, new levels, and balance changes instantly to all players.</p>
+
+                <div class="info">
+                    <strong>🎯 Real-World Example:</strong> Fix a game-breaking bug in a prefab, rebuild only that bundle, upload it, and players get the fix within minutes—no app store approval needed.
+                </div>
+
+                <!-- <h3>🔧 Initial Setup for Content Updates</h3>
+                <p>Before you can push hot updates, configure these settings once:</p>
+
+                <div class="platform-card">
+                    <h4>Step 1: Enable Remote Catalog</h4>
+                    <ol>
+                        <li>Open <code>Window > Asset Management > Addressables > Settings</code></li>
+                        <li>Check ✅ <strong>"Build Remote Catalog"</strong></li>
+                        <li>Set catalog build path to <code>RemoteBuildPath</code></li>
+                        <li>Set catalog load path to <code>RemoteLoadPath</code></li>
+                    </ol>
+                    <p><strong>Why?</strong> This allows Unity to check for catalog updates at runtime.</p>
+                </div>
+
+                <div class="platform-card">
+                    <h4>Step 2: Enable Content Update Restrictions</h4>
+                    <ol>
+                        <li>Select each group that should support hot updates</li>
+                        <li>In Inspector, expand <strong>"Advanced Options"</strong></li>
+                        <li>Check ✅ <strong>"Content Update Restriction"</strong></li>
+                        <li>This prevents Unity from changing bundle IDs between builds</li>
+                    </ol>
+                    <p><strong>Why?</strong> Keeps bundle references stable across updates.</p>
+                </div>
+
+                <div class="platform-card">
+                    <h4>Step 3: Make Your First Build</h4>
+                    <ol>
+                        <li>Build Addressables normally: <code>Build > New Build > Default Build Script</code></li>
+                        <li>Unity generates a <code>addressables_content_state.bin</code> file</li>
+                        <li>Location: <code>Assets/AddressableAssetsData/[Platform]/</code></li>
+                        <li><strong>⚠️ CRITICAL:</strong> Save this file somewhere safe (version control recommended)</li>
+                    </ol>
+                    <p><strong>Why?</strong> This file is the "snapshot" Unity uses to create differential updates.</p>
+                </div> -->
+
+                <!-- <h3>🚀 Making a Content Update</h3>
+                <p>When you need to update content that's already live:</p>
+
+                <div class="architecture-diagram" style="padding: 20px;">
+                    <div class="arch-row">
+                        <div class="arch-box">1️⃣ Modify Assets<br><small>Change textures, prefabs, etc.</small></div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">2️⃣ Check Restrictions<br><small>Identify changed assets</small></div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">3️⃣ Update Build<br><small>Generate differential bundles</small></div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">4️⃣ Upload New Files<br><small>Only changed bundles</small></div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-row">
+                        <div class="arch-box">5️⃣ Players Auto-Update<br><small>Next launch downloads changes</small></div>
+                    </div>
+                </div> -->
+
+                <h4>Step-by-Step Update Process</h4>
+
+                <div class="checklist">
+                    <h3>1️⃣ Modify Your Assets</h3>
+                    <ul>
+                        <li>Change any Addressable asset (texture, prefab, audio, etc.)</li>
+                        <li>Add new assets to existing groups</li>
+                        <li>Update scriptable objects or config files</li>
+                    </ul>
+
+                    <h3>2️⃣ Check for Content Update Restrictions</h3>
+                    <ul>
+                        <li>Go to <code>Window > Asset Management > Addressables > Check for Content Update Restrictions</code></li>
+                        <li>Unity analyzes which assets changed since last build</li>
+                        <li>A window shows all modified assets</li>
+                        <li>Click <strong>"Apply Changes"</strong> to prepare them for update</li>
+                    </ul>
+
+                    <h3>3️⃣ Build Update</h3>
+                    <ul>
+                        <li>Go to <code>Window > Asset Management > Addressables > Build > Update a Previous Build</code></li>
+                        <li>Select your saved <code>addressables_content_state.bin</code> file</li>
+                        <li>Unity builds ONLY the changed bundles</li>
+                        <li>New bundles appear in <code>ServerData</code> folder</li>
+                        <li>Catalog files (.json, .hash) are updated</li>
+                    </ul>
+
+                    <h3>4️⃣ Upload Changed Files</h3>
+                    <ul>
+                        <li>Upload the new/modified <code>.bundle</code> files</li>
+                        <li>Replace the <code>catalog_*.json</code> and <code>catalog_*.hash</code> files</li>
+                        <li><strong>DO NOT</strong> delete old bundles—some players may still reference them</li>
+                        <li>Players on older app versions can still access old bundles</li>
+                    </ul>
+
+                    <h3>5️⃣ Players Automatically Update</h3>
+                    <ul>
+                        <li>Next time players launch, the game checks for catalog updates</li>
+                        <li>Changed bundles download in background</li>
+                        <li>No app store update required!</li>
+                    </ul>
+                </div>
+
+                <h3>📊 Update Examples</h3>
+
+                <div class="best-practices">
+                    <div class="practice">
+                        <h4>🎨 Art Update</h4>
+                        <p><strong>Scenario:</strong> Fix a texture bug<br>
+                        <strong>Result:</strong> Only texture bundle (~5MB) downloads<br>
+                        <strong>Time:</strong> 2 minutes for players</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🎮 New Level</h4>
+                        <p><strong>Scenario:</strong> Add new level content<br>
+                        <strong>Result:</strong> New level bundle (~20MB) downloads<br>
+                        <strong>Time:</strong> 5-10 minutes</p>
+                    </div>
+                    <div class="practice">
+                        <h4>⚖️ Balance Patch</h4>
+                        <p><strong>Scenario:</strong> Update ScriptableObject stats<br>
+                        <strong>Result:</strong> Tiny config bundle (~100KB) downloads<br>
+                        <strong>Time:</strong> Seconds</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🔊 Audio Hotfix</h4>
+                        <p><strong>Scenario:</strong> Replace broken audio file<br>
+                        <strong>Result:</strong> Audio bundle (~3MB) downloads<br>
+                        <strong>Time:</strong> 1-2 minutes</p>
+                    </div>
+                </div>
+
+
+                <h3>🔄 When Players Get Updates</h3>
+                <p>Updates happen automatically when:</p>
+                <ul>
+                    <li>✅ Player launches the game</li>
+                    <li>✅ Specific asset is loaded that has a newer version</li>
+                </ul>
+
+                <p>Updates are downloaded:</p>
+                <ul>
+                    <li>🔹 In background (non-blocking)</li>
+                    <li>🔹 Only for assets that changed</li>
+                    <li>🔹 Can show progress bar (see Part 9)</li>
+                    <li>🔹 Cached locally after download</li>
+                </ul>
+
+
+                <h3>⚡ Rollback Strategy</h3>
+                <p>If an update causes issues, you can quickly rollback:</p>
+                <ol>
+                    <li>Keep previous catalog files backed up</li>
+                    <li>Re-upload the old catalog files to your server</li>
+                    <li>Players will download the previous version on next launch</li>
+                    <li>Fix the issue and push a new update</li>
+                </ol>
+
+                <div class="platform-card">
+                    <h4>🎯 Hot Update Use Cases</h4>
+                    <ul>
+                        <li>🐛 <strong>Bug Fixes:</strong> Fix game-breaking issues immediately</li>
+                        <li>🎨 <strong>Art Updates:</strong> Improve visuals without resubmission</li>
+                        <li>⚖️ <strong>Balance Changes:</strong> Adjust game difficulty</li>
+                        <li>🎉 <strong>Events:</strong> Add seasonal content</li>
+                        <li>🗺️ <strong>New Levels:</strong> Expand content post-launch</li>
+                        <li>🔊 <strong>Audio:</strong> Add new music/voiceovers</li>
+                        <li>🌐 <strong>Localization:</strong> Add new languages</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>⚠️ Keep Build History:</strong> Always keep <code>catalog_[hash].bin</code> files for each release. Without them, you can't create differential updates!
+                </div>
+            </section>
+            
+            <section>
+                <h2>Conclusion</h2>
+                <p>Congratulations! You now have a complete understanding of Unity's Addressables system and how to deploy it across multiple platforms with remote hosting.</p>
+
+                <h3>🎯 What You've Accomplished</h3>
+                <div class="best-practices">
+                    <div class="practice">
+                        <h4>✅ Core System Setup</h4>
+                        <p>Installed and configured Addressables with proper group structures and profiles for different environments.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>☁️ Remote Hosting</h4>
+                        <p>Set up both AWS S3 and GitHub Pages for serving assets globally.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🌐 Cross-Platform Support</h4>
+                        <p>Configured builds for WebGL, Android, and Desktop with platform-specific optimizations.</p>
+                    </div>
+                    <div class="practice">
+                        <h4>🔄 Hot Updates</h4>
+                        <p>Mastered the content update workflow to push fixes and new content without app store resubmission.</p>
+                    </div>
+                </div>
+
+                <h3>💡 Key Takeaways</h3>
+                <ul>
+                    <li>📦 <strong>Addressables reduce initial download size</strong> by moving assets to remote servers</li>
+                    <li>🚀 <strong>Hot updates save weeks</strong> compared to traditional app store approval processes</li>
+                    <li>💰 <strong>GitHub Pages is free</strong> for development; S3 scales cost-effectively for production</li>
+                    <li>🎮 <strong>Platform-specific handling</strong> is crucial for WebGL, Android, and Desktop success</li>
+                    <li>🔧 <strong>Content update workflow</strong> enables rapid iteration and bug fixes</li>
+                    <li>📊 <strong>Proper grouping strategy</strong> prevents massive bundle downloads</li>
+                </ul>
+
+                <h3>🚀 Where to Go From Here</h3>
+
+                <div class="platform-card">
+                    <h4>🎓 Advanced Topics to Explore</h4>
+                    <ul>
+                        <li><strong>Asset Bundle Compression:</strong> LZ4 vs LZMA trade-offs</li>
+                        <li><strong>Custom Build Scripts:</strong> Automate your entire pipeline</li>
+                        <li><strong>Addressable Variants:</strong> HD vs SD textures per device</li>
+                        <li><strong>Memory Profiling:</strong> Track asset lifecycle with Profiler</li>
+                        <li><strong>Catalog Encryption:</strong> Protect your asset structure</li>
+                        <li><strong>Multiple Catalogs:</strong> Separate DLC and base game content</li>
+                    </ul>
+                </div>
+
+                <div class="platform-card">
+                    <h4>🛠️ Recommended Workflow Enhancements</h4>
+                    <ul>
+                        <li><strong>CI/CD Integration:</strong> GitHub Actions for auto-deployment</li>
+                        <li><strong>Version Control:</strong> Store content_state.bin files in Git</li>
+                        <li><strong>Analytics Integration:</strong> Track download success rates</li>
+                        <li><strong>A/B Testing:</strong> Multiple catalogs for feature testing</li>
+                        <li><strong>CDN Integration:</strong> CloudFront or Cloudflare for global delivery</li>
+                        <li><strong>Monitoring:</strong> Alert systems for failed downloads</li>
+                    </ul>
+                </div>
+
+                <h3>⚖️ When to Use Addressables</h3>
+
+                <div class="architecture-diagram" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                    <h4 style="color: #2e7d32; margin-bottom: 15px;">✅ Perfect For:</h4>
+                    <ul style="text-align: left; color: #1b5e20; max-width: 600px;">
+                        <li>Games with large asset libraries (RPGs, open-world games)</li>
+                        <li>Mobile games that need small initial downloads</li>
+                        <li>Live service games requiring frequent content updates</li>
+                        <li>Multi-platform releases (WebGL + Mobile + Desktop)</li>
+                        <li>DLC and expansion content delivery</li>
+                        <li>Games with localization into many languages</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-diagram" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); margin-top: 20px;">
+                    <h4 style="color: #e65100; margin-bottom: 15px;">⚠️ Consider Alternatives For:</h4>
+                    <ul style="text-align: left; color: #e65100; max-width: 600px;">
+                        <li>Very small games (&lt;50MB total) - overhead isn't worth it</li>
+                        <li>Offline-only experiences - no benefit from remote loading</li>
+                        <li>Rapid prototypes - setup time delays experimentation</li>
+                        <li>Asset-light games (puzzle games, simple 2D platformers)</li>
+                        <li>Projects with tight deadlines - learning curve exists</li>
+                    </ul>
+                </div>
+
+                <!-- <h3>📈 Production Readiness Checklist</h3>
+                <div class="checklist">
+                    <h3>🔒 Security</h3>
+                    <ul>
+                        <li>HTTPS enabled on all hosting (S3/CloudFront/GitHub Pages)</li>
+                        <li>CORS properly configured for WebGL builds</li>
+                        <li>Bucket permissions reviewed (public read only)</li>
+                        <li>Consider catalog encryption for sensitive content</li>
+                    </ul>
+
+                    <h3>⚡ Performance</h3>
+                    <ul>
+                        <li>Bundle sizes kept under 50MB each</li>
+                        <li>Critical assets in local groups for instant loading</li>
+                        <li>Compression settings optimized per asset type</li>
+                        <li>Memory management implemented (load/unload cycles)</li>
+                        <li>Download progress UI implemented</li>
+                    </ul>
+
+                    <h3>🧪 Testing</h3>
+                    <ul>
+                        <li>Tested on all target platforms (WebGL/Android/Desktop)</li>
+                        <li>Slow network conditions tested (3G simulation)</li>
+                        <li>Cache clearing tested (fresh install behavior)</li>
+                        <li>Hot update workflow verified end-to-end</li>
+                        <li>Rollback procedure tested</li>
+                    </ul>
+
+                    <h3>📊 Monitoring</h3>
+                    <ul>
+                        <li>Analytics tracking download success/failure rates</li>
+                        <li>CDN bandwidth usage monitored</li>
+                        <li>Error logging for failed asset loads</li>
+                        <li>Player feedback system for content issues</li>
+                    </ul>
+
+                    <h3>💾 Backup & Recovery</h3>
+                    <ul>
+                        <li>All content_state.bin files version controlled</li>
+                        <li>Previous catalog versions backed up</li>
+                        <li>Bundle archive maintained for rollbacks</li>
+                        <li>Documentation of deployment process</li>
+                    </ul>
+                </div> -->
+
+                <div class="cta">
+                    <h3>🎮 Ready to Ship?</h3>
+                    <p>You now have everything you need to implement Addressables in production. Here's your action plan:</p>
+                    <ol style="color: rgba(255, 255, 255, 0.95); margin-left: 20px;">
+                        <li><strong>Start Small:</strong> Convert one asset group to Addressables as a test</li>
+                        <li><strong>Test Thoroughly:</strong> Deploy to GitHub Pages for internal testing</li>
+                        <li><strong>Measure Impact:</strong> Track download sizes and loading times</li>
+                        <li><strong>Iterate:</strong> Refine your group structure based on real data</li>
+                        <li><strong>Scale Up:</strong> Move to S3/CDN when ready for production</li>
+                        <li><strong>Monitor:</strong> Watch analytics and player feedback closely</li>
+                    </ol>
+                </div>
+
+                <div class="platform-card" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #1976d2;">
+                    <h4 style="color: #0d47a1;">📚 Additional Resources</h4>
+                    <ul>
+                        <li>🔗 <strong>Unity Addressables Documentation:</strong> <a href="https://docs.unity3d.com/Packages/com.unity.addressables@latest" target="_blank" style="color: #1565c0;">Official Docs</a></li>
+                        <li>🔗 <strong>AWS S3 Documentation:</strong> <a href="https://docs.aws.amazon.com/s3/" target="_blank" style="color: #1565c0;">S3 User Guide</a></li>
+                        <li>🔗 <strong>GitHub Pages Guide:</strong> <a href="https://docs.github.com/en/pages" target="_blank" style="color: #1565c0;">Pages Documentation</a></li>
+                        <li>🔗 <strong>Unity Learn:</strong> <a href="https://learn.unity.com/tutorial/get-started-with-addressables" target="_blank" style="color: #1565c0;">Addressables Tutorial</a></li>
+                        <li>🔗 <strong>Unity Forums:</strong> <a href="https://forum.unity.com/forums/addressables.156/" target="_blank" style="color: #1565c0;">Community Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- <div class="tip">
+                    <strong>💬 Community & Support:</strong> If you run into issues, the Unity Addressables community is very active. Don't hesitate to ask questions on the Unity Forums or join Discord communities focused on Unity development.
+                </div> -->
+
+                <h3>🎊 Final Thoughts</h3>
+                <p>Addressables represent the future of Unity asset management. While there's a learning curve, the benefits—smaller builds, faster updates, better memory control, and cross-platform consistency—make it invaluable for modern game development.</p>
+
+                <!-- <p>The system you've built today scales from indie prototypes to AAA productions. Companies like Pokémon GO, Angry Birds 2, and countless other successful games rely on similar asset streaming systems.</p> -->
+
+                <p><strong>Your game is now equipped with enterprise-grade asset delivery.</strong> Focus on making great content—Addressables will handle getting it to your players efficiently.</p>
+
+                <div class="info" style="text-align: center; font-size: 1.1em;">
+                    <strong>🚀 Happy Building, and may your downloads be swift and your updates seamless!</strong>
+                </div>
+            </section>
+
+            <footer>
+                <p class="mt-4 mb-0 small">© 2025 · Built with <i class="fas fa-code"></i> & <i class="fas fa-heart"></i> by Dhinesh Moorthy</p>
+                <p style="margin-top: 10px; color: #999;">Questions or feedback? Feel free to reach out or contribute improvements!</p>
+            </footer>
+        </article>
+    </div>
+
+    <!-- <script>
+        function copyCode(id) {
+            const code = document.getElementById(id).innerText;
+            const button = event.target;
+
+            navigator.clipboard.writeText(code).then(() => {
+                const original = button.innerText;
+                button.innerText = "Copied!";
+
+                setTimeout(() => {
+                    button.innerText = original;
+                }, 1500);
+            });
+        }
+
+        function toggleCode(button) {
+            const block = button.closest(".collapsible");
+            block.classList.toggle("expanded");
+
+            if (block.classList.contains("expanded")) {
+                button.innerText = "Hide";
+            } else {
+                button.innerText = "Show";
+            }
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply fade-in to sections
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section, .best-practices, .platform-card, .cta');
+            
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+
+        // Reading progress indicator
+        function createProgressBar() {
+            const progressBar = document.createElement('div');
+            progressBar.style.position = 'fixed';
+            progressBar.style.top = '0';
+            progressBar.style.left = '0';
+            progressBar.style.width = '0%';
+            progressBar.style.height = '4px';
+            progressBar.style.background = 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)';
+            progressBar.style.zIndex = '9999';
+            progressBar.style.transition = 'width 0.1s ease';
+            document.body.appendChild(progressBar);
+            
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createProgressBar);
+
+        console.log('🎮 Unity Addressables Guide loaded successfully!');
+        console.log('💡 Ready to build scalable cross-platform games!');
+    </script> -->
+            
+
+    <script src="addressables.js"></script>
+</body>
+</html>

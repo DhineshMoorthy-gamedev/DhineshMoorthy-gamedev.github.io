@@ -219,7 +219,7 @@ main {
 }
 
 /* Footer */
-.blog-footer {
+/* .blog-footer {
   background: white;
   border-top: 1px solid var(--gray-200);
   padding: 3rem 0;
@@ -233,6 +233,17 @@ main {
 
 .footer-content p {
   margin-bottom: 0.5rem;
+} */
+footer {
+  background: #f5f7fa;
+  padding: 30px 40px;
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+}
+
+footer p {
+  color: #666;
+  margin: 0;
 }
 
 /* Animations */

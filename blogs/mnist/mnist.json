@@ -10,7 +10,7 @@
     {
       "heading": "Introduction",
       "content": "In this project, we train an MNIST digit recognition model in Python and export it to ONNX format for Unity integration. One thing I love about small ML projects like MNIST is that they allow for quick iteration. Within a few hours, you can go from training a model to seeing predictions inside a Unity app. It's a great playground for experimenting with AI and game dev together.",
-      "image": "content/pipeline.png"
+      "image": "content/Multimedia/pipeline.png"
     },
     {
       "heading": "Model Training",
@@ -47,7 +47,7 @@
     {
       "heading":"Preview",
       "content":"",
-      "image":"content/mnist.gif"
+      "image":"content/Multimedia/mnist.gif"
     },
     {
       "heading": "Conclusion",
