@@ -1,53 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mastering Unity Addressables: Complete Cross-Platform Guide with Remote Hosting</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="addressables.css">
 </head>
+
 <body>
-    <div class="container">
-        <header class="post-header">
-            <h1 class="post-title">Mastering Unity Addressables: Complete Cross-Platform Guide with Remote Hosting</h1>
-        
-            <div class="post-meta">
-                <span>📅 December 2025</span>
-                <span>•</span>
+    <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+        <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script>
+        (function () {
+            const btn = document.getElementById('backToTop');
+            if (btn) {
+                window.addEventListener('scroll', function () {
+                    const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                    if (scrollPos > 300) {
+                        btn.classList.add('visible');
+                    } else {
+                        btn.classList.remove('visible');
+                    }
+                });
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        })();
+    </script>
+
+    <div class="container py-5 mt-5">
+        <header class="d-flex flex-column align-items-center justify-content-center text-center mb-5">
+            <h1 class="jumbotron-heading" style="font-size: 2.5rem;">Mastering Unity Addressables: Complete
+                Cross-Platform Guide with Remote Hosting</h1>
+            <div class="meta text-mono text-secondary">
+                <span>📅 December 2025</span> •
                 <span>⏱️ 25 min read</span>
             </div>
-        
+
             <!-- Download Buttons -->
-            <div class="download-container">
-        
-                <a href="Content\ANDROID\addressables_GithubPages.apk" class="download-btn android">
-                    <span class="icon">📱</span>
-                    <span>Android APK</span>
+            <div class="download-buttons d-flex justify-content-center mt-4">
+                <a href="Content\ANDROID\addressables_GithubPages.apk" class="btn btn-custom mx-2">
+                    <i class="fab fa-android mr-2"></i> Android APK
                 </a>
-        
-                <a href="Content\WINDOWS\Addressables_GithubPages.zip" class="download-btn windows">
-                    <span class="icon">🖥️</span>
-                    <span>Windows EXE</span>
+
+                <a href="Content\WINDOWS\Addressables_GithubPages.zip" class="btn btn-custom mx-2">
+                    <i class="fab fa-windows mr-2"></i> Windows EXE
                 </a>
-        
-                <a href="Content\WEBGL\Addressables_GithubPages\index.html" class="download-btn webgl">
-                    <span class="icon">🌐</span>
-                    <span>WebGL Build</span>
+
+                <a href="Content\WEBGL\Addressables_GithubPages\index.html" class="btn btn-custom mx-2">
+                    <i class="fas fa-globe mr-2"></i> WebGL Build
                 </a>
-        
             </div>
         </header>
-        
 
-        <article>
+        <article class="glass-card p-4 p-md-5" id="post-content">
             <section class="intro">
-                <p class="lead">Learn how to implement Unity's Addressables system for dynamic asset loading across WebGL, Android, and Desktop platforms. This comprehensive guide covers everything from basic setup to advanced remote hosting using AWS S3(paid) and GitHub Pages(free with limitations), complete with platform-specific optimizations and caching strategies.</p>
+                <p class="lead">Learn how to implement Unity's Addressables system for dynamic asset loading across
+                    WebGL, Android, and Desktop platforms. This comprehensive guide covers everything from basic setup
+                    to advanced remote hosting using AWS S3(paid) and GitHub Pages(free with limitations), complete with
+                    platform-specific optimizations and caching strategies.</p>
             </section>
 
             <section>
                 <h2>Why Addressables?</h2>
-                <p>Unity's Addressables system revolutionizes how we manage and load game assets. Instead of bundling everything into your build, you can:</p>
+                <p>Unity's Addressables system revolutionizes how we manage and load game assets. Instead of bundling
+                    everything into your build, you can:</p>
                 <ul>
                     <li>🚀 <strong>Reduce initial app size</strong> - Download assets on-demand</li>
                     <li>🔄 <strong>Update content remotely</strong> - No app store resubmission needed</li>
@@ -57,59 +87,62 @@
                 </ul>
 
                 <div class="tip">
-                    <strong>💡 Real-World Impact:</strong> A mobile game reduced its APK size from 500MB to 50MB and achieved 10x faster downloads by moving textures and audio to Addressables hosted on S3.
+                    <strong>💡 Real-World Impact:</strong> A mobile game reduced its APK size from 500MB to 50MB and
+                    achieved 10x faster downloads by moving textures and audio to Addressables hosted on S3.
                 </div>
             </section>
 
             <section>
                 <h2>Traditional Asset Loading vs Addressables</h2>
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>Resources.Load</th>
-                            <th>AssetBundles</th>
-                            <th>Addressables</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Build Size</strong></td>
-                            <td>❌ Always Included</td>
-                            <td>✅ External</td>
-                            <td>✅ External</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hot Updates</strong></td>
-                            <td>❌ No</td>
-                            <td>✅ Yes</td>
-                            <td>✅ Yes</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Dependency Management</strong></td>
-                            <td>⚠️ Manual</td>
-                            <td>⚠️ Manual</td>
-                            <td>✅ Automatic</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Memory Management</strong></td>
-                            <td>⚠️ Manual</td>
-                            <td>⚠️ Complex</td>
-                            <td>✅ Built-in</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Remote Hosting</strong></td>
-                            <td>❌ No</td>
-                            <td>✅ Manual Setup</td>
-                            <td>✅ Easy Setup</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="comparison-table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Resources.Load</th>
+                                <th>AssetBundles</th>
+                                <th>Addressables</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Build Size</strong></td>
+                                <td>❌ Always Included</td>
+                                <td>✅ External</td>
+                                <td>✅ External</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hot Updates</strong></td>
+                                <td>❌ No</td>
+                                <td>✅ Yes</td>
+                                <td>✅ Yes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dependency Management</strong></td>
+                                <td>⚠️ Manual</td>
+                                <td>⚠️ Manual</td>
+                                <td>✅ Automatic</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Memory Management</strong></td>
+                                <td>⚠️ Manual</td>
+                                <td>⚠️ Complex</td>
+                                <td>✅ Built-in</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remote Hosting</strong></td>
+                                <td>❌ No</td>
+                                <td>✅ Manual Setup</td>
+                                <td>✅ Easy Setup</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <section>
                 <h2>Architecture Overview</h2>
-            
+
                 <!-- Unity Editor -->
                 <div class="arch-section">
                     <div class="arch-label">Unity Editor</div>
@@ -117,9 +150,9 @@
                         <div class="arch-box">Asset Marking & Build</div>
                     </div>
                 </div>
-            
+
                 <div class="arch-arrow">↓</div>
-            
+
                 <!-- Build Process -->
                 <div class="arch-section">
                     <div class="arch-label">Build Process</div>
@@ -127,9 +160,9 @@
                         <div class="arch-box">Addressables Build</div>
                     </div>
                 </div>
-            
+
                 <div class="arch-arrow">↓</div>
-            
+
                 <!-- Storage Options -->
                 <div class="arch-section">
                     <div class="arch-label">Storage Options</div>
@@ -142,9 +175,9 @@
                         <div class="arch-box">Self Hosted</div>
                     </div>
                 </div>
-            
+
                 <div class="arch-arrow">↓</div>
-            
+
                 <!-- Platforms -->
                 <div class="arch-section">
                     <div class="arch-label">Platforms</div>
@@ -168,12 +201,14 @@
 
             <section>
                 <h2>Part 1: Setting Up Addressables</h2>
-                
+
                 <h3>Installation</h3>
                 <ol>
                     <li>Open <code>Window → Package Manager</code>.</li>
                     <li>Switch the package source to <code>Unity Registry</code>.</li>
-                    <li>Find <code>Addressables</code> and <code>Addressables for Android</code>and click <strong>Install</strong>.</li>
+                    <li>Find <code>Addressables</code> and <code>Addressables for Android</code>and click
+                        <strong>Install</strong>.
+                    </li>
                 </ol>
 
                 <h3>Initial Configuration</h3>
@@ -190,13 +225,14 @@
                     <li><strong>Inspector:</strong> Select an asset → enable <em>Addressable</em> in the Inspector.</li>
                     <li><strong>Or: Drag & Drop</strong> into any group from the Addressables Groups window.</li>
                 </ul>
-                
-                
+
+
             </section>
 
             <section>
                 <h2>Part 2: Creating Asset Groups</h2>
-                <p>You can start working with Addressables even with a single group. Unity automatically puts all marked assets into the <strong>Default Local Group</strong>.</p>
+                <p>You can start working with Addressables even with a single group. Unity automatically puts all marked
+                    assets into the <strong>Default Local Group</strong>.</p>
 
                 <h3>When to Create More Groups?</h3>
                 <p>You only need additional groups when you want to:</p>
@@ -205,7 +241,7 @@
                     <li>Separate frequently vs. rarely loaded content</li>
                     <li>Reduce bundle size by splitting categories</li>
                 </ul>
-            
+
                 <h3>Creating a New Group (Optional)</h3>
                 <ol>
                     <li>Open Addressables Groups window</li>
@@ -213,15 +249,16 @@
                     <li>Name it (e.g., “RemoteEnvironment” or “PlayerAssets”)</li>
                     <li>Set Build & Load Paths if you're planning remote hosting</li>
                 </ol>
-            
+
                 <div class="warning">
-                    <strong>⚠️ Pro Tip:</strong> For now, keeping everything in the <em>Default Local Group</em> is perfectly fine—especially for small projects and early development.
+                    <strong>⚠️ Pro Tip:</strong> For now, keeping everything in the <em>Default Local Group</em> is
+                    perfectly fine—especially for small projects and early development.
                 </div>
             </section>
 
             <section>
                 <h2>Part 3: Asset Loading Code</h2>
-                
+
                 <h3>Asset Loading</h3>
                 <div class="code-block collapsible">
                     <div class="code-header">
@@ -344,15 +381,16 @@ public class AddressableOnGUILoader : MonoBehaviour
                 </div>
 
                 <div class="tip">
-                    <strong>💡 Best Practice:</strong> Always use <code>AssetReference</code> in the Inspector instead of string addresses. This provides compile-time safety and prevents typos.
+                    <strong>💡 Best Practice:</strong> Always use <code>AssetReference</code> in the Inspector instead
+                    of string addresses. This provides compile-time safety and prevents typos.
                 </div>
             </section>
 
             <section>
                 <h2>Part 4: Setting Up Remote Hosting</h2>
-                
+
                 <h3>Option 1: AWS S3 Setup</h3>
-                
+
                 <h4>Step 1: Create S3 Bucket</h4>
                 <ol>
                     <li>Go to AWS Console → S3</li>
@@ -415,7 +453,7 @@ public class AddressableOnGUILoader : MonoBehaviour
                 <div class="tip-box">
                     <h4>💡 Tip: Don’t Forget CORS for WebGL!</h4>
                     <p>
-                        If you're hosting Addressables on AWS S3 (or any remote server), your WebGL build 
+                        If you're hosting Addressables on AWS S3 (or any remote server), your WebGL build
                         will fail to load assets unless CORS is enabled.
                     </p>
                     <ul>
@@ -423,12 +461,12 @@ public class AddressableOnGUILoader : MonoBehaviour
                         <li>Set <code>Access-Control-Allow-Origin: *</code></li>
                     </ul>
                     <p>
-                        Without this, browsers will block downloads and show  
+                        Without this, browsers will block downloads and show
                         <em>"No 'Access-Control-Allow-Origin' header present"</em>.
                     </p>
                     <p><strong>Only WebGL requires this — not Android or PC.</strong></p>
                 </div>
-                
+
 
                 <!-- <h4>Step 4: Optional - CloudFront CDN</h4>
                 <p>For faster global delivery:</p>
@@ -444,7 +482,7 @@ public class AddressableOnGUILoader : MonoBehaviour
                 </div> -->
 
                 <h3>Option 2: GitHub Pages Setup</h3>
-                
+
                 <h4>Step 1: Create Repository</h4>
                 <ol>
                     <li>Create new GitHub repository: <code>game-addressables</code></li>
@@ -475,13 +513,14 @@ git push origin main</pre>
                 </ol>
 
                 <div class="warning">
-                    <strong>⚠️ GitHub Limitations:</strong> Free tier has 1GB storage limit and 100GB bandwidth/month. Perfect for testing, but migrate to S3 for production.
+                    <strong>⚠️ GitHub Limitations:</strong> Free tier has 1GB storage limit and 100GB bandwidth/month.
+                    Perfect for testing, but migrate to S3 for production.
                 </div>
             </section>
 
             <section>
                 <h2>Part 5: Configuring Remote Build Paths</h2>
-                
+
                 <h3>Setting Up Profiles</h3>
                 <p>Profiles let you switch between local testing, GitHub staging, and S3 production.</p>
 
@@ -507,17 +546,20 @@ git push origin main</pre>
                 <div class="platform-card">
                     <h4>GitHub Pages</h4>
                     <p><strong>RemoteBuildPath:</strong> <code>ServerData/[BuildTarget]</code><br>
-                    <strong>RemoteLoadPath:</strong> <code>https://yourusername.github.io/game-addressables/[BuildTarget]</code><br>
+                        <strong>RemoteLoadPath:</strong>
+                        <code>https://yourusername.github.io/game-addressables/[BuildTarget]</code><br>
                 </div>
 
                 <div class="platform-card">
                     <h4>AWS S3</h4>
                     <p><strong>RemoteBuildPath:</strong> <code>ServerData/[BuildTarget]</code><br>
-                    <strong>RemoteLoadPath:</strong> <code>https://your-bucket.s3.amazonaws.com/[BuildTarget]</code><br>
+                        <strong>RemoteLoadPath:</strong>
+                        <code>https://your-bucket.s3.amazonaws.com/[BuildTarget]</code><br>
                 </div>
 
                 <div class="tip">
-                    <strong>💡 Pro Tip:</strong> Use the <code>[BuildTarget]</code> variable to automatically separate Android, WebGL, and StandaloneWindows64 builds into different folders.
+                    <strong>💡 Pro Tip:</strong> Use the <code>[BuildTarget]</code> variable to automatically separate
+                    Android, WebGL, and StandaloneWindows64 builds into different folders.
                 </div>
 
                 <h3>Configuring Groups for Remote</h3>
@@ -567,8 +609,11 @@ git push origin main</pre>
 
                 <h3>Build Output Structure</h3>
                 <div class="code-block">
-                    <div class="code-header">ServerData Folder Structure</div>
-                    <pre>
+                    <div class="code-header">
+                        <span>ServerData Folder Structure</span>
+                    </div>
+                    <div class="code-content" style="max-height: none;">
+                        <pre id="build-structure">
 ServerData/
 ├── StandaloneWindows64/
 │   ├── catalog_2024.json
@@ -586,6 +631,7 @@ ServerData/
     ├── catalog_2024.hash
     ├── visualassets_assets_all.bundle
     └── ...</pre>
+                    </div>
                 </div>
 
                 <!-- <h3>Automated Build Script</h3>
@@ -662,8 +708,10 @@ public class AddressablesBuildScript
 
             <section>
                 <h2>Part 7: Uploading Your Addressables</h2>
-                
-                <p>Once Unity finishes building Addressables, you'll have a <strong>ServerData</strong> folder containing platform-specific bundles. Now it's time to upload these files to your chosen hosting platform.</p>
+
+                <p>Once Unity finishes building Addressables, you'll have a <strong>ServerData</strong> folder
+                    containing platform-specific bundles. Now it's time to upload these files to your chosen hosting
+                    platform.</p>
 
                 <!-- <div class="architecture-diagram" style="padding: 20px;">
                     <div class="arch-row">
@@ -963,16 +1011,19 @@ echo ""</pre>
                 </div>
 
                 <div class="info">
-                    <strong>✅ Quick Test:</strong> Copy your Remote Load Path URL + <code>/catalog_[hash].bin</code> and paste in browser. If the JSON downloads, your setup is correct!
+                    <strong>✅ Quick Test:</strong> Copy your Remote Load Path URL + <code>/catalog_[hash].bin</code> and
+                    paste in browser. If the JSON downloads, your setup is correct!
                 </div>
             </section>
 
             <section>
                 <h2>Part 8: Content Update Workflow (Hot Updates)</h2>
-                <p>The most powerful feature of Addressables is updating content without republishing your app. Ship fixes, new levels, and balance changes instantly to all players.</p>
+                <p>The most powerful feature of Addressables is updating content without republishing your app. Ship
+                    fixes, new levels, and balance changes instantly to all players.</p>
 
                 <div class="info">
-                    <strong>🎯 Real-World Example:</strong> Fix a game-breaking bug in a prefab, rebuild only that bundle, upload it, and players get the fix within minutes—no app store approval needed.
+                    <strong>🎯 Real-World Example:</strong> Fix a game-breaking bug in a prefab, rebuild only that
+                    bundle, upload it, and players get the fix within minutes—no app store approval needed.
                 </div>
 
                 <!-- <h3>🔧 Initial Setup for Content Updates</h3>
@@ -1048,7 +1099,9 @@ echo ""</pre>
 
                     <h3>2️⃣ Check for Content Update Restrictions</h3>
                     <ul>
-                        <li>Go to <code>Window > Asset Management > Addressables > Check for Content Update Restrictions</code></li>
+                        <li>Go to
+                            <code>Window > Asset Management > Addressables > Check for Content Update Restrictions</code>
+                        </li>
                         <li>Unity analyzes which assets changed since last build</li>
                         <li>A window shows all modified assets</li>
                         <li>Click <strong>"Apply Changes"</strong> to prepare them for update</li>
@@ -1056,7 +1109,9 @@ echo ""</pre>
 
                     <h3>3️⃣ Build Update</h3>
                     <ul>
-                        <li>Go to <code>Window > Asset Management > Addressables > Build > Update a Previous Build</code></li>
+                        <li>Go to
+                            <code>Window > Asset Management > Addressables > Build > Update a Previous Build</code>
+                        </li>
                         <li>Select your saved <code>addressables_content_state.bin</code> file</li>
                         <li>Unity builds ONLY the changed bundles</li>
                         <li>New bundles appear in <code>ServerData</code> folder</li>
@@ -1085,26 +1140,30 @@ echo ""</pre>
                     <div class="practice">
                         <h4>🎨 Art Update</h4>
                         <p><strong>Scenario:</strong> Fix a texture bug<br>
-                        <strong>Result:</strong> Only texture bundle (~5MB) downloads<br>
-                        <strong>Time:</strong> 2 minutes for players</p>
+                            <strong>Result:</strong> Only texture bundle (~5MB) downloads<br>
+                            <strong>Time:</strong> 2 minutes for players
+                        </p>
                     </div>
                     <div class="practice">
                         <h4>🎮 New Level</h4>
                         <p><strong>Scenario:</strong> Add new level content<br>
-                        <strong>Result:</strong> New level bundle (~20MB) downloads<br>
-                        <strong>Time:</strong> 5-10 minutes</p>
+                            <strong>Result:</strong> New level bundle (~20MB) downloads<br>
+                            <strong>Time:</strong> 5-10 minutes
+                        </p>
                     </div>
                     <div class="practice">
                         <h4>⚖️ Balance Patch</h4>
                         <p><strong>Scenario:</strong> Update ScriptableObject stats<br>
-                        <strong>Result:</strong> Tiny config bundle (~100KB) downloads<br>
-                        <strong>Time:</strong> Seconds</p>
+                            <strong>Result:</strong> Tiny config bundle (~100KB) downloads<br>
+                            <strong>Time:</strong> Seconds
+                        </p>
                     </div>
                     <div class="practice">
                         <h4>🔊 Audio Hotfix</h4>
                         <p><strong>Scenario:</strong> Replace broken audio file<br>
-                        <strong>Result:</strong> Audio bundle (~3MB) downloads<br>
-                        <strong>Time:</strong> 1-2 minutes</p>
+                            <strong>Result:</strong> Audio bundle (~3MB) downloads<br>
+                            <strong>Time:</strong> 1-2 minutes
+                        </p>
                     </div>
                 </div>
 
@@ -1147,19 +1206,22 @@ echo ""</pre>
                     </ul>
                 </div>
                 <div class="warning">
-                    <strong>⚠️ Keep Build History:</strong> Always keep <code>catalog_[hash].bin</code> files for each release. Without them, you can't create differential updates!
+                    <strong>⚠️ Keep Build History:</strong> Always keep <code>catalog_[hash].bin</code> files for each
+                    release. Without them, you can't create differential updates!
                 </div>
             </section>
-            
+
             <section>
                 <h2>Conclusion</h2>
-                <p>Congratulations! You now have a complete understanding of Unity's Addressables system and how to deploy it across multiple platforms with remote hosting.</p>
+                <p>Congratulations! You now have a complete understanding of Unity's Addressables system and how to
+                    deploy it across multiple platforms with remote hosting.</p>
 
                 <h3>🎯 What You've Accomplished</h3>
                 <div class="best-practices">
                     <div class="practice">
                         <h4>✅ Core System Setup</h4>
-                        <p>Installed and configured Addressables with proper group structures and profiles for different environments.</p>
+                        <p>Installed and configured Addressables with proper group structures and profiles for different
+                            environments.</p>
                     </div>
                     <div class="practice">
                         <h4>☁️ Remote Hosting</h4>
@@ -1171,16 +1233,21 @@ echo ""</pre>
                     </div>
                     <div class="practice">
                         <h4>🔄 Hot Updates</h4>
-                        <p>Mastered the content update workflow to push fixes and new content without app store resubmission.</p>
+                        <p>Mastered the content update workflow to push fixes and new content without app store
+                            resubmission.</p>
                     </div>
                 </div>
 
                 <h3>💡 Key Takeaways</h3>
                 <ul>
-                    <li>📦 <strong>Addressables reduce initial download size</strong> by moving assets to remote servers</li>
-                    <li>🚀 <strong>Hot updates save weeks</strong> compared to traditional app store approval processes</li>
-                    <li>💰 <strong>GitHub Pages is free</strong> for development; S3 scales cost-effectively for production</li>
-                    <li>🎮 <strong>Platform-specific handling</strong> is crucial for WebGL, Android, and Desktop success</li>
+                    <li>📦 <strong>Addressables reduce initial download size</strong> by moving assets to remote servers
+                    </li>
+                    <li>🚀 <strong>Hot updates save weeks</strong> compared to traditional app store approval processes
+                    </li>
+                    <li>💰 <strong>GitHub Pages is free</strong> for development; S3 scales cost-effectively for
+                        production</li>
+                    <li>🎮 <strong>Platform-specific handling</strong> is crucial for WebGL, Android, and Desktop
+                        success</li>
                     <li>🔧 <strong>Content update workflow</strong> enables rapid iteration and bug fixes</li>
                     <li>📊 <strong>Proper grouping strategy</strong> prevents massive bundle downloads</li>
                 </ul>
@@ -1211,29 +1278,29 @@ echo ""</pre>
                     </ul>
                 </div>
 
-                <h3>⚖️ When to Use Addressables</h3>
-
-                <div class="architecture-diagram" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
-                    <h4 style="color: #2e7d32; margin-bottom: 15px;">✅ Perfect For:</h4>
-                    <ul style="text-align: left; color: #1b5e20; max-width: 600px;">
-                        <li>Games with large asset libraries (RPGs, open-world games)</li>
-                        <li>Mobile games that need small initial downloads</li>
-                        <li>Live service games requiring frequent content updates</li>
-                        <li>Multi-platform releases (WebGL + Mobile + Desktop)</li>
-                        <li>DLC and expansion content delivery</li>
-                        <li>Games with localization into many languages</li>
-                    </ul>
-                </div>
-
-                <div class="architecture-diagram" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); margin-top: 20px;">
-                    <h4 style="color: #e65100; margin-bottom: 15px;">⚠️ Consider Alternatives For:</h4>
-                    <ul style="text-align: left; color: #e65100; max-width: 600px;">
-                        <li>Very small games (&lt;50MB total) - overhead isn't worth it</li>
-                        <li>Offline-only experiences - no benefit from remote loading</li>
-                        <li>Rapid prototypes - setup time delays experimentation</li>
-                        <li>Asset-light games (puzzle games, simple 2D platformers)</li>
-                        <li>Projects with tight deadlines - learning curve exists</li>
-                    </ul>
+                <h2>When to Use Addressables</h2>
+                <div class="practice-grid">
+                    <div class="practice-card positive">
+                        <h4><i class="fas fa-check-circle mr-2"></i> Perfect For:</h4>
+                        <ul>
+                            <li>Games with large asset libraries (RPGs, open-world games)</li>
+                            <li>Mobile games that need small initial downloads</li>
+                            <li>Live service games requiring frequent content updates</li>
+                            <li>Multi-platform releases (WebGL + Mobile + Desktop)</li>
+                            <li>DLC and expansion content delivery</li>
+                            <li>Games with localization into many languages</li>
+                        </ul>
+                    </div>
+                    <div class="practice-card negative">
+                        <h4><i class="fas fa-exclamation-triangle mr-2"></i> Consider Alternatives For:</h4>
+                        <ul>
+                            <li>Very small games (&lt;50MB total) - overhead isn't worth it</li>
+                            <li>Offline-only experiences - no benefit from remote loading</li>
+                            <li>Rapid prototypes - setup time delays experimentation</li>
+                            <li>Asset-light games (puzzle games, simple 2D platformers)</li>
+                            <li>Projects with tight deadlines - learning curve exists</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- <h3>📈 Production Readiness Checklist</h3>
@@ -1283,7 +1350,8 @@ echo ""</pre>
 
                 <div class="cta">
                     <h3>🎮 Ready to Ship?</h3>
-                    <p>You now have everything you need to implement Addressables in production. Here's your action plan:</p>
+                    <p>You now have everything you need to implement Addressables in production. Here's your action
+                        plan:</p>
                     <ol style="color: rgba(255, 255, 255, 0.95); margin-left: 20px;">
                         <li><strong>Start Small:</strong> Convert one asset group to Addressables as a test</li>
                         <li><strong>Test Thoroughly:</strong> Deploy to GitHub Pages for internal testing</li>
@@ -1294,15 +1362,26 @@ echo ""</pre>
                     </ol>
                 </div>
 
-                <div class="platform-card" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 4px solid #1976d2;">
-                    <h4 style="color: #0d47a1;">📚 Additional Resources</h4>
-                    <ul>
-                        <li>🔗 <strong>Unity Addressables Documentation:</strong> <a href="https://docs.unity3d.com/Packages/com.unity.addressables@latest" target="_blank" style="color: #1565c0;">Official Docs</a></li>
-                        <li>🔗 <strong>AWS S3 Documentation:</strong> <a href="https://docs.aws.amazon.com/s3/" target="_blank" style="color: #1565c0;">S3 User Guide</a></li>
-                        <li>🔗 <strong>GitHub Pages Guide:</strong> <a href="https://docs.github.com/en/pages" target="_blank" style="color: #1565c0;">Pages Documentation</a></li>
-                        <li>🔗 <strong>Unity Learn:</strong> <a href="https://learn.unity.com/tutorial/get-started-with-addressables" target="_blank" style="color: #1565c0;">Addressables Tutorial</a></li>
-                        <li>🔗 <strong>Unity Forums:</strong> <a href="https://forum.unity.com/forums/addressables.156/" target="_blank" style="color: #1565c0;">Community Support</a></li>
-                    </ul>
+                <div class="resources">
+                    <h3><i class="fas fa-link mr-2"></i> Additional Resources</h3>
+                    <div class="resource-box">
+                        <ul>
+                            <li><i class="fas fa-file-alt mr-2"></i> <strong>Unity Addressables Documentation:</strong>
+                                <a href="https://docs.unity3d.com/Packages/com.unity.addressables@latest"
+                                    target="_blank">Official Docs</a>
+                            </li>
+                            <li><i class="fab fa-aws mr-2"></i> <strong>AWS S3 Documentation:</strong> <a
+                                    href="https://docs.aws.amazon.com/s3/" target="_blank">S3 User Guide</a></li>
+                            <li><i class="fab fa-github mr-2"></i> <strong>GitHub Pages Guide:</strong> <a
+                                    href="https://docs.github.com/en/pages" target="_blank">Pages Documentation</a></li>
+                            <li><i class="fas fa-graduation-cap mr-2"></i> <strong>Unity Learn:</strong> <a
+                                    href="https://learn.unity.com/tutorial/get-started-with-addressables"
+                                    target="_blank">Addressables Tutorial</a></li>
+                            <li><i class="fas fa-users mr-2"></i> <strong>Unity Forums:</strong> <a
+                                    href="https://forum.unity.com/forums/addressables.156/" target="_blank">Community
+                                    Support</a></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- <div class="tip">
@@ -1310,23 +1389,30 @@ echo ""</pre>
                 </div> -->
 
                 <h3>🎊 Final Thoughts</h3>
-                <p>Addressables represent the future of Unity asset management. While there's a learning curve, the benefits—smaller builds, faster updates, better memory control, and cross-platform consistency—make it invaluable for modern game development.</p>
+                <p>Addressables represent the future of Unity asset management. While there's a learning curve, the
+                    benefits—smaller builds, faster updates, better memory control, and cross-platform consistency—make
+                    it invaluable for modern game development.</p>
 
                 <!-- <p>The system you've built today scales from indie prototypes to AAA productions. Companies like Pokémon GO, Angry Birds 2, and countless other successful games rely on similar asset streaming systems.</p> -->
 
-                <p><strong>Your game is now equipped with enterprise-grade asset delivery.</strong> Focus on making great content—Addressables will handle getting it to your players efficiently.</p>
+                <p><strong>Your game is now equipped with enterprise-grade asset delivery.</strong> Focus on making
+                    great content—Addressables will handle getting it to your players efficiently.</p>
 
-                <div class="info" style="text-align: center; font-size: 1.1em;">
+                <div class="cta text-center" style="font-size: 1.1em;">
                     <strong>🚀 Happy Building, and may your downloads be swift and your updates seamless!</strong>
                 </div>
             </section>
 
-            <footer>
-                <p class="mt-4 mb-0 small">© 2025 · Built with <i class="fas fa-code"></i> & <i class="fas fa-heart"></i> by Dhinesh Moorthy</p>
-                <p style="margin-top: 10px; color: #999;">Questions or feedback? Feel free to reach out or contribute improvements!</p>
-            </footer>
         </article>
     </div>
+
+    <footer class="footer">
+        <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> &
+            <i class="fas fa-heart text-hot-pink"></i> by Dhinesh
+            Moorthy
+        </p>
+        <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+    </footer>
 
     <!-- <script>
         function copyCode(id) {
@@ -1419,9 +1505,9 @@ echo ""</pre>
 
         console.log('🎮 Unity Addressables Guide loaded successfully!');
         console.log('💡 Ready to build scalable cross-platform games!');
-    </script> -->
-            
-
+    </script>
+    </script>
     <script src="addressables.js"></script>
 </body>
+
 </html>

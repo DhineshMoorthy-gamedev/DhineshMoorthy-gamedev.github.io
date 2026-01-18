@@ -1,108 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building a Complete Backend System for Unity Games with Google Sheets</title>
-    <link rel="stylesheet" href="gas.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
-    <div class="container">
-      <div class="container">
-        <header>
-            <h1>Building a Complete Backend System for Unity Games with Google Sheets</h1>
-            <div class="meta">
-                <span class="date">November 23, 2025</span>
+    <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+        <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+    </div>
+
+    <div class="container py-5 mt-5">
+        <header class="d-flex flex-column align-items-center justify-content-center text-center mb-5">
+            <h1 class="jumbotron-heading" style="font-size: 2.5rem;">Building a Complete Backend System for Unity Games
+                with Google Sheets</h1>
+            <div class="meta text-mono text-secondary">
+                <span class="date">November 23, 2025</span> •
                 <span class="reading-time">15 min read</span>
             </div>
-    
+
             <!-- Download Buttons -->
-            <div class="download-buttons" style="margin-top: 20px;">
-                <a href="content\Android\GAS.apk" 
-                   class="btn" 
-                   style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 6px; margin-right: 10px;">
-                   Download APK
+            <div class="download-buttons d-flex justify-content-center mt-4">
+                <a href="content\Android\GAS.apk" class="btn btn-custom mx-2"
+                    style="width: auto; font-size: 1.1rem; padding: 12px 32px;">
+                    <i class="fab fa-android mr-2"></i> Download APK
                 </a>
-    
-                <a href="content\Windows\GAS.zip" 
-                   class="btn" 
-                   style="padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 6px;">
-                   Download EXE (.zip)
+
+                <a href="content\Windows\GAS.zip" class="btn btn-custom mx-2"
+                    style="width: auto; font-size: 1.1rem; padding: 12px 32px;">
+                    <i class="fab fa-windows mr-2"></i> Download EXE
                 </a>
             </div>
         </header>
 
-        <article>
+        <article class="glass-card p-4 p-md-5" id="post-content">
             <section class="intro">
-                <p class="lead">Learn how to build a complete serverless backend for your Unity game using Google Sheets. This comprehensive tutorial covers both remote configuration and player authentication systems, allowing you to manage game settings and user accounts without any traditional server infrastructure.</p>
+                <p class="lead">Learn how to build a complete serverless backend for your Unity game using Google
+                    Sheets. This comprehensive tutorial covers both remote configuration and player authentication
+                    systems, allowing you to manage game settings and user accounts without any traditional server
+                    infrastructure.</p>
             </section>
 
             <section>
-              <h2>What You'll Build</h2>
-              <p>By the end of this tutorial, you'll have three powerful systems:</p>
-              <ul>
-                  <li><strong>Remote Config System</strong> - Update game parameters in real-time without redeploying</li>
-                  <li><strong>Player Management System</strong> - Complete authentication with registration, login, and admin controls</li>
-                  <li><strong>Leaderboard System</strong> - Submit, retrieve, and display global high scores using Google Sheets</li>
-              </ul>
-              <p>All systems run entirely on Google's infrastructure at zero cost, perfect for indie developers and prototypes.</p>
+                <h2>What You'll Build</h2>
+                <p>By the end of this tutorial, you'll have three powerful systems:</p>
+                <ul>
+                    <li><strong>Remote Config System</strong> - Update game parameters in real-time without redeploying
+                    </li>
+                    <li><strong>Player Management System</strong> - Complete authentication with registration, login,
+                        and admin controls</li>
+                    <li><strong>Leaderboard System</strong> - Submit, retrieve, and display global high scores using
+                        Google Sheets</li>
+                </ul>
+                <p>All systems run entirely on Google's infrastructure at zero cost, perfect for indie developers and
+                    prototypes.</p>
             </section>
 
             <section>
-              <h2>Architecture Overview</h2>
-              <div class="architecture-diagram">
-          
-                  <!-- Google Sheets -->
-                  <div class="arch-row">
-                      <div class="arch-box">Google Sheets<br><small>Data Storage</small></div>
-                  </div>
-          
-                  <div class="arch-arrow">↓</div>
-          
-                  <!-- Apps Script layer -->
-                  <div class="arch-row">
-                      <div class="arch-box">Apps Script API<br><small>Backend Logic</small></div>
-                  </div>
-          
-                  <div class="arch-arrow">↓</div>
-          
-                  <!-- Three modules: Remote Config, Player Manager, Leaderboard -->
-                  <div class="arch-row">
-                      <div class="arch-box config">Remote Config<br><small>GET config</small></div>
-                      <div class="arch-box player">Player Manager<br><small>POST / GET Player data</small></div>
-                      <div class="arch-box leaderboard">Leaderboard<br><small>POST / GET scores</small></div>
-                  </div>
-          
-                  <div class="arch-arrow">↓</div>
-          
-                  <!-- Unity Client -->
-                  <div class="arch-row">
-                      <div class="arch-box">Unity Game Client</div>
-                  </div>
-              </div>
-          
-              <p>Our architecture uses:</p>
-              <ol>
-                  <li><strong>Google Sheets</strong>  
-                      - Three sheets: "RemoteConfig", "Players", and "Leaderboard" for storing scores
-                  </li>
-          
-                  <li><strong>Google Apps Script</strong>  
-                      - Three endpoints:  
-                      &nbsp;&nbsp;• GET – Remote config fetching  
-                      &nbsp;&nbsp;• POST – Player authentication & management  
-                      &nbsp;&nbsp;• GET/POST – Leaderboard score submission and retrieval
-                  </li>
-          
-                  <li><strong>Unity C# Scripts</strong>  
-                      - Three managers:  
-                      &nbsp;&nbsp;• RemoteConfigManager  
-                      &nbsp;&nbsp;• PlayerManager  
-                      &nbsp;&nbsp;• LeaderboardManager (handles submit + fetch high scores)
-                  </li>
-              </ol>
+                <h2>Architecture Overview</h2>
+                <div class="architecture-diagram">
+
+                    <!-- Google Sheets -->
+                    <div class="arch-row">
+                        <div class="arch-box">Google Sheets<br><small>Data Storage</small></div>
+                    </div>
+
+                    <div class="arch-arrow">↓</div>
+
+                    <!-- Apps Script layer -->
+                    <div class="arch-row">
+                        <div class="arch-box">Apps Script API<br><small>Backend Logic</small></div>
+                    </div>
+
+                    <div class="arch-arrow">↓</div>
+
+                    <!-- Three modules: Remote Config, Player Manager, Leaderboard -->
+                    <div class="arch-row">
+                        <div class="arch-box config">Remote Config<br><small>GET config</small></div>
+                        <div class="arch-box player">Player Manager<br><small>POST / GET Player data</small></div>
+                        <div class="arch-box leaderboard">Leaderboard<br><small>POST / GET scores</small></div>
+                    </div>
+
+                    <div class="arch-arrow">↓</div>
+
+                    <!-- Unity Client -->
+                    <div class="arch-row">
+                        <div class="arch-box">Unity Game Client</div>
+                    </div>
+                </div>
+
+                <p>Our architecture uses:</p>
+                <ol>
+                    <li><strong>Google Sheets</strong>
+                        - Three sheets: "RemoteConfig", "Players", and "Leaderboard" for storing scores
+                    </li>
+
+                    <li><strong>Google Apps Script</strong>
+                        - Three endpoints:
+                        &nbsp;&nbsp;• GET – Remote config fetching
+                        &nbsp;&nbsp;• POST – Player authentication & management
+                        &nbsp;&nbsp;• GET/POST – Leaderboard score submission and retrieval
+                    </li>
+
+                    <li><strong>Unity C# Scripts</strong>
+                        - Three managers:
+                        &nbsp;&nbsp;• RemoteConfigManager
+                        &nbsp;&nbsp;• PlayerManager
+                        &nbsp;&nbsp;• LeaderboardManager (handles submit + fetch high scores)
+                    </li>
+                </ol>
             </section>
 
             <section>
@@ -111,7 +124,7 @@
 
                 <h3>Setting Up Google Sheets</h3>
                 <p>Create a new Google Spreadsheet with a sheet named "RemoteConfig":</p>
-                
+
                 <div class="code-block">
                     <div class="code-header">RemoteConfig Sheet Structure</div>
                     <table class="sheet-table">
@@ -140,16 +153,16 @@
 
                 <h3>Apps Script for Remote Config</h3>
                 <p>Go to <strong>Extensions > Apps Script</strong> and add this function:</p>
-                
+
                 <div class="code-block collapsible">
-                  <div class="code-header">
-                      <span>Config API - Code.gs</span>
-                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
-                      <button class="copy-btn" onclick="copyCode('config-script')">Copy</button>
-                  </div>
-              
-                  <div class="code-content">
-                      <pre id="config-script">
+                    <div class="code-header">
+                        <span>Config API - Code.gs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('config-script')">Copy</button>
+                    </div>
+
+                    <div class="code-content">
+                        <pre id="config-script">
 function doGet(e) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName("RemoteConfig");
@@ -168,10 +181,10 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JSON);
 }
                       </pre>
-                  </div>
-              </div>
-              
-    
+                    </div>
+                </div>
+
+
                 <h3>Unity Remote Config Manager</h3>
                 <div class="code-block collapsible">
                     <div class="code-header">
@@ -181,7 +194,7 @@ function doGet(e) {
                     </div>
 
                     <div class="code-content">
-                    <pre id="remote-config-unity">
+                        <pre id="remote-config-unity">
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -249,7 +262,7 @@ public class ConfigData
   public string spawn_rate;
   public string event_enabled;
 }</pre>
-</div>
+                    </div>
                 </div>
             </section>
 
@@ -259,7 +272,7 @@ public class ConfigData
 
                 <h3>Setting Up the Players Sheet</h3>
                 <p>In a new spreadsheet, create a new sheet named "Players" with these columns:</p>
-                
+
                 <div class="code-block">
                     <div class="code-header">Players Sheet Structure</div>
                     <table class="sheet-table">
@@ -289,19 +302,22 @@ public class ConfigData
                 </div>
 
                 <div class="warning">
-                    <strong>⚠️ Security Warning:</strong> This tutorial stores passwords in plain text for simplicity. For production games, always hash passwords using bcrypt or similar algorithms, and consider using proper authentication services like Firebase Auth.
+                    <strong>⚠️ Security Warning:</strong> This tutorial stores passwords in plain text for simplicity.
+                    For production games, always hash passwords using bcrypt or similar algorithms, and consider using
+                    proper authentication services like Firebase Auth.
                 </div>
 
                 <h3>Apps Script for Player Management</h3>
                 <p>Add this complete backend logic to your Apps Script:</p>
-                
+
                 <div class="code-block collapsible">
                     <div class="code-header">
                         <span>Player API - Code.gs</span>
                         <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
                         <button class="copy-btn" onclick="copyCode('player-script')">Copy</button>
                     </div>
-                    <div class="code-content"><pre id="player-script">
+                    <div class="code-content">
+                        <pre id="player-script">
 const SHEET_NAME = "Players";
 
 function doPost(e) {
@@ -439,12 +455,14 @@ function output(obj) {
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
-                    </pre></div>
+                    </pre>
+                    </div>
 
                 </div>
 
                 <div class="tip">
-                    <strong>💡 Important:</strong> You need to deploy this as a separate web app endpoint. Both doGet() and doPost() can coexist in the same script file.
+                    <strong>💡 Important:</strong> You need to deploy this as a separate web app endpoint. Both doGet()
+                    and doPost() can coexist in the same script file.
                 </div>
 
 
@@ -460,7 +478,8 @@ function output(obj) {
                         <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
                         <button class="copy-btn" onclick="copyCode('player-manager-unity')">Copy</button>
                     </div>
-                    <div class="code-content"><pre id="player-manager-unity">
+                    <div class="code-content">
+                        <pre id="player-manager-unity">
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -768,7 +787,8 @@ public class PlayerManager : MonoBehaviour
             adminStatus = "✗ Failed to load players";
         }
     }
-}</pre></div>
+}</pre>
+                    </div>
 
 
                 </div>
@@ -777,47 +797,48 @@ public class PlayerManager : MonoBehaviour
             </section>
 
             <section>
-              <h2>Part 3: Leaderboard System</h2>
-              <p>Let's add a competitive element to your game with a global leaderboard that tracks high scores.</p>
+                <h2>Part 3: Leaderboard System</h2>
+                <p>Let's add a competitive element to your game with a global leaderboard that tracks high scores.</p>
 
-              <h3>Setting Up the Leaderboard Sheet</h3>
-              <p>Create a new sheet named "Sheet1" (or rename it) with these columns:</p>
-              
-              <div class="code-block">
-                  <div class="code-header">Leaderboard Sheet Structure</div>
-                  <table class="sheet-table">
-                      <thead>
-                          <tr>
-                              <th>Name</th>
-                              <th>Score</th>
-                              <th>Timestamp</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>Player_1234</td>
-                              <td>450</td>
-                              <td>2025-11-23 15:30:22</td>
-                          </tr>
-                          <tr>
-                              <td>Player_5678</td>
-                              <td>380</td>
-                              <td>2025-11-23 14:15:10</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+                <h3>Setting Up the Leaderboard Sheet</h3>
+                <p>Create a new sheet named "Sheet1" (or rename it) with these columns:</p>
 
-              <h3>Apps Script for Leaderboard</h3>
-              <p>This script handles both submitting scores and retrieving the leaderboard:</p>
-              
-              <div class="code-block collapsible">
-                  <div class="code-header">
-                      <span>Leaderboard API - Code.gs</span>
-                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
-                      <button class="copy-btn" onclick="copyCode('leaderboard-script')">Copy</button>
-                  </div>
-                  <div class="code-content"><pre id="leaderboard-script">
+                <div class="code-block">
+                    <div class="code-header">Leaderboard Sheet Structure</div>
+                    <table class="sheet-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Player_1234</td>
+                                <td>450</td>
+                                <td>2025-11-23 15:30:22</td>
+                            </tr>
+                            <tr>
+                                <td>Player_5678</td>
+                                <td>380</td>
+                                <td>2025-11-23 14:15:10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Apps Script for Leaderboard</h3>
+                <p>This script handles both submitting scores and retrieving the leaderboard:</p>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>Leaderboard API - Code.gs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('leaderboard-script')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="leaderboard-script">
 function doGet(e) {
 const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
 
@@ -874,24 +895,27 @@ if (!updated) {
 return ContentService
   .createTextOutput(JSON.stringify({ status: "success" }))
   .setMimeType(ContentService.MimeType.JSON);
-}</pre></div>
-                  
-              </div>
+}</pre>
+                    </div>
 
-              <div class="tip">
-                  <strong>💡 Smart Design:</strong> This leaderboard automatically updates a player's score if they submit again, rather than creating duplicate entries. Perfect for "personal best" tracking!
-              </div>
+                </div>
 
-              <h3>Unity Leaderboard API</h3>
-              <p>Create a reusable API class for leaderboard operations:</p>
+                <div class="tip">
+                    <strong>💡 Smart Design:</strong> This leaderboard automatically updates a player's score if they
+                    submit again, rather than creating duplicate entries. Perfect for "personal best" tracking!
+                </div>
 
-              <div class="code-block collapsible">
-                  <div class="code-header">
-                      <span>LeaderboardAPI.cs</span>
-                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
-                      <button class="copy-btn" onclick="copyCode('leaderboard-api-unity')">Copy</button>
-                  </div>
-                  <div class="code-content"><pre id="leaderboard-api-unity">
+                <h3>Unity Leaderboard API</h3>
+                <p>Create a reusable API class for leaderboard operations:</p>
+
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>LeaderboardAPI.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('leaderboard-api-unity')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="leaderboard-api-unity">
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -984,21 +1008,22 @@ public static class LeaderboardAPI
           score = s;
       }
   }
-}</pre></div>
+}</pre>
+                    </div>
 
-              </div>
+                </div>
 
-              <h3>Unity Leaderboard Manager</h3>
-              <p>Create a manager to handle leaderboard UI and interactions:</p>
+                <h3>Unity Leaderboard Manager</h3>
+                <p>Create a manager to handle leaderboard UI and interactions:</p>
 
-              <div class="code-block collapsible">
-                  <div class="code-header">
-                      <span>LeaderboardManager.cs</span>
-                      <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
-                      <button class="copy-btn" onclick="copyCode('leaderboard-manager-unity')">Copy</button>
-                  </div>
-                  <div class="code-content"><pre id="leaderboard-manager-unity"
->using System.Collections.Generic;
+                <div class="code-block collapsible">
+                    <div class="code-header">
+                        <span>LeaderboardManager.cs</span>
+                        <button class="toggle-btn" onclick="toggleCode(this)">Show</button>
+                        <button class="copy-btn" onclick="copyCode('leaderboard-manager-unity')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="leaderboard-manager-unity">using System.Collections.Generic;
 using UnityEngine;
 
 public class LeaderboardManager : MonoBehaviour
@@ -1057,28 +1082,32 @@ public class LeaderboardManager : MonoBehaviour
 
       isLoading = false;
   }
-}</pre></div>
+}</pre>
+                    </div>
 
-              </div>
+                </div>
 
-              <h3>Deploying All Endpoints</h3>
-              <ol>
-                  <li>Click <strong>Deploy > New deployment</strong></li>
-                  <li>Select type: <strong>Web app</strong></li>
-                  <li>Set "Execute as": <strong>Me</strong></li>
-                  <li>Set "Who has access": <strong>Anyone</strong></li>
-                  <li>Click <strong>Deploy</strong></li>
-                  <li>Copy the web app URL - it handles both GET and POST requests</li>
-              </ol>
+                <h3>Deploying All Endpoints</h3>
+                <ol>
+                    <li>Click <strong>Deploy > New deployment</strong></li>
+                    <li>Select type: <strong>Web app</strong></li>
+                    <li>Set "Execute as": <strong>Me</strong></li>
+                    <li>Set "Who has access": <strong>Anyone</strong></li>
+                    <li>Click <strong>Deploy</strong></li>
+                    <li>Copy the web app URL - it handles both GET and POST requests</li>
+                </ol>
 
-              <h3>Key Features Explained</h3>
-              <ul>
-                  <li><strong>POST Requests:</strong> Uses UnityWebRequest with custom headers for WebGL compatibility</li>
-                  <li><strong>Action-based Routing:</strong> Single endpoint handles multiple operations via action parameter</li>
-                  <li><strong>Device Tracking:</strong> Automatically captures device info using SystemInfo.deviceModel</li>
-                  <li><strong>Admin Controls:</strong> Ban/unban users and view all registered players</li>
-                  <li><strong>Real-time Updates:</strong> Last login timestamp updates automatically</li>
-              </ul>
+                <h3>Key Features Explained</h3>
+                <ul>
+                    <li><strong>POST Requests:</strong> Uses UnityWebRequest with custom headers for WebGL compatibility
+                    </li>
+                    <li><strong>Action-based Routing:</strong> Single endpoint handles multiple operations via action
+                        parameter</li>
+                    <li><strong>Device Tracking:</strong> Automatically captures device info using
+                        SystemInfo.deviceModel</li>
+                    <li><strong>Admin Controls:</strong> Ban/unban users and view all registered players</li>
+                    <li><strong>Real-time Updates:</strong> Last login timestamp updates automatically</li>
+                </ul>
             </section>
 
             <section>
@@ -1086,42 +1115,49 @@ public class LeaderboardManager : MonoBehaviour
                 <div class="best-practices">
                     <div class="practice">
                         <h4>🔐 Security First</h4>
-                        <p>Never store passwords in plain text. Use hashing algorithms and consider OAuth providers for production games.</p>
+                        <p>Never store passwords in plain text. Use hashing algorithms and consider OAuth providers for
+                            production games.</p>
                     </div>
                     <div class="practice">
                         <h4>💾 Cache User Sessions</h4>
-                        <p>Store login tokens locally to avoid repeated authentication. Implement session expiry for security.</p>
+                        <p>Store login tokens locally to avoid repeated authentication. Implement session expiry for
+                            security.</p>
                     </div>
                     <div class="practice">
                         <h4>🚦 Rate Limiting</h4>
-                        <p>Add cooldowns on login attempts to prevent brute-force attacks. Apps Script has built-in quotas.</p>
+                        <p>Add cooldowns on login attempts to prevent brute-force attacks. Apps Script has built-in
+                            quotas.</p>
                     </div>
                     <div class="practice">
                         <h4>📊 Data Validation</h4>
-                        <p>Always validate inputs on both client and server. Check username length, password strength, etc.</p>
+                        <p>Always validate inputs on both client and server. Check username length, password strength,
+                            etc.</p>
                     </div>
                 </div>
             </section>
 
             <section>
-              <h2>Testing Your System</h2>
-          
-              <p>Regardless of whether you're testing Remote Config, Player Authentication, or the Leaderboard, the testing workflow remains mostly the same. Use the following universal checklist:</p>
-          
-              <ol>
-                  <li>Deploy your Google Apps Script backend and copy the deployment URL.</li>
-                  <li>Paste the URL into your Unity script (RemoteConfigManager, PlayerManager, LeaderboardManager, etc.).</li>
-                  <li>Create a simple Unity test scene with UI buttons or input fields.</li>
-                  <li>Trigger your manager method (fetch, submit, update, login, etc.) using the button.</li>
-                  <li>Run the scene and check values in the Unity Console or Inspector.</li>
-                  <li>Modify values in Google Sheets and repeat the request to confirm updates.</li>
-                  <li>Verify all requests and responses in Chrome DevTools → Network tab.</li>
-                  <li>Ensure error cases work correctly (empty fields, wrong input, missing data).</li>
-              </ol>
-          
-              <div class="tip">
-                  <strong>💡 Pro Tip:</strong> Always test with both valid and invalid inputs to ensure your Apps Script handles errors safely and returns clean JSON.
-              </div>
+                <h2>Testing Your System</h2>
+
+                <p>Regardless of whether you're testing Remote Config, Player Authentication, or the Leaderboard, the
+                    testing workflow remains mostly the same. Use the following universal checklist:</p>
+
+                <ol>
+                    <li>Deploy your Google Apps Script backend and copy the deployment URL.</li>
+                    <li>Paste the URL into your Unity script (RemoteConfigManager, PlayerManager, LeaderboardManager,
+                        etc.).</li>
+                    <li>Create a simple Unity test scene with UI buttons or input fields.</li>
+                    <li>Trigger your manager method (fetch, submit, update, login, etc.) using the button.</li>
+                    <li>Run the scene and check values in the Unity Console or Inspector.</li>
+                    <li>Modify values in Google Sheets and repeat the request to confirm updates.</li>
+                    <li>Verify all requests and responses in Chrome DevTools → Network tab.</li>
+                    <li>Ensure error cases work correctly (empty fields, wrong input, missing data).</li>
+                </ol>
+
+                <div class="tip">
+                    <strong>💡 Pro Tip:</strong> Always test with both valid and invalid inputs to ensure your Apps
+                    Script handles errors safely and returns clean JSON.
+                </div>
             </section>
 
             <section>
@@ -1129,31 +1165,36 @@ public class LeaderboardManager : MonoBehaviour
                 <div class="troubleshooting">
                     <div class="issue">
                         <h4>❌ "JSON Parse Error"</h4>
-                        <p><strong>Solution:</strong> Check that column names in Google Sheets match your C# class fields exactly (case-sensitive). Enable Debug.Log to see raw response.</p>
+                        <p><strong>Solution:</strong> Check that column names in Google Sheets match your C# class
+                            fields exactly (case-sensitive). Enable Debug.Log to see raw response.</p>
                     </div>
                     <div class="issue">
                         <h4>❌ POST Request Fails</h4>
-                        <p><strong>Solution:</strong> Ensure you deployed as "Anyone" access. Check that you're using doPost() not doGet() for player operations. Verify Content-Type headers.</p>
+                        <p><strong>Solution:</strong> Ensure you deployed as "Anyone" access. Check that you're using
+                            doPost() not doGet() for player operations. Verify Content-Type headers.</p>
                     </div>
                     <div class="issue">
                         <h4>❌ "User already exists" on First Registration</h4>
-                        <p><strong>Solution:</strong> Make sure your Players sheet has a header row. The script skips row 0 (headers) when checking usernames.</p>
+                        <p><strong>Solution:</strong> Make sure your Players sheet has a header row. The script skips
+                            row 0 (headers) when checking usernames.</p>
                     </div>
                     <div class="issue">
                         <h4>❌ WebGL Build Errors</h4>
-                        <p><strong>Solution:</strong> Add the "Accept: application/json" header. WebGL has CORS restrictions that require explicit headers.</p>
+                        <p><strong>Solution:</strong> Add the "Accept: application/json" header. WebGL has CORS
+                            restrictions that require explicit headers.</p>
                     </div>
                 </div>
             </section>
 
             <section>
                 <h2>Performance Optimization</h2>
-                
+
                 <h3>Google Sheets Limitations</h3>
                 <ul>
                     <li>⏱️ <strong>Execution Time:</strong> Apps Script has a 6-minute timeout per request</li>
                     <li>📊 <strong>Data Size:</strong> Sheets become slow with 10,000+ rows. Consider pagination.</li>
-                    <li>🔄 <strong>Concurrent Requests:</strong> Multiple simultaneous writes may cause race conditions</li>
+                    <li>🔄 <strong>Concurrent Requests:</strong> Multiple simultaneous writes may cause race conditions
+                    </li>
                     <li>📈 <strong>Quota:</strong> Free tier has daily limits on script executions</li>
                 </ul>
 
@@ -1165,7 +1206,8 @@ public class LeaderboardManager : MonoBehaviour
 
                 <h3>Firebase (Recommended)</h3>
                 <ul>
-                    <li><strong>Firebase Authentication</strong> - Secure user auth with email, Google, Apple Sign-In</li>
+                    <li><strong>Firebase Authentication</strong> - Secure user auth with email, Google, Apple Sign-In
+                    </li>
                     <li><strong>Firebase Realtime Database</strong> - Real-time data sync with offline support</li>
                     <li><strong>Firebase Remote Config</strong> - Professional remote config with A/B testing</li>
                     <li><strong>Generous free tier</strong> - Supports thousands of concurrent users</li>
@@ -1188,7 +1230,8 @@ public class LeaderboardManager : MonoBehaviour
                 </ul>
 
                 <div class="tip">
-                    <strong>💡 Migration Tip:</strong> Design your PlayerManager interface so you can swap backends without changing game code. Use dependency injection or a service layer pattern.
+                    <strong>💡 Migration Tip:</strong> Design your PlayerManager interface so you can swap backends
+                    without changing game code. Use dependency injection or a service layer pattern.
                 </div>
             </section>
 
@@ -1197,7 +1240,8 @@ public class LeaderboardManager : MonoBehaviour
                 <div class="best-practices">
                     <div class="practice">
                         <h4>🔒 Never Trust Client Data</h4>
-                        <p>Always validate inputs on the server side. Client-side validation is for UX, not security.</p>
+                        <p>Always validate inputs on the server side. Client-side validation is for UX, not security.
+                        </p>
                     </div>
                     <div class="practice">
                         <h4>🛡️ Use HTTPS Only</h4>
@@ -1205,11 +1249,13 @@ public class LeaderboardManager : MonoBehaviour
                     </div>
                     <div class="practice">
                         <h4>⚔️ Prevent SQL Injection</h4>
-                        <p>While Sheets don't use SQL, always sanitize inputs. Avoid eval() or dynamic code execution.</p>
+                        <p>While Sheets don't use SQL, always sanitize inputs. Avoid eval() or dynamic code execution.
+                        </p>
                     </div>
                     <div class="practice">
                         <h4>🎭 Hide Sensitive Data</h4>
-                        <p>Never send passwords back to client. Admin functions should require authentication tokens.</p>
+                        <p>Never send passwords back to client. Admin functions should require authentication tokens.
+                        </p>
                     </div>
                 </div>
 
@@ -1257,20 +1303,14 @@ public class LeaderboardManager : MonoBehaviour
             </section>
 
             <section class="video-section">
-              <h2 class="video-title">Demo Preview</h2>
-          
-              <div class="video-container">
-                  <video 
-                      src="content\Multimedia\GAS.mp4"
-                      autoplay
-                      muted
-                      loop
-                      playsinline
-                  ></video>
-              </div>
-          </section>
+                <h2 class="video-title">Demo Preview</h2>
 
-          
+                <div class="video-container">
+                    <video src="content\Multimedia\GAS.mp4" autoplay muted loop playsinline></video>
+                </div>
+            </section>
+
+
             <section>
                 <h2>Conclusion</h2>
                 <p>You now have a fully functional serverless backend for your Unity game. This system provides:</p>
@@ -1281,7 +1321,7 @@ public class LeaderboardManager : MonoBehaviour
                     <li>✅ Cross-platform support (PC, Mobile, WebGL)</li>
                     <li>✅ Zero hosting costs during development</li>
                 </ul>
-                
+
                 <p>This Google Sheets approach is perfect for:</p>
                 <ul>
                     <li>🎮 Indie game prototypes and MVPs</li>
@@ -1290,7 +1330,8 @@ public class LeaderboardManager : MonoBehaviour
                     <li>📱 Small-scale games with &lt;1000 concurrent users</li>
                 </ul>
 
-                <p>As your game grows, you can migrate to production-grade services like Firebase or PlayFab using the same interface pattern, minimizing code changes.</p>
+                <p>As your game grows, you can migrate to production-grade services like Firebase or PlayFab using the
+                    same interface pattern, minimizing code changes.</p>
             </section>
 
             <div class="cta">
@@ -1309,20 +1350,50 @@ public class LeaderboardManager : MonoBehaviour
             <div class="resources">
                 <h3>Additional Resources</h3>
                 <ul>
-                    <li>📖 <a href="https://developers.google.com/apps-script" target="_blank">Google Apps Script Documentation</a></li>
-                    <li>📖 <a href="https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest.html" target="_blank">Unity Networking Documentation</a></li>
-                    <li>🔥 <a href="https://firebase.google.com/docs/unity/setup" target="_blank">Firebase for Unity</a></li>
-                    <li>🎮 <a href="https://docs.microsoft.com/gaming/playfab/" target="_blank">PlayFab Documentation</a></li>
+                    <li>📖 <a href="https://developers.google.com/apps-script" target="_blank">Google Apps Script
+                            Documentation</a></li>
+                    <li>📖 <a href="https://docs.unity3d.com/ScriptReference/Networking.UnityWebRequest.html"
+                            target="_blank">Unity Networking Documentation</a></li>
+                    <li>🔥 <a href="https://firebase.google.com/docs/unity/setup" target="_blank">Firebase for Unity</a>
+                    </li>
+                    <li>🎮 <a href="https://docs.microsoft.com/gaming/playfab/" target="_blank">PlayFab
+                            Documentation</a></li>
                 </ul>
             </div>
         </article>
-
-        <footer>
-            <p class="mt-4 mb-0 small">© 2025 · Built with <i class="fas fa-code"></i> & <i class="fas fa-heart"></i> by Dhinesh Moorthy</p>
-            <p style="margin-top: 10px; color: #999;">Questions or feedback? Feel free to reach out or contribute improvements!</p>
-        </footer>
     </div>
 
+    <footer class="footer">
+        <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> &
+            <i class="fas fa-heart text-hot-pink"></i> by Dhinesh Moorthy
+        </p>
+        <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <script>
+        // Back to Top Button Logic
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
     <script src="gas.js"></script>
 </body>
+
 </html>

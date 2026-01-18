@@ -1,71 +1,97 @@
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhinesh Moorthy's Portfolio</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dhinesh Moorthy's Portfolio</title>
 
-    <!-- Open Graph / Social Media Preview -->
-    <meta property="og:title" content="Dhinesh Moorthy's Portfolio" />
-    <meta property="og:description" content="Unity & Indie Game Developer showcasing VR, shaders, multiplayer, and WebGL projects." />
-    <meta property="og:image" content="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg" />
-    <meta property="og:url" content="https://DhineshMoorthy-gamedev.github.io/" />
-    <meta property="og:type" content="website" />
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:title" content="Dhinesh Moorthy's Portfolio" />
+  <meta property="og:description"
+    content="Unity & Indie Game Developer showcasing VR, shaders, multiplayer, and WebGL projects." />
+  <meta property="og:image" content="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg" />
+  <meta property="og:url" content="https://DhineshMoorthy-gamedev.github.io/" />
+  <meta property="og:type" content="website" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dhinesh Moorthy's Portfolio">
-    <meta name="twitter:description" content="Unity & Indie Game Developer showcasing VR, shaders, multiplayer, and WebGL projects.">
-    <meta name="twitter:image" content="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dhinesh Moorthy's Portfolio">
+  <meta name="twitter:description"
+    content="Unity & Indie Game Developer showcasing VR, shaders, multiplayer, and WebGL projects.">
+  <meta name="twitter:image" content="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg">
 
-    <!-- Favicon (Optional) -->
-    <link rel="icon" href="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg" type="image/png">
+  <!-- Favicon (Optional) -->
+  <link rel="icon" href="https://DhineshMoorthy-gamedev.github.io/src/profile.jpg" type="image/png">
 
-    <!-- Your CSS -->
-    <link rel="stylesheet" href="index.css">
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="index.css">
 
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <!-- Typed.js -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
 <body>
 
+  <!-- Particle Background -->
+  <div id="particles-js"></div>
+
   <!-- Top-right Blog Button -->
-  <div class="top-nav position-absolute w-100 d-flex justify-content-end p-3">
-    <a href="blog.html" class="btn btn-outline-light blog-btn">Blogs</a>
+  <!-- <div class="top-nav position-absolute w-100 d-flex justify-content-end p-3">
+    <a href="blog.html" class="btn blog-btn">Blogs</a>
+  </div> -->
+  <div class="style-card">
+    <a href="blog.html" class="blog-btn-neon">
+      Blogs
+      <i class="fas fa-arrow-right"></i>
+    </a>
   </div>
+
 
   <div id="hero"></div>
   <div id="projects"></div>
   <div id="work"></div>
-  <hr class="featurette-divider">
   <div id="skills"></div>
   <div id="footer"></div>
-    
 
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    const load = async (id, file) => {
+      const res = await fetch(file);
+      document.getElementById(id).innerHTML = await res.text();
+    };
 
-<script>
-  const load = async (id, file) => {
-    const res = await fetch(file);
-    document.getElementById(id).innerHTML = await res.text();
-  };
+    (async () => {
+      await load("hero", "components/Hero.html");
+      await load("projects", "components/projects.html");
+      await load("work", "components/work.html");
+      await load("skills", "components/skills.html");
+      await load("footer", "components/footer.html");
 
-  load("hero","components/Hero.html");
-  load("projects","components/projects.html");
-  load("work","components/work.html");
-  load("skills","components/skills.html");
-  load("footer","components/footer.html");
-</script>
+      // Initialize Typed.js
+      if (document.querySelector('.typed-text')) {
+        new Typed('.typed-text', {
+          strings: ["An Indie Game Developer", "A Tech Enthusiast", "A VR Specialist", "An AI Enthusiast", "A Software Engineer"],
+          typeSpeed: 50,
+          backSpeed: 30,
+          backDelay: 2000,
+          loop: true
+        });
+      }
+    })();
+  </script>
 
   <!-- JS Dependencies (needed for carousel) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>

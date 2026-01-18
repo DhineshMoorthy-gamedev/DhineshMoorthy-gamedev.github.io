@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="blog-title">Loading...</title>
 
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
   <!-- Your CSS -->
-  <link rel="stylesheet" href="mnist_styles.css">
+  <link rel="stylesheet" href="../../index.css">
 
   <!-- Syntax Highlighting -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-          <!-- Font Awesome -->
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
 
-  <header>
-    <h1 id="post-title">Loading...</h1>
-    <p class="meta" id="post-meta"></p>
-    <div id="post-categories" class="categories"></div>
+  <!-- Particle Background Reference -->
+  <!-- <div id="particles-js"></div> -->
+
+  <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+    <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+  </div>
+
+  <header class="d-flex flex-column align-items-center justify-content-center text-center mt-5 pt-5">
+    <h1 id="post-title" class="jumbotron-heading" style="font-size: 2.5rem;">Loading...</h1>
+    <p class="meta text-mono text-secondary" id="post-meta"></p>
+    <div id="post-categories" class="categories my-3"></div>
     <div class="demo-buttons">
-      <a id="demo-link" href="#" class="demo-btn" target="_blank" style="display:none;">🔗 WEBGL Demo</a>
-      <a id="download" href="#" class="demo-btn" target="_blank" style="display:none;">⬇️ Download APK</a>
+      <a id="demo-link" href="#" class="btn btn-custom mx-2" target="_blank"
+        style="display:none; width: auto; font-size: 1.1rem; padding: 12px 32px;">🔗 WEBGL Demo</a>
+      <a id="download" href="#" class="btn btn-custom mx-2" target="_blank"
+        style="display:none; width: auto; font-size: 1.1rem; padding: 12px 32px;">⬇️ Download APK</a>
     </div>
-    
-    
-    <img id="cover-image" src="" alt="" style="display:none;">
+
+
+    <img id="cover-image" src="" alt=""
+      style="display:none; max-width: 80%; border-radius: 12px; margin-top: 2rem; border: 1px solid var(--accent-primary);">
   </header>
 
-  <main id="post-content">
+  <main id="post-content" class="container my-5 glass-card" style="max-width: 900px;">
     <!-- Blog content dynamically inserted here -->
   </main>
 
-  <footer>
-    <p class="mt-4 mb-0 small">© 2025 · Built with <i class="fas fa-code"></i> & <i class="fas fa-heart"></i> by Dhinesh Moorthy</p>
-    <p style="margin-top: 10px; color: #999;">Questions or feedback? Feel free to reach out or contribute improvements!</p>
-</footer>
+  <footer class="footer">
+    <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> & <i
+        class="fas fa-heart text-hot-pink"></i> by Dhinesh Moorthy</p>
+    <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+  </footer>
 
   <script>
     fetch('mnist.json')
@@ -121,72 +136,72 @@
           //   section.appendChild(wrapper);
           // }
           if (sec.code) {
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('code-wrapper');
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('code-wrapper');
 
-    // Pre element
-    const pre = document.createElement('pre');
-    const code = document.createElement('code');
-    code.classList.add(sec.code.language);
-    code.textContent = sec.code.snippet;
-    pre.appendChild(code);
-    pre.style.maxHeight = "120px"; // ~4-5 lines
-    pre.style.overflow = "hidden";
-    pre.style.position = "relative";
-    pre.style.paddingLeft = "30px"; // space for arrow
+            // Pre element
+            const pre = document.createElement('pre');
+            const code = document.createElement('code');
+            code.classList.add(sec.code.language);
+            code.textContent = sec.code.snippet;
+            pre.appendChild(code);
+            pre.style.maxHeight = "120px"; // ~4-5 lines
+            pre.style.overflow = "hidden";
+            pre.style.position = "relative";
+            pre.style.paddingLeft = "30px"; // space for arrow
 
-    // Arrow inside the code block (left)
-    const arrow = document.createElement('span');
-    arrow.textContent = "▶";
-    arrow.style.position = "absolute";
-    arrow.style.left = "8px";
-    arrow.style.top = "8px";
-    arrow.style.cursor = "pointer";
-    arrow.style.transition = "transform 0.2s";
+            // Arrow inside the code block (left)
+            const arrow = document.createElement('span');
+            arrow.textContent = "▶";
+            arrow.style.position = "absolute";
+            arrow.style.left = "8px";
+            arrow.style.top = "8px";
+            arrow.style.cursor = "pointer";
+            arrow.style.transition = "transform 0.2s";
 
-    // Copy button inside the code block (top-right)
-    const copyBtn = document.createElement('button');
-    copyBtn.classList.add('copy-btn');
-    copyBtn.textContent = "Copy";
-    copyBtn.style.position = "absolute";
-    copyBtn.style.top = "8px";
-    copyBtn.style.right = "8px";
+            // Copy button inside the code block (top-right)
+            const copyBtn = document.createElement('button');
+            copyBtn.classList.add('copy-btn');
+            copyBtn.textContent = "Copy";
+            copyBtn.style.position = "absolute";
+            copyBtn.style.top = "8px";
+            copyBtn.style.right = "8px";
 
-    copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(sec.code.snippet)
-            .then(() => {
-                copyBtn.textContent = "Copied!";
-                setTimeout(() => copyBtn.textContent = "Copy", 1500);
-            })
-            .catch(err => console.error("Failed to copy: ", err));
-    });
+            copyBtn.addEventListener('click', () => {
+              navigator.clipboard.writeText(sec.code.snippet)
+                .then(() => {
+                  copyBtn.textContent = "Copied!";
+                  setTimeout(() => copyBtn.textContent = "Copy", 1500);
+                })
+                .catch(err => console.error("Failed to copy: ", err));
+            });
 
-    // Toggle logic
-    arrow.addEventListener('click', () => {
-        if (pre.style.maxHeight === "120px") {
-            pre.style.maxHeight = "none";
-            arrow.style.transform = "rotate(90deg)";
-        } else {
-            pre.style.maxHeight = "120px";
-            arrow.style.transform = "rotate(0deg)";
-        }
-    });
+            // Toggle logic
+            arrow.addEventListener('click', () => {
+              if (pre.style.maxHeight === "120px") {
+                pre.style.maxHeight = "none";
+                arrow.style.transform = "rotate(90deg)";
+              } else {
+                pre.style.maxHeight = "120px";
+                arrow.style.transform = "rotate(0deg)";
+              }
+            });
 
-    pre.appendChild(arrow);
-    pre.appendChild(copyBtn);
-    wrapper.appendChild(pre);
-    section.appendChild(wrapper);
-}
+            pre.appendChild(arrow);
+            pre.appendChild(copyBtn);
+            wrapper.appendChild(pre);
+            section.appendChild(wrapper);
+          }
 
 
 
           if (sec.link) {
-              const link = document.createElement('a'); // use <a>, not <href>
-              link.href = sec.link;                     // set href attribute
-              link.textContent = "Run WEBGL Demo";           // link text
-              // link.target = "_blank";                   // open in new tab (optional)
-              link.classList.add('section-link');       // optional CSS class
-              section.appendChild(link);
+            const link = document.createElement('a'); // use <a>, not <href>
+            link.href = sec.link;                     // set href attribute
+            link.textContent = "Run WEBGL Demo";           // link text
+            // link.target = "_blank";                   // open in new tab (optional)
+            link.classList.add('section-link');       // optional CSS class
+            section.appendChild(link);
           }
 
 
@@ -202,5 +217,29 @@
       });
   </script>
 
+  <a href="#" class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+  </a>
+
+  <script>
+    // Back to Top Button Logic
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 </body>
+
 </html>
