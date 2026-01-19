@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streamlining Character Animation with Unity Auto Rig Builder</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="auto-rig-builder.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+        <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <div class="container py-5 mt-5">
+        <header class="d-flex flex-column align-items-center justify-content-center text-center mb-5">
+            <h1 class="jumbotron-heading" style="font-size: 2.5rem;">Streamlining Character Animation with Unity Auto
+                Rig Builder</h1>
+            <div class="meta text-mono text-secondary">
+                <span>📅 January 2026</span> •
+                <span>⏱️ 10 min read</span>
+            </div>
+
+            <div class="mt-4">
+                <a href="https://github.com/DhineshMoorthy-gamedev/Unity_AutoRigBuilder" class="btn btn-custom mx-2"
+                    target="_blank">
+                    <i class="fab fa-github mr-2"></i> View on GitHub
+                </a>
+            </div>
+        </header>
+
+        <article class="glass-card p-4 p-md-5" id="post-content">
+            <section class="intro">
+                <p class="lead">Setting up humanoid rigs in Unity can be a repetitive and time-consuming process. The
+                    <strong>Unity Auto Rig Builder</strong> is an editor tool designed to automate this workflow,
+                    helping you quickly generate basic IK-driven humanoid rigs using Unity's Animation Rigging package.
+                </p>
+                <img src="Content/Multimedia/thumbnail.png" alt="Auto Rig Builder Thumbnail"
+                    class="img-fluid w-100 shadow">
+            </section>
+
+            <section>
+                <h2>What is Auto Rig Builder?</h2>
+                <p>🚀 <strong>Unity Auto Rig Builder</strong> is an editor utility that creates the necessary hierarchy,
+                    controls, and constraints (IK) for humanoid characters. It’s perfect for prototyping, gameplay rigs,
+                    and procedural animation setups.</p>
+                <ul>
+                    <li>🦴 <strong>Automated Hierarchy</strong> - Creates a clean "Rig" structure under your character.
+                    </li>
+                    <li>🎯 <strong>IK Generation</strong> - Automatically sets up Two-Bone IK for arms and legs.</li>
+                    <li>🧠 <strong>Head Control</strong> - Generates rotation constraints for the head.</li>
+                    <li>🛠️ <strong>User-Friendly Editor</strong> - A simple window to map bones and build the rig in
+                        seconds.</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 Why use it?</strong> Instead of spend 15 minutes manually creating Rig layers and
+                    constraints, you can do it in 15 seconds with a single click.
+                </div>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <p>You can install this package directly via the Unity Package Manager (UPM) using the GitHub URL.</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Git URL</span>
+                        <button class="copy-btn" onclick="copyCode('git-url')">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="git-url">https://github.com/DhineshMoorthy-gamedev/Unity_AutoRigBuilder.git</pre>
+                    </div>
+                </div>
+                <ol>
+                    <li>Open Unity → <strong>Window → Package Manager</strong>.</li>
+                    <li>Click <strong>+</strong> → <strong>Add package from git URL</strong>.</li>
+                    <li>Paste the URL above and click <strong>Add</strong>.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Usage Guide</h2>
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <ol>
+                            <li>Navigate to <strong>Tools → Auto Rig Builder</strong>.</li>
+                            <li>Assign the <strong>Animator</strong> component of your character.</li>
+                            <li>Map the required bones (Hips, Spine, Head, Arms, Legs).</li>
+                            <li>Click <strong>Build Rig</strong>.</li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                        <img src="Content/Multimedia/editorwindow.png" alt="Auto Rig Builder Editor Window"
+                            class="img-fluid section-image">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>The Result</h2>
+                <p>Once built, you'll see a new "Rig" GameObject containing all targets and constraints. You can
+                    immediately start manipulating the limb controls in the Scene view.</p>
+                <img src="Content/Multimedia/rigResult.png" alt="Auto Rig Builder Result"
+                    class="img-fluid section-image">
+            </section>
+
+            <section>
+                <h2>Technical Breakdown</h2>
+                <p>The tool leverages Unity's <code>Animation Rigging</code> package. Specifically, it creates
+                    <code>TwoBoneIKConstraint</code> components for limbs and <code>MultiRotationConstraint</code> for
+                    the head, ensuring natural-looking movement for humanoid rigs.
+                </p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>Built with Animation Rigging</span>
+                    </div>
+                    <div class="code-content">
+                        <pre>// Sample Constraint Structure Generated:
+// Rig
+// ├── Head_Control
+// ├── LeftArm_IK
+// ├── RightArm_IK
+// ├── LeftLeg_IK
+// └── RightLeg_IK</pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="conclusion">
+                <h2>Conclusion</h2>
+                <p>Unity Auto Rig Builder removes the friction of manual rigging for rapid prototyping. If you're
+                    looking to speed up your character animation pipeline, give it a try!</p>
+                <p><strong>Support the Project:</strong> If you find this tool useful, consider giving it a ⭐ on GitHub!
+                </p>
+            </section>
+        </article>
+    </div>
+
+    <footer class="footer">
+        <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> &
+            <i class="fas fa-heart text-hot-pink"></i> by Dhinesh
+            Moorthy
+        </p>
+        <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="auto-rig-builder.js"></script>
+</body>
+
+</html>
