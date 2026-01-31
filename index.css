@@ -1392,11 +1392,20 @@ header .btn-custom:hover {
 }
 
 /* Legend Styling */
+.github-legend {
+  display: inline-flex !important;
+  align-items: center;
+}
+
 .legend-box {
-  width: 12px;
-  height: 12px;
+  width: 15px;
+  height: 15px;
+  margin: 0 3px;
   border-radius: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  /* Prevent collapsing in Edge/Safari */
+  display: inline-block;
 }
 
 .level-0 {
@@ -1419,20 +1428,39 @@ header .btn-custom:hover {
   background: rgba(0, 255, 136, 1);
 }
 
+
+
 /* Year Badges */
+.year-stat-item {
+  margin-right: 12px;
+  margin-bottom: 12px;
+  min-width: 80px;
+  text-align: center;
+}
+
 .glass-card-mini {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.2s ease;
+  display: inline-block;
 }
 
 .glass-card-mini:hover {
-  background: rgba(0, 255, 136, 0.05);
+  background: rgba(0, 255, 136, 0.1);
   border-color: var(--accent-primary);
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.1);
 }
 
+/* Fallback for gap utility */
 .gap-3 {
   gap: 1rem !important;
+}
+
+@supports not (gap: 1rem) {
+  .gap-3>* {
+    margin: 0.5rem;
+  }
 }
