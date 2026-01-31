@@ -1366,3 +1366,73 @@ header .btn-custom:hover {
   margin-bottom: 8px;
   color: var(--text-secondary);
 }
+
+/* =========================================
+   10. GITHUB ACTIVITY STYLES
+   ========================================= */
+.github-graph-link {
+  text-decoration: none !important;
+  display: block;
+}
+
+.github-graph-img {
+  width: 100%;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.2));
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.github-graph-link:hover .github-graph-img {
+  filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.5));
+  transform: scale(1.005);
+}
+
+.github-graph-link:hover .glass-card {
+  border-color: var(--accent-primary);
+}
+
+/* Legend Styling */
+.legend-box {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.level-0 {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.level-1 {
+  background: rgba(0, 255, 136, 0.2);
+}
+
+.level-2 {
+  background: rgba(0, 255, 136, 0.4);
+}
+
+.level-3 {
+  background: rgba(0, 255, 136, 0.7);
+}
+
+.level-4 {
+  background: rgba(0, 255, 136, 1);
+}
+
+/* Year Badges */
+.glass-card-mini {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.glass-card-mini:hover {
+  background: rgba(0, 255, 136, 0.05);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+}
+
+.gap-3 {
+  gap: 1rem !important;
+}
