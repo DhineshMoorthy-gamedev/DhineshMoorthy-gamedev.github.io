@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Keys for VS Code | Making Coding Musical</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="piano-keys-vscode.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+        <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <div class="container mt-5">
+        <header class="d-flex flex-column align-items-center justify-content-center text-center">
+            <h1 class="jumbotron-heading" style="font-size: 2.5rem;">Piano Keys for VS Code</h1>
+            <div class="meta text-mono text-secondary">
+                <span>📅 February 2026</span> •
+                <span>⏱️ 5 min read</span>
+            </div>
+
+            <div class="download-container">
+                <a href="https://marketplace.visualstudio.com/items?itemName=DhineshMoorthy.piano-keys" target="_blank"
+                    class="download-btn">
+                    <i class="fas fa-shopping-cart"></i> Marketplace
+                </a>
+                <a href="https://github.com/DhineshMoorthy-gamedev/piano-keys-vscode" target="_blank"
+                    class="download-btn">
+                    <i class="fab fa-github"></i> Source
+                </a>
+            </div>
+        </header>
+
+        <article class="glass-card" id="post-content">
+            <section class="intro">
+                <p class="lead">Ever felt like your typing rhythm was missing a literal melody? <strong>Piano Keys for
+                        VS Code</strong> transforms your workstation into a grand piano, mapping every keystroke to a
+                    realistic synthesizer note.</p>
+            </section>
+
+            <section>
+                <h2>The Inspiration</h2>
+                <p>As developers, we spend hours "performing" on our keyboards. I wanted to see if merging that
+                    mechanical flow with musical feedback could enhance focus—or at least make a late-night debugging
+                    session more entertaining.</p>
+                <p>The challenge was to create something that felt like a legitimate instrument without being a
+                    distraction from the actual code.</p>
+            </section>
+
+            <section>
+                <h2>Key Features</h2>
+                <ul>
+                    <li>🎹 <strong>Grand Piano Sound</strong> — High-quality 6-harmonic synthesis for rich, realistic
+                        audio.</li>
+                    <li>🎨 <strong>Visual Keyboard</strong> — An interactive piano UI (C4-D6) that illuminates in
+                        real-time as you type.</li>
+                    <li>⌨️ <strong>Intuitive Mapping</strong> — QWERTY keys are mapped naturally, turning your keyboard
+                        into a piano.</li>
+                    <li>🎚️ <strong>Volume & Controls</strong> — Quick toggle and volume sliders to keep the music at
+                        the perfect level.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Under the Hood</h2>
+                <p>The extension is built using <strong>TypeScript</strong> and leverages the <strong>Webview
+                        API</strong> in VS Code to host the musical engine. The actual audio synthesis happens via the
+                    <strong>Web Audio API</strong>, which allows for low-latency, complex sound generation without
+                    external assets.
+                </p>
+            </section>
+
+            <section>
+                <h2>Technical Implementation</h2>
+                <p>By using the Web Audio API, the extension avoids the overhead of loading large MP3 or WAV samples.
+                    Every note is calculated on the fly, ensuring that the extension remains extremely lightweight (<
+                        1MB) while delivering studio-quality sound.</p>
+
+                        <div class="tip">
+                            <strong>💡 PRO TIP:</strong> Keep the internal panel open! VS Code (and browsers) will
+                            suspend the Web Audio context if the webview is hidden or disposed of.
+                        </div>
+            </section>
+
+            <section>
+                <h2>Conclusion</h2>
+                <p>Whether you're looking to turn your unit tests into a symphony or just want to annoy your colleagues
+                    during a pair-programming session, Piano Keys adds a layer of fun to the development experience.</p>
+                <p>Download it today on the marketplace and let your code sing! 🎶</p>
+            </section>
+        </article>
+
+    </div>
+
+    <footer class="footer mt-5 text-center">
+        <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> &
+            <i class="fas fa-heart text-hot-pink"></i> by Dhinesh
+            Moorthy
+        </p>
+        <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="piano-keys-vscode.js"></script>
+</body>
+
+</html>
