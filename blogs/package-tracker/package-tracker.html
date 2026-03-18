@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Package Tracker: Efficient Management for Local Assets</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../index.css">
+    <link rel="stylesheet" href="package-tracker.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="top-nav position-absolute w-100 d-flex justify-content-start p-3">
+        <a href="../../blog.html" class="btn blog-btn">&lt; BACK_TO_BLOGS</a>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+
+    <div class="container mt-5">
+        <header class="d-flex flex-column align-items-center justify-content-center text-center">
+            <h1 class="jumbotron-heading" style="font-size: 2.5rem;">Unity Package Tracker</h1>
+            <div class="meta text-mono text-secondary">
+                <span>📅 March 2026</span> •
+                <span>⏱️ 10 min read</span>
+            </div>
+
+            <!-- <div class="download-container">
+                <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank"
+                    class="download-btn">
+                    <i class="fab fa-github"></i> Profile
+                </a>
+            </div> -->
+        </header>
+
+        <article class="glass-card" id="post-content">
+            <section class="intro">
+                <p class="lead">Managing custom Unity packages shouldn't be a headache. The <strong>Unity Package
+                        Tracker</strong> is a premium Editor tool designed to track, manage, and safely remove local
+                    packages and custom <code>.unitypackage</code> imports with a modern UI Toolkit interface.</p>
+            </section>
+
+            <section>
+                <h2>Why Unity Package Tracker?</h2>
+                <p>Tracking what files were added by which package in a complex project is notoriously difficult. This
+                    tool solves that by providing:</p>
+                <ul>
+                    <li>🚀 <strong>Modern UI Toolkit Interface</strong> — Pixel-perfect, dark-mode design with smooth
+                        transitions.</li>
+                    <li>🆔 <strong>GUID-Based Tracking</strong> — Survives folder renames and moves within your project.
+                    </li>
+                    <li>🔍 <strong>Smart Sidebar Filters</strong> — Audit all packages, recently added, or identify
+                        broken paths instantly.</li>
+                    <li>🌳 <strong>Interactive Asset Tree</strong> — Explore tracked assets hierarchically with
+                        "Click-to-Ping" integration.</li>
+                    <li>🛡️ <strong>Safe Physical Deletion</strong> — Cleanly uninstalls tracked assets while protecting
+                        source files.</li>
+                </ul>
+
+                <div class="tip">
+                    <strong>💡 PRO TIP:</strong> The tool uses <code>HashSet</code> lookups to maintain O(1) performance
+                    even in projects with tens of thousands of assets.
+                </div>
+            </section>
+
+            <section>
+                <h2>Installation</h2>
+                <h3>Via Git URL</h3>
+                <ol>
+                    <li>Open <strong>Window → Package Manager</strong>.</li>
+                    <li>Click the <strong>+</strong> button → <strong>Add package from git URL...</strong></li>
+                    <li>Paste: <code>https://github.com/DhineshMoorthy-gamedev/Unity_PackageTracker.git</code></li>
+                </ol>
+
+                <h3>Manual Setup</h3>
+                <ol>
+                    <li>Clone the repository.</li>
+                    <li>In Package Manager, click <strong>+</strong> → <strong>Add package from disk...</strong></li>
+                    <li>Select the <code>package.json</code> file.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Addressing the Problem</h2>
+                <p>In standard Unity workflows, importing a <code>.unitypackage</code> is often a "one-way" operation.
+                    Once the assets are merged into your project, Unity doesn't inherently keep track of which file
+                    belongs to which package. This leads to several common frustrations for developers:</p>
+                <ul>
+                    <li>📂 <strong>Cluttered Projects</strong> — It's difficult to identify and remove all files from a
+                        specific import once they've been scattered across different folders.</li>
+                    <li>🔗 <strong>Broken References</strong> — Manually deleting files often leads to missing scripts
+                        or broken prefab references if dependencies aren't tracked correctly.</li>
+                    <li>🕵️ <strong>Manual Auditing</strong> — Finding which package introduced a specific bug or asset
+                        requires tedious manual searching.</li>
+                </ul>
+                <p>The <strong>Unity Package Tracker</strong> solves this by creating a reliable database of every file
+                    imported during a session. By using GUID-based tracking, it ensures that even if you move or rename
+                    those files later, the tool still knows exactly where they are and can safely remove them without
+                    leaving orphaned data behind.</p>
+            </section>
+
+            <section>
+                <h2>Visual Walkthrough</h2>
+                <p>The interface is built entirely with the modern UI Toolkit, ensuring it feels like a native part of
+                    the Unity Editor.</p>
+                <div class="text-center my-4">
+                    <img src="Content/Multimedia/Screenshot 2026-03-18 121220.png" class="img-fluid rounded shadow"
+                        alt="Package Tracker UI" style="max-height: 600px; border: 1px solid var(--glass-border);">
+                </div>
+            </section>
+
+            <section class="cta text-center">
+                <h3>Get Started Today</h3>
+                <p>Clean up your project and take control of your assets. The Unity Package Tracker is open-source and
+                    ready for your next project.</p>
+                <a href="https://github.com/DhineshMoorthy-gamedev" target="_blank" class="download-btn"
+                    style="display: inline-flex; margin-top: 1rem;">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </section>
+        </article>
+    </div>
+
+    <footer class="footer mt-5 text-center">
+        <p class="mb-0 small text-secondary text-mono">© 2026 · Built with <i class="fas fa-code text-neon-green"></i> &
+            <i class="fas fa-heart text-hot-pink"></i> by Dhinesh Moorthy
+        </p>
+        <p class="small text-secondary text-mono mt-2">Questions or feedback? Feel free to reach out!</p>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="package-tracker.js"></script>
+</body>
+
+</html>
